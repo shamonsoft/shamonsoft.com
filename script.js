@@ -8,10 +8,6 @@
     });
   }
 
-  document.querySelectorAll('.social-placeholder').forEach(link => {
-    link.addEventListener('click', e => e.preventDefault());
-  });
-
   const box = document.createElement('div');
   box.className = 'lightbox';
   box.setAttribute('aria-hidden', 'true');
