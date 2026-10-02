@@ -41,3 +41,11 @@ h1,h2,h3{line-height:1.1;margin:0}h1{font-size:clamp(2.35rem,4vw,3.65rem);letter
 
 /* v9 legal and privacy pages */
 .privacy-hero .lead{max-width:820px}.privacy-promise{display:grid;gap:5px;border:1px solid rgba(86,217,255,.34);border-radius:14px;padding:20px 22px;background:linear-gradient(180deg,rgba(26,67,94,.25),rgba(13,21,31,.72));margin:0 0 34px}.privacy-promise strong{font-size:1.12rem;color:#f3f8fc}.privacy-promise span{color:#b9c9d7}.privacy-date{margin-top:42px}.agreement-wrap{max-width:980px}.agreement-wrap .agreement-title{margin-top:0;font-size:1.75rem;letter-spacing:-.02em}.agreement-meta{color:#d8e4ee!important}.agreement-important{font-weight:750;color:#eef5fb!important;border-left:3px solid var(--cyan);padding:12px 0 12px 18px}.agreement-list p{margin:8px 0}.agreement-wrap h2{scroll-margin-top:80px}
+
+
+/* Product video embeds - managed by ShamonSoft Site Manager */
+.product-video-band{padding:48px 0 58px;border-top:1px solid rgba(255,255,255,.06)}
+.product-video-band .video-heading{margin:0 0 18px}
+.product-video-shell{max-width:1040px;margin:0 auto;border:1px solid rgba(122,153,184,.24);border-radius:14px;overflow:hidden;background:#05080d;box-shadow:0 22px 60px rgba(0,0,0,.28)}
+.product-video-frame{display:block;width:100%;aspect-ratio:16/9;border:0;background:#05080d}
+@media(max-width:700px){.product-video-band{padding:34px 0 42px}.product-video-shell{border-radius:10px}}
