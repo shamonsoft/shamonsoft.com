@@ -1,0 +1,280 @@
+/* Roland's reference finish: shared UI paint only. Never style scene canvases,
+   rendered images, or preview content with filters, shadows or overlays. */
+:root {
+  --studio-window: #090f13;
+  --studio-top: #182127;
+  --studio-bottom: #0e171c;
+  --studio-input: #090f13;
+  --studio-button-top: #202b33;
+  --studio-button-bottom: #10191f;
+  --studio-border: #344651;
+  --studio-highlight: rgba(198,215,226,.08);
+  --studio-shadow: rgba(0,0,0,.18);
+  --studio-text: #e5edf2;
+  --studio-muted: #9cacb7;
+  --studio-accent: #36bce9;
+  --studio-audio-top: #202b33;
+  --studio-audio-bottom: #18232b;
+  --studio-scroll-thumb: #687078;
+  --studio-scroll-hover: #858d94;
+  --studio-scroll-track: #14191d;
+  --studio-thumb-top: #f6fbff;
+  --studio-thumb-bottom: #a5bac9;
+}
+html[data-studio-theme="light"] {
+  --studio-window: #dfe5ea;
+  --studio-top: #eef1f4;
+  --studio-bottom: #e3e8ed;
+  --studio-input: #f5f7f9;
+  --studio-button-top: #f0f3f6;
+  --studio-button-bottom: #dde5ec;
+  --studio-border: #a5b2be;
+  --studio-highlight: rgba(255,255,255,.3);
+  --studio-shadow: rgba(29,55,75,.09);
+  --studio-text: #243545;
+  --studio-muted: #506372;
+  --studio-accent: #1678b8;
+  --studio-thumb-top: #f7f9fb;
+  --studio-thumb-bottom: #aabccc;
+  --studio-audio-top: #dce4eb;
+  --studio-audio-bottom: #d4dde5;
+  --studio-scroll-thumb: #9a9fa5;
+  --studio-scroll-hover: #747b83;
+  --studio-scroll-track: #e3e5e8;
+}
+html[data-theme="demon"] { --studio-accent: #ed6574; }
+html[data-theme="wild"] { --studio-accent: #c39afa; }
+html:root {
+  --text: var(--studio-text); --muted: var(--studio-muted);
+  --border: var(--studio-border); --cyan: var(--studio-accent);
+  --blue: var(--studio-accent); --shamonsoft-focus: var(--studio-accent);
+  --panel: var(--studio-bottom); --panel-2: var(--studio-bottom);
+}
+html body.shamonsoft-studio-ui.shamonsoft-studio-ui, html .app-shell { background: var(--studio-window) !important; color: var(--studio-text) !important; }
+html .center-stack { grid-template-rows: minmax(0, 1fr) auto; align-content: stretch; }
+html body.shamonsoft-studio-ui.shamonsoft-studio-ui .left-rail { grid-template-rows: none; grid-auto-rows: max-content; align-content: start; }
+html body.shamonsoft-studio-ui.shamonsoft-studio-ui :is(.panel, .rail-section, .anim-card, .studio-presets-card, .music-control-group, .left-selects, .global-setting-card, .playlist-panel, .preset-dialog) {
+  background: linear-gradient(155deg, var(--studio-top), var(--studio-bottom) 80%) !important;
+  border: 1px solid var(--studio-border) !important;
+  border-radius: 4px !important;
+  box-shadow: inset 0 1px 0 var(--studio-highlight), 0 1px 2px var(--studio-shadow) !important;
+}
+html body.shamonsoft-studio-ui.shamonsoft-studio-ui .top-bar { background: transparent !important; border: 0 !important; box-shadow: none !important; }
+html body.shamonsoft-studio-ui.shamonsoft-studio-ui :is(.anim-head, .studio-presets-head) { border-bottom-color: color-mix(in srgb, var(--studio-border) 60%, transparent); }
+html body.shamonsoft-studio-ui.shamonsoft-studio-ui :is(.anim-title, .section-title, .music-group-title, .playlist-header, .global-setting-label, .field > span) {
+  color: var(--studio-muted) !important;
+  text-shadow: none !important;
+}
+html body.shamonsoft-studio-ui.shamonsoft-studio-ui :is(.anim-title, .music-group-title)::before {
+  content: ""; display: inline-block; width: 3px; height: .95em;
+  background: var(--studio-accent); margin-right: 7px; vertical-align: -.08em;
+  box-shadow: inset 0 1px 0 var(--studio-highlight);
+}
+html body.shamonsoft-studio-ui.shamonsoft-studio-ui :is(.tiny-btn, .secondary-btn, .icon-btn, .chip-btn, .mini-move, .randomize-btn, .export-btn, .primary-btn, .collapse-btn, .preset-card-action) {
+  background: linear-gradient(160deg, var(--studio-button-top), var(--studio-button-bottom)) !important;
+  color: var(--studio-text) !important;
+  border: 1px solid var(--studio-border) !important;
+  border-radius: 4px !important;
+  box-shadow: inset 0 1px 0 var(--studio-highlight), 0 2px 3px var(--studio-shadow) !important;
+}
+html body.shamonsoft-studio-ui.shamonsoft-studio-ui :is(.tiny-btn, .secondary-btn, .icon-btn, .chip-btn, .randomize-btn, .export-btn, .primary-btn, .collapse-btn):hover:not(:disabled) {
+  border-color: var(--studio-accent) !important;
+  background: linear-gradient(155deg, color-mix(in srgb, var(--studio-button-top) 85%, var(--studio-accent)), var(--studio-button-bottom)) !important;
+}
+html body.shamonsoft-studio-ui.shamonsoft-studio-ui :is(button.active-toggle, button[aria-pressed="true"], button:active:not(:disabled)) {
+  border-color: var(--studio-accent) !important;
+  box-shadow: inset 0 1px 4px var(--studio-shadow), inset 0 -1px 0 var(--studio-highlight) !important;
+  color: var(--studio-accent) !important;
+}
+html body.shamonsoft-studio-ui.shamonsoft-studio-ui :is(.tiny-btn, .icon-btn, .secondary-btn, .export-btn):disabled { opacity: .5; box-shadow: inset 0 1px 0 var(--studio-highlight) !important; }
+html body.shamonsoft-studio-ui.shamonsoft-studio-ui :is(textarea, input[type="text"], input[type="number"], input[type="search"], .dropzone-btn, .track-card, .playlist-row) {
+  background: var(--studio-input) !important;
+  color: var(--studio-text) !important;
+  border-color: var(--studio-border) !important;
+  border-radius: 4px !important;
+  box-shadow: inset 0 1px 3px var(--studio-shadow), 0 1px 0 var(--studio-highlight) !important;
+}
+/* Native select behavior with a visible arrow; do not let input background
+   shorthands reset its arrow layers through selector-list specificity. */
+html body.shamonsoft-studio-ui.shamonsoft-studio-ui select {
+  background-color: var(--studio-input) !important;
+  color: var(--studio-text) !important;
+  border-color: var(--studio-border) !important;
+  border-radius: 4px !important;
+  box-shadow: inset 0 1px 3px var(--studio-shadow), 0 1px 0 var(--studio-highlight) !important;
+  background-image: linear-gradient(45deg, transparent 50%, var(--studio-muted) 50%), linear-gradient(135deg, var(--studio-muted) 50%, transparent 50%), linear-gradient(180deg, var(--studio-input), var(--studio-input)) !important;
+  background-position: calc(100% - 12px) 50%, calc(100% - 7px) 50%, 0 0 !important;
+  background-size: 5px 5px, 5px 5px, 100% 100% !important;
+  background-repeat: no-repeat !important;
+}
+html body.shamonsoft-studio-ui.shamonsoft-studio-ui #sample-music-select {
+  height: 38px !important;
+  min-height: 38px !important;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  padding: 0 30px 0 10px !important;
+  line-height: normal;
+}
+html body.shamonsoft-studio-ui.shamonsoft-studio-ui :is(select option, select optgroup) { background: var(--studio-input) !important; color: var(--studio-text) !important; }
+html body.shamonsoft-studio-ui.shamonsoft-studio-ui :is(.track-name, .playlist-name, .preset-name, .slider-label-row span:first-child) { color: var(--studio-text) !important; }
+html body.shamonsoft-studio-ui.shamonsoft-studio-ui :is(.track-meta, .time-row, .record-status, .dropzone-subtitle, .effect-toggle-label) { color: var(--studio-muted) !important; }
+html body.shamonsoft-studio-ui.shamonsoft-studio-ui :is(button, select, textarea, input):focus-visible { outline: 2px solid var(--studio-accent) !important; outline-offset: 2px; }
+/* Pointer selection keeps the normal recessed border, not a luminous ring.
+   Keyboard navigation retains a restrained neutral focus indication. */
+html body.shamonsoft-studio-ui.shamonsoft-studio-ui select:focus {
+  outline: none !important;
+  border-color: var(--studio-border) !important;
+  box-shadow: inset 0 1px 3px var(--studio-shadow), 0 1px 0 var(--studio-highlight) !important;
+}
+html body.shamonsoft-studio-ui.shamonsoft-studio-ui select:focus-visible {
+  outline: 1px solid var(--studio-muted) !important;
+  outline-offset: 0 !important;
+}
+html body.shamonsoft-studio-ui.shamonsoft-studio-ui input[type="range"]:not(.spectrum-slider):not(.playlist-scroll)::-webkit-slider-runnable-track {
+  background: linear-gradient(90deg, var(--studio-accent) 0 var(--fill,0%), var(--studio-top) var(--fill,0%) 100%) !important;
+  box-shadow: inset 0 1px 2px var(--studio-shadow), 0 1px 0 var(--studio-highlight) !important;
+  border-radius: 4px;
+}
+html body.shamonsoft-studio-ui.shamonsoft-studio-ui input[type="range"]:not(.spectrum-slider):not(.playlist-scroll)::-webkit-slider-thumb {
+  background: linear-gradient(90deg, var(--studio-thumb-bottom), var(--studio-thumb-top) 45%, var(--studio-thumb-bottom)) !important;
+  border-color: var(--studio-border) !important;
+  box-shadow: 0 1px 3px var(--studio-shadow) !important;
+  border-radius: 2px !important;
+}
+html body.shamonsoft-studio-ui.shamonsoft-studio-ui .audio-studio-panel .audio-transport-row :is(.audio-playing-section, .audio-transport-section, .audio-repeat-section) > .music-group-title { display: none; }
+html body.shamonsoft-studio-ui.shamonsoft-studio-ui .studio-presets-card { display: block; padding: 8px; min-width: 0; margin: 0; height: auto; min-height: 43px; max-height: none; overflow: visible; }
+html body.shamonsoft-studio-ui.shamonsoft-studio-ui .studio-presets-head { display: flex; align-items: center; gap: 8px; min-height: 25px; margin: 0; }
+html body.shamonsoft-studio-ui.shamonsoft-studio-ui .studio-presets-head .anim-title { flex: 1; }
+html body.shamonsoft-studio-ui.shamonsoft-studio-ui .studio-presets-body[hidden] { display: none !important; }
+html body.shamonsoft-studio-ui.shamonsoft-studio-ui .studio-presets-body { padding-top: 8px; min-width: 0; }
+html body.shamonsoft-studio-ui.shamonsoft-studio-ui .studio-presets-card .preset-head-actions { display: flex; flex-wrap: wrap; gap: 6px; justify-content: flex-start; }
+html body.shamonsoft-studio-ui.shamonsoft-studio-ui .studio-presets-card .preset-head-actions button { min-width: 0; padding-inline: 7px !important; }
+html body.shamonsoft-studio-ui.shamonsoft-studio-ui .studio-presets-card #presets-grid {
+  display: grid; grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-auto-flow: row; grid-auto-columns: auto; grid-auto-rows: 64px;
+  gap: 6px; max-height: 348px; min-height: 0; padding: 2px 2px 2px 0;
+  overflow-x: hidden; overflow-y: auto; scrollbar-width: thin;
+  scrollbar-color: var(--studio-border) var(--studio-input);
+}
+html body.shamonsoft-studio-ui.shamonsoft-studio-ui .studio-presets-card #presets-grid.empty { grid-template-columns: minmax(0, 1fr); grid-auto-rows: auto; }
+html body.shamonsoft-studio-ui.shamonsoft-studio-ui .studio-presets-card #presets-grid::-webkit-scrollbar { width: 6px; height: 6px; }
+html body.shamonsoft-studio-ui.shamonsoft-studio-ui .studio-presets-card #presets-grid::-webkit-scrollbar-track { background: var(--studio-input); }
+html body.shamonsoft-studio-ui.shamonsoft-studio-ui .studio-presets-card #presets-grid::-webkit-scrollbar-thumb { background: var(--studio-border); border-radius: 3px; }
+html body.shamonsoft-studio-ui.shamonsoft-studio-ui .studio-presets-card .user-preset-card { min-width: 0; height: 64px; overflow: hidden; border-radius: 4px; }
+html body.shamonsoft-studio-ui.shamonsoft-studio-ui .studio-presets-card .user-preset-thumb { height: 42px; }
+html body.shamonsoft-studio-ui.shamonsoft-studio-ui .studio-presets-card .preset-name { font-size: .6rem; white-space: nowrap; text-overflow: ellipsis; overflow: hidden; padding: 3px 4px; }
+html body.shamonsoft-studio-ui.shamonsoft-studio-ui .studio-presets-card .preset-visualizer-name { font-size: .42rem; left: 3px; max-width: calc(100% - 6px); }
+html body.shamonsoft-studio-ui.shamonsoft-studio-ui .studio-presets-card .preset-card-actions { top: 2px; right: 2px; gap: 2px; }
+html body.shamonsoft-studio-ui.shamonsoft-studio-ui .studio-presets-card .preset-card-action { width: 16px; min-width: 16px; height: 16px; min-height: 16px; font-size: .6rem; padding: 0; }
+html body.shamonsoft-studio-ui.shamonsoft-studio-ui .studio-presets-card .preset-empty-state { flex-direction: column; gap: 4px; align-items: center; }
+
+/* Slightly lift the audio rows without changing their geometry. */
+html body.shamonsoft-studio-ui.shamonsoft-studio-ui .audio-studio-panel,
+html body.shamonsoft-studio-ui.shamonsoft-studio-ui .audio-studio-panel .music-control-group {
+  background: linear-gradient(155deg, var(--studio-audio-top), var(--studio-audio-bottom)) !important;
+}
+html body.shamonsoft-studio-ui.shamonsoft-studio-ui .anim-title { color: var(--studio-text) !important; }
+html body.shamonsoft-studio-ui.shamonsoft-studio-ui .anim-title::before { display: none; }
+/* Gray scrollbar paint for every scrollable control, including preset lists,
+   dialogs, both rails, and the playlist's range-based scrollbar. */
+html, html body.shamonsoft-studio-ui.shamonsoft-studio-ui,
+html body.shamonsoft-studio-ui.shamonsoft-studio-ui * {
+  scrollbar-color: var(--studio-scroll-thumb) var(--studio-scroll-track) !important;
+}
+html::-webkit-scrollbar-thumb,
+html body.shamonsoft-studio-ui.shamonsoft-studio-ui *::-webkit-scrollbar-thumb {
+  background: var(--studio-scroll-thumb) !important;
+  box-shadow: none !important;
+}
+html::-webkit-scrollbar-thumb:hover,
+html body.shamonsoft-studio-ui.shamonsoft-studio-ui *::-webkit-scrollbar-thumb:hover { background: var(--studio-scroll-hover) !important; }
+html::-webkit-scrollbar-track,
+html body.shamonsoft-studio-ui.shamonsoft-studio-ui *::-webkit-scrollbar-track,
+html body.shamonsoft-studio-ui.shamonsoft-studio-ui *::-webkit-scrollbar-corner { background: var(--studio-scroll-track) !important; }
+html body.shamonsoft-studio-ui.shamonsoft-studio-ui .playlist-scroll { accent-color: var(--studio-scroll-thumb) !important; }
+html body.shamonsoft-studio-ui.shamonsoft-studio-ui .playlist-scroll::-webkit-slider-runnable-track { background: var(--studio-scroll-track) !important; }
+html body.shamonsoft-studio-ui.shamonsoft-studio-ui .playlist-scroll::-webkit-slider-thumb { background: var(--studio-scroll-thumb) !important; border-color: var(--studio-scroll-thumb) !important; box-shadow: none !important; }
+
+/* One complete slider skin, including dynamically generated Procedural,
+   overlays and response controls. Explicit appearance resets prevent native
+   circular thumbs from surviving on inputs without the .real-slider class. */
+html body.shamonsoft-studio-ui.shamonsoft-studio-ui input[type="range"]:not(.playlist-scroll) {
+  appearance: none !important;
+  -webkit-appearance: none !important;
+  background: transparent !important;
+  border: 0 !important;
+  padding: 0 !important;
+}
+html body.shamonsoft-studio-ui.shamonsoft-studio-ui input[type="range"]:not(.playlist-scroll):not(.progress-slider) {
+  height: 8px !important;
+}
+html body.shamonsoft-studio-ui.shamonsoft-studio-ui input[type="range"]:not(.playlist-scroll)::-webkit-slider-runnable-track {
+  height: 5px !important;
+  border-radius: 2px !important;
+}
+html body.shamonsoft-studio-ui.shamonsoft-studio-ui input[type="range"]:not(.playlist-scroll):not(.spectrum-slider)::-webkit-slider-runnable-track {
+  background: linear-gradient(90deg, var(--studio-accent) 0 var(--fill, 0%), var(--studio-top) var(--fill, 0%) 100%) !important;
+  box-shadow: inset 0 1px 1px var(--studio-shadow) !important;
+}
+html body.shamonsoft-studio-ui.shamonsoft-studio-ui input[type="range"]:not(.playlist-scroll)::-webkit-slider-thumb {
+  appearance: none !important;
+  -webkit-appearance: none !important;
+  box-sizing: border-box !important;
+  width: 9px !important;
+  height: 18px !important;
+  margin-top: -6.5px !important;
+  border: 1px solid var(--studio-border) !important;
+  border-radius: 2px !important;
+  background: linear-gradient(90deg, var(--studio-thumb-bottom), var(--studio-thumb-top) 45%, var(--studio-thumb-bottom)) !important;
+  background-clip: border-box !important;
+  box-shadow: 0 1px 2px var(--studio-shadow) !important;
+}
+html body.shamonsoft-studio-ui.shamonsoft-studio-ui input[type="range"]:not(.playlist-scroll)::-moz-range-track {
+  height: 5px !important;
+  border-radius: 2px !important;
+}
+html body.shamonsoft-studio-ui.shamonsoft-studio-ui input[type="range"]:not(.playlist-scroll):not(.spectrum-slider)::-moz-range-track {
+  background: var(--studio-top) !important;
+}
+html body.shamonsoft-studio-ui.shamonsoft-studio-ui input[type="range"]:not(.playlist-scroll):not(.spectrum-slider)::-moz-range-progress {
+  height: 5px !important;
+  background: var(--studio-accent) !important;
+}
+html body.shamonsoft-studio-ui.shamonsoft-studio-ui input[type="range"]:not(.playlist-scroll)::-moz-range-thumb {
+  box-sizing: border-box !important;
+  width: 9px !important;
+  height: 18px !important;
+  border: 1px solid var(--studio-border) !important;
+  border-radius: 2px !important;
+  background: linear-gradient(90deg, var(--studio-thumb-bottom), var(--studio-thumb-top) 45%, var(--studio-thumb-bottom)) !important;
+  box-shadow: 0 1px 2px var(--studio-shadow) !important;
+}
+
+/* The mode switch sits immediately to the right of Video bitrate. Both modes
+   share the same geometry; only these interface colors change. */
+html .export-grid {
+  grid-template-columns: minmax(76px, .9fr) minmax(112px, 1.18fr) minmax(60px, .65fr) minmax(88px, .95fr) minmax(88px, .88fr) 64px minmax(80px, .85fr);
+}
+html .theme-mode-field button { width: 100%; min-height: 27px !important; height: 27px !important; }
+html[data-studio-theme="light"] body.shamonsoft-studio-ui.shamonsoft-studio-ui .brand-title { color: var(--studio-text) !important; text-shadow: none !important; }
+html[data-studio-theme="light"] body.shamonsoft-studio-ui.shamonsoft-studio-ui :is(.shamonsoft-performance-badge, .now-playing-card, .shamonsoft-toast) {
+  background: var(--studio-input) !important; color: var(--studio-text) !important; border-color: var(--studio-border) !important;
+}
+html[data-studio-theme="light"] body.shamonsoft-studio-ui.shamonsoft-studio-ui :is(.shamonsoft-layer-order-row button, .preset-dialog input, .preset-dialog textarea) {
+  background: var(--studio-input) !important; color: var(--studio-text) !important; border-color: var(--studio-border) !important;
+}
+html[data-studio-theme="light"] body.shamonsoft-studio-ui.shamonsoft-studio-ui :is(.shamonsoft-subsection-title, .shamonsoft-layer-row label, .shamonsoft-procedural-control label, .shamonsoft-layer-row output) { color: var(--studio-muted) !important; }
+html[data-studio-theme="light"] body.shamonsoft-studio-ui.shamonsoft-studio-ui :is(input::placeholder, textarea::placeholder) { color: #657685 !important; }
+html[data-studio-theme="light"] body.shamonsoft-studio-ui.shamonsoft-studio-ui .toggle > span {
+  background: #b9c5ce; border-color: #899ca9;
+}
+html[data-studio-theme="light"] body.shamonsoft-studio-ui.shamonsoft-studio-ui .toggle input:checked + span { background: #1678b8; border-color: #126b9f; }
+html[data-studio-theme="light"] body.shamonsoft-studio-ui.shamonsoft-studio-ui .shamonsoft-range-ticks i { background: #8a9ba8; }
+html[data-studio-theme="light"] body.shamonsoft-studio-ui.shamonsoft-studio-ui .shamonsoft-range-labels { color: #526674; }
+
+/* Project controls share the existing studio colors and keep both themes identical. */
+.aml-project-buttons{display:flex;gap:4px;flex-wrap:wrap;margin-top:7px}.aml-project-buttons button{font-size:10px;padding:3px 7px;min-height:24px}
+#aml-project-status{font-size:11px;color:var(--muted);margin-top:5px;max-width:300px;overflow-wrap:anywhere}#aml-project-status.error{color:#dc6d68}
+.aml-project-decision{max-width:min(520px,90vw);background:var(--panel);color:var(--text);border:1px solid var(--border);border-radius:10px;padding:22px}.aml-project-decision::backdrop{background:#0008}.aml-project-decision>div{display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap}.aml-project-decision p{line-height:1.5}
+@media(max-width:1200px){.app-shell{overflow:auto}.workspace{grid-template-columns:260px minmax(480px,1fr) 210px;min-width:980px;min-height:650px}.top-bar{min-width:980px}.brand-title{font-size:20px}}

@@ -1,0 +1,1969 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Audio Motion Lab — Browser Demo</title>
+<script src="../../jszip.min.js"></script>
+<script src="../../browser-export.js"></script>
+<script src="../../browser-host.js"></script>
+  <link rel="stylesheet" href="../Synesthia/src/styles.css" />
+  <link rel="stylesheet" href="./shamonsoft.css" />
+  <link rel="stylesheet" href="./shamonsoft-audio.css" />
+  <link rel="stylesheet" href="./shamonsoft-studio.css" />
+  <link rel="stylesheet" href="./shamonsoft-help.css" />
+  <script>
+    window.__shamonsoftRuntimeErrors = [];
+    window.addEventListener('error', event => window.__shamonsoftRuntimeErrors.push(String(event.error?.stack || event.message || 'Unknown error')));
+    window.addEventListener('unhandledrejection', event => window.__shamonsoftRuntimeErrors.push(String(event.reason?.stack || event.reason || 'Unhandled rejection')));
+    // Carry pre-ShamonSoft saved work forward without retaining the retired name
+    // in current storage identifiers.
+    (() => {
+      const retiredPrefix = ['lu', 'cent-vml-'].join('');
+      const migrations = [
+        ['project-v1', 'project-v1'],
+        ['publishing-v1', 'publishing-v1'],
+        ['export-history-v1', 'export-history-v1']
+      ];
+      for (const [oldSuffix, newSuffix] of migrations) {
+        const oldKey = retiredPrefix + oldSuffix;
+        const newKey = 'shamonsoft-val-' + newSuffix;
+        if (localStorage.getItem(newKey) === null && localStorage.getItem(oldKey) !== null)
+          localStorage.setItem(newKey, localStorage.getItem(oldKey));
+      }
+    })();
+  </script>
+  <script src="./shamonsoft-layer-order.js"></script>
+  <script src="./shamonsoft-theme.js"></script>
+  <script src="./shamonsoft-runway-glass.js"></script>
+  <script src="../Synesthia/src/fallback-renderer.js"></script>
+</head>
+<body>
+  <div class="app-shell">
+    <header class="top-bar panel">
+      <div class="brand-block panel">
+        <img class="brand-logo" src="./assets/AudioMotionLab_Logo.png" alt="Audio Motion Lab" />
+        <div class="brand-copy">
+          <div class="brand-title">AUDIO MOTION LAB</div>
+          <div class="aml-project-buttons" data-project-control="false"><button id="aml-new" class="tiny-btn text-btn">NEW</button><button id="aml-open" class="tiny-btn text-btn">OPEN</button><button id="aml-save" class="tiny-btn text-btn">SAVE</button><button id="aml-save-as" class="tiny-btn text-btn">SAVE AS</button><button id="aml-window-reset" class="tiny-btn text-btn" title="Fit the demo window to your screen">WINDOW RESET</button></div>
+          <div id="aml-project-status" role="status">Starting project recovery…</div>
+        </div>
+      </div>
+      <div class="export-block panel">
+        <div class="export-grid">
+          <label class="field"><span>Format / Codec</span><select id="export-format-select"><option value="webm-vp8">WebM · VP8/Opus</option><option value="gif">Animated GIF</option><option value="png-sequence">PNG Sequence · ZIP</option></select></label>
+          <label class="field"><span>Resolution</span><select id="export-resolution-select"><optgroup label="Landscape"><option value="1280x720">1280x720 HD</option><option value="1920x1080" selected>1920x1080 Full HD</option><option value="2560x1080">2560x1080 Ultrawide</option><option value="2560x1440">2560x1440 QHD</option><option value="3440x1440">3440x1440 Ultrawide</option><option value="3840x2160">3840x2160 4K</option></optgroup><optgroup label="Social / Portrait"><option value="1080x1920">1080x1920 Portrait</option><option value="1080x1350">1080x1350 Portrait Post</option><option value="1080x1080">1080x1080 Square</option></optgroup><optgroup label="Custom"><option value="custom">Custom size…</option></optgroup></select></label>
+          <label class="field"><span>FPS</span><select id="export-fps-select"><option value="24">24</option><option value="25">25</option><option value="30">30</option><option value="50">50</option><option value="60" selected>60</option><option value="120">120</option></select></label>
+          <label class="field"><span>Length</span><select id="export-length-select"><option value="10">10 Seconds</option><option value="30">30 Seconds</option><option value="60" selected>1 Minute · Demo limit</option></select></label>
+          <label class="field"><span>Video bitrate</span><select id="export-quality-select"><option value="3">Draft · 3 Mbps</option><option value="6">Medium · 6 Mbps</option><option value="12" selected>High · 12 Mbps</option><option value="24">Ultra · 24 Mbps</option><option value="40">Master · 40 Mbps</option></select></label>
+          <div class="field theme-mode-field"><span>Mode</span><button id="shamonsoft-mode-button" class="tiny-btn text-btn" type="button" aria-label="Switch to Light mode" aria-pressed="false">Dark</button></div>
+          <label class="field"><span>Audio</span><select id="export-audio-select"><option value="128">128 kbps</option><option value="192">192 kbps</option><option value="320" selected>320 kbps</option></select></label>
+        </div>
+        <div class="aml-header-actions" data-project-control="false" aria-label="Help and support">
+          <button class="tiny-btn text-btn help-toolbar-button" type="button" data-action="help-center" title="Open Help Center (F1)">HELP CENTER</button>
+          <button class="tiny-btn text-btn help-toolbar-button" type="button" data-action="contact-support">CONTACT SUPPORT</button>
+        </div>
+      </div>
+    </header>
+
+    <main class="workspace">
+      <aside class="left-rail panel" id="left-rail"></aside>
+
+      <section class="center-stack">
+        <section class="preview-panel panel">
+          <div class="preview-viewport" id="preview-viewport">
+            <div class="preview-frame preview-fit-width" id="preview-frame">
+              <div class="preview-art">
+                <img id="custom-bg-image-layer" class="custom-bg-layer" alt="" hidden />
+                <video id="custom-bg-video-layer" class="custom-bg-layer" muted loop playsinline hidden></video>
+                <div id="preview-3d" class="preview-3d"></div>
+                <canvas id="glcanvas" class="shamonsoft-procedural-canvas" hidden></canvas>
+              </div>
+            </div>
+          </div>
+          <div class="time-row" title="Recording and export progress for the selected duration.">
+            <span id="video-progress-start">00:00</span>
+            <div class="timeline"><div class="timeline-progress"></div></div>
+            <span id="video-progress-end">05:00</span>
+          </div>
+        </section>
+
+        <section class="music-controls-panel audio-studio-panel panel" aria-label="Music and export controls">
+          <div class="music-controls-grid">
+            <div class="music-control-group audio-load-row">
+              <div class="audio-load-section">
+                <div class="music-group-title">LOAD MUSIC</div>
+                <input id="music-file-input" type="file" accept=".mp3,.wav,.ogg,audio/mpeg,audio/wav,audio/ogg" multiple hidden />
+                <button id="dropzone-btn" class="dropzone-btn" type="button"><svg class="audio-icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7V5h6l3 3h9v12H3z"/></svg><span><span class="dropzone-subtitle">Click or drag files here</span><span class="audio-load-hint">to load music</span></span></button>
+              </div>
+              <div class="audio-source-section">
+                <div class="music-group-title">SOURCE</div>
+                <div class="sample-music-row">
+                  <select id="sample-music-select" class="anim-select" aria-label="Sample audio" title="Choose from royalty-free sample audio."><option value="">Sample Audio</option></select>
+                  <button id="sample-music-load-btn" class="tiny-btn text-btn" type="button"><svg class="audio-icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10v10h18V10M12 16V3m-5 5 5-5 5 5"/></svg><span class="audio-button-label">Load Track</span></button>
+                </div>
+              </div>
+              <div class="audio-volume-section">
+                <div class="music-group-title">VOLUME</div>
+                <div class="music-volume-row"><svg class="audio-icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9h4l5-4v14l-5-4H3zM16 8q5 4 0 8m3-11q8 7 0 14"/></svg><input id="volume-slider" class="real-slider cyan" type="range" min="0" max="100" value="80" aria-label="Volume" /><button id="mute-btn" class="icon-btn text-btn compact-icon-btn" type="button" title="Mute"><svg class="audio-icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9h4l5-4v14l-5-4H3zM16 9l6 6m0-6-6 6"/></svg><span class="audio-button-label">Mute</span></button></div>
+              </div>
+            </div>
+            <div class="music-control-group audio-transport-row">
+              <div class="audio-playing-section">
+                <div class="track-card compact now-playing-card">
+                  <div class="now-playing-art"><div class="now-playing-icon"></div></div>
+                  <div class="track-copy"><div id="current-track-name" class="track-name">No track loaded</div><div class="track-meta-row"><span id="current-track-meta" class="track-meta">Load music to begin</span><span id="current-track-badge" class="track-badge" hidden>Sample</span></div><div class="track-meter"><div id="track-meter-fill" class="track-meter-fill"></div></div></div>
+                </div>
+              </div>
+              <div class="audio-transport-section">
+                <div class="music-buttons">
+                  <button id="prev-btn" class="icon-btn text-btn" type="button"><svg class="audio-icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4v16M19 4 7 12l12 8z"/></svg><span class="audio-button-label">Prev</span></button>
+                  <button id="play-btn" class="icon-btn text-btn" type="button"><svg class="audio-icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="m6 3 15 9-15 9z" fill="currentColor" stroke="none"/></svg><span class="audio-button-label">Play</span></button>
+                  <button id="pause-btn" class="icon-btn text-btn" type="button"><svg class="audio-icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M6 4h4v16H6zM14 4h4v16h-4z" fill="currentColor" stroke="none"/></svg><span class="audio-button-label">Pause</span></button>
+                  <button id="stop-btn" class="icon-btn text-btn" type="button"><svg class="audio-icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="5" width="14" height="14" rx="1" fill="currentColor" stroke="none"/></svg><span class="audio-button-label">Stop</span></button>
+                  <button id="next-btn" class="icon-btn text-btn" type="button"><svg class="audio-icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M19 4v16M5 4l12 8L5 20z"/></svg><span class="audio-button-label">Next</span></button>
+                </div>
+              </div>
+              <div class="audio-repeat-section"><div class="music-group-title" aria-hidden="true">&nbsp;</div><div class="music-buttons"><button id="loop-btn" class="icon-btn text-btn" type="button"><svg class="audio-icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10a8 8 0 0 1 14-4l3 3M21 3v6h-6M20 14a8 8 0 0 1-14 4l-3-3M3 21v-6h6"/></svg><span class="audio-button-label">Loop</span></button><button id="shuffle-btn" class="icon-btn text-btn" type="button"><svg class="audio-icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h3c6 0 6 12 12 12h3m-4-4 4 4-4 4M3 18h3c6 0 6-12 12-12h3m-4-4 4 4-4 4"/></svg><span class="audio-button-label">Shuffle</span></button></div></div>
+            </div>
+            <div class="music-control-group audio-export-row">
+              <div class="audio-record-section"><div class="music-group-title">RECORD &amp; EXPORT</div><div class="record-buttons"><button id="record-start-btn" class="icon-btn text-btn" type="button"><svg class="audio-icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8" fill="currentColor" stroke="none"/></svg><span class="audio-button-label">Start Rec</span></button><button id="record-stop-btn" class="icon-btn text-btn" type="button"><svg class="audio-icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="5" width="14" height="14" rx="1" fill="currentColor" stroke="none"/></svg><span class="audio-button-label">Stop Rec</span></button><button id="record-save-btn" class="icon-btn text-btn" type="button"><svg class="audio-icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m-5-5 5 5 5-5M3 16v5h18v-5"/></svg><span class="audio-button-label">Save Now</span></button><button id="export-path-button" class="tiny-btn text-btn" type="button" aria-label="Choose export file" title="Choose export file"><span class="audio-button-label">…</span></button><button id="export-button" class="export-btn text-btn" type="button" title="Prepare export"><svg class="audio-icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M13 3h8v8m0-8L10 14M10 5H3v16h16v-7"/></svg><span class="audio-button-label">EXPORT</span></button></div><div id="record-status" class="record-status" role="status">Ready to record</div></div>
+              <div class="audio-seek-section"><div class="music-group-title">PLAYBACK</div><div class="song-progress-panel"><span id="progress-start-time">00:00</span><div class="song-progress-track"><input id="progress-slider" class="progress-slider" type="range" min="0" max="1" step="0.01" value="0" aria-label="Song playback position" disabled /><span id="song-progress-fill" hidden></span><span id="song-progress-thumb" hidden></span></div><span id="song-progress-current">00:00 / 00:00</span><span id="progress-end-time" hidden>00:00</span></div></div>
+            </div>
+          </div>
+        </section>
+
+        <section class="presets-panel panel">
+          <div class="preset-section-head">
+            <div class="section-title">MY PRESETS</div>
+            <div class="preset-head-actions">
+              <input id="import-presets-input" type="file" accept=".json,.shamonsoft-presets.json,application/json" hidden />
+              <button id="import-presets-button" class="tiny-btn text-btn" type="button" title="Restore presets from a backup file">Import</button>
+              <button id="export-presets-button" class="tiny-btn text-btn" type="button" title="Back up all saved presets">Export</button>
+              <button id="save-preset-button" class="tiny-btn text-btn preset-save-button" type="button">Save Preset</button>
+            </div>
+          </div>
+          <div class="presets-grid user-presets-strip" id="presets-grid" aria-label="Saved presets"></div>
+        </section>
+
+      </section>
+
+      <aside class="right-rail panel">
+        <section class="playlist-panel standalone-playlist" aria-label="Playlist">
+            <div class="playlist-header">
+              <span class="playlist-title-group">
+                <span>PLAYLIST</span>
+                <button id="clear-playlist-btn" class="tiny-btn text-btn clear-playlist-btn" type="button" hidden>Clear</button>
+              </span>
+              <span id="playlist-count">0 SONGS</span>
+            </div>
+            <div class="playlist-body">
+              <div class="playlist-items" id="playlist-items"></div>
+              <input id="playlist-scroll" class="playlist-scroll" type="range" min="0" max="0" value="0" step="1" orient="vertical" />
+            </div>
+        </section>
+
+      </aside>
+    </main>
+  </div>
+  <dialog id="helpCenter" aria-labelledby="helpTitle" data-project-control="false">
+    <div class="help-top"><h2 id="helpTitle">Audio Motion Lab Help</h2><button type="button" class="help-close" data-help-close aria-label="Close Help">×</button></div>
+    <div class="help-searchbar"><div class="help-searchbox"><input id="helpSearch" type="search" aria-label="Search help" placeholder="Search help…" autocomplete="off"><button type="button" id="helpClearSearch" hidden>Clear</button></div><span id="helpResultCount" role="status" aria-live="polite">Contents</span></div>
+    <div class="help-workspace"><nav id="helpCategories" aria-label="Help topics"></nav><main id="helpMain" tabindex="-1" aria-label="Selected help topic"></main></div>
+    <div class="help-bottom"><span>Audio Motion Lab <span class="app-version">6.4</span></span><button type="button" data-help-licenses>Open-source licenses</button><button type="button" data-help-sources>Save component source</button><button type="button" data-help-support>Contact support</button></div>
+  </dialog>
+  <dialog id="supportDialog" aria-labelledby="supportTitle" data-project-control="false">
+    <div class="help-top"><div><span class="help-eyebrow">WE’RE HERE TO HELP</span><h2 id="supportTitle">Contact Support</h2><p>ShamonSoft Audio Motion Lab <span class="app-version">6.4</span></p></div><button type="button" class="help-close" data-support-close aria-label="Close Contact Support">×</button></div>
+    <div class="support-body"><label for="supportAddress">Email support</label><div class="support-address-row"><input id="supportAddress" readonly value="support@shamonsoft.com" aria-label="Support email address"><button type="button" id="copySupportAddress">COPY ADDRESS</button></div><h3>Open an email draft</h3><div id="supportMailClients"><button type="button" data-support-mail="default">Default email app</button></div><p class="support-hint">Registered email apps appear here when available. You can also copy the address into webmail.</p><div class="support-guidance"><b>Help us help you</b><p>Include your app version, what you were doing, what you expected, and what happened. A screenshot or short set of steps is useful.</p><p>Choose any attachments yourself in your email app. Nothing is sent automatically.</p></div><p id="supportStatus" role="status" aria-live="polite"></p></div>
+  </dialog>
+  <dialog id="custom-resolution-dialog" class="custom-resolution-dialog" aria-labelledby="custom-resolution-title">
+    <form method="dialog" class="custom-resolution-form">
+      <div>
+        <strong id="custom-resolution-title">Custom export size</strong>
+        <span>Set a canvas size from 64 to 7680 pixels per side.</span>
+      </div>
+      <label>Width <input id="shamonsoft-custom-width" type="number" min="64" max="7680" step="2" value="1920" data-project-control="false" /></label>
+      <label>Height <input id="shamonsoft-custom-height" type="number" min="64" max="7680" step="2" value="1080" data-project-control="false" /></label>
+      <div class="custom-resolution-actions">
+        <button id="custom-resolution-cancel" class="secondary-btn" type="button">Cancel</button>
+        <button id="custom-resolution-apply" class="primary-btn" type="button">Apply Size</button>
+      </div>
+    </form>
+  </dialog>
+  <script>
+    const leftRail = document.getElementById('left-rail');
+
+    leftRail.innerHTML = `
+      <section class="left-selects anim-card collapsed" data-effect-id="background">
+        <div class="anim-head">
+          <div class="anim-head-main"><div class="anim-title">Background</div></div>
+          <div class="anim-head-actions">
+            <button class="collapse-btn" type="button" aria-label="Expand background options" aria-expanded="false">▸</button>
+            <label class="toggle">
+              <input id="background-enabled" type="checkbox" />
+              <span></span>
+            </label>
+          </div>
+        </div>
+        <div class="anim-body">
+          <div class="dual-selects left-top-selects">
+            <div class="field left-top-field">
+              <span class="background-brightness-label">Brightness</span>
+              <input id="background-brightness-slider" class="real-slider background-brightness-slider" data-shamonsoft-scale="false" type="range" min="0" max="100" value="65" aria-label="Background brightness" />
+              <span class="background-label-row">
+                <label class="tiny-check"><input id="bg-color" type="checkbox" checked /><span>Color</span></label>
+                <label class="tiny-check"><input id="bg-white" type="checkbox" /><span>White</span></label>
+              </span>
+              <input id="background-hue-slider" class="real-slider spectrum-slider" type="range" min="0" max="360" value="220" aria-label="Background color" />
+            </div>
+            <div class="field left-top-field custom-bg-field">
+              <span>IMAGE / VIDEO BACKGROUND</span>
+              <input id="custom-bg-input" type="file" accept="image/*,video/*" hidden />
+              <div class="custom-bg-controls">
+                <label class="tiny-check custom-bg-toggle"><input id="custom-bg-enabled" type="checkbox" /><span>Use</span></label>
+                <button id="custom-bg-btn" class="secondary-btn custom-bg-btn" type="button" title="Choose an image or video to use as the background">Browse</button>
+              </div>
+              <select id="custom-bg-fit" class="anim-select" aria-label="Background fit"><option value="cover">Cover</option><option value="contain">Fit</option><option value="fill">Stretch</option><option value="none">Center</option><option value="tile">Tile</option></select>
+            </div>
+          </div>
+        </div>
+      </section>
+    `;
+
+    const mainEffectOptions = [
+      'Bars',
+      'Orbit',
+      'Lattice',
+      'Petals',
+      'Spectrum Ring',
+      'Starburst',
+      'Ribbons',
+      'Radar Sweep',
+      'Vortex',
+      'Nebula',
+      'Spiral',
+      'Equalizer Wall',
+      'Liquid Pulse',
+      'Grid Wave',
+    ];
+
+    // Keep the legacy "Glass Bubble" value so existing saved presets continue to load,
+    // while presenting the clearer Solid / Glass / Chrome material choices in the UI.
+    const mainMaterialOptions = ['Solid', 'Glass Bubble', 'Chrome'];
+
+    const barsControls = [['Hue','220'],['Intensity','50'],['Glow','50'],['Amount','50'],['Thickness','50'],['Spacing','50'],['Scale','50'],['Motion','50'],['Rotate','0'],['Opacity','100']];
+    const waveControls = [['Hue','220'],['Intensity','50'],['Glow','50'],['Density','50'],['Shape','50'],['Spread','50'],['Scale','50'],['Motion','50'],['Rotate','0'],['Opacity','100']];
+    const tunnelControls = [['Hue','220'],['Intensity','50'],['Glow','50'],['Amount','50'],['Width','50'],['Spacing','50'],['Speed','50'],['Depth','50'],['Motion','50'],['Opacity','100']];
+    const radialControls = [['Hue','220'],['Intensity','50'],['Glow','50'],['Amount','50'],['Width','50'],['Spread','50'],['Depth','50'],['Motion','50'],['Rotate','0'],['Opacity','100']];
+    const orbitControls = [['Hue','220'],['Intensity','50'],['Glow','50'],['Amount','50'],['Size','50'],['Spread','50'],['Speed','50'],['Depth','50'],['Motion','50'],['Opacity','100']];
+    const latticeControls = [['Hue','220'],['Intensity','50'],['Glow','50'],['Density','50'],['Height','50'],['Spread','50'],['Depth','50'],['Motion','50'],['Rotate','0'],['Opacity','100']];
+
+    const modeControlSchemas = {
+      'Bars': barsControls,
+      'Ribbons': waveControls,
+      'Nebula': orbitControls,
+      'Equalizer Wall': barsControls,
+      'Liquid Pulse': radialControls,
+      'Grid Wave': latticeControls,
+      'Tunnel': tunnelControls,
+      'Spiral': tunnelControls,
+      'Sonic Runway': tunnelControls,
+      'Rings': radialControls,
+      'Spectrum Ring': radialControls,
+      'Kaleidoscope': radialControls,
+      'Mandala': radialControls,
+      'Vortex': radialControls,
+      'Radar Sweep': radialControls,
+      'Orbit': orbitControls,
+      'Petals': orbitControls,
+      'Starburst': orbitControls,
+      'Lattice': latticeControls,
+    };
+
+    function sliderMarkup(label, value) {
+      return `
+        <div class="slider-cell">
+          <div class="slider-label-row"><span>${label}</span></div>
+          <input class="real-slider ${label === 'Hue' ? 'spectrum-slider' : ''}" type="range" min="${label === 'Twist' ? '-100' : '0'}" max="${label === 'Hue' ? '360' : '100'}" value="${value}" ${label === 'Twist' ? 'data-shamonsoft-signed="true" aria-label="Twist" title="Center 0: straight tunnel. Negative: twist left. Positive: twist right."' : ''} />
+        </div>
+      `;
+    }
+
+    function controlMarkup(control) {
+      if (Array.isArray(control)) {
+        return sliderMarkup(control[0], control[1]);
+      }
+
+      if (control.type === 'select') {
+        return `
+          <div class="slider-cell">
+            <div class="slider-label-row"><span>${control.label}</span></div>
+            <select class="anim-select slider-select" aria-label="${control.label}">
+              ${control.options.map((option) => `<option value="${option}" ${option === control.value ? 'selected' : ''}>${control.label === 'Walls' && option === 'Glass' ? 'Polished glass' : option}</option>`).join('')}
+            </select>
+          </div>
+        `;
+      }
+
+      return sliderMarkup(control.label, control.value);
+    }
+
+    const animationData = [
+      { id: 'main', name: 'Bars', options: mainEffectOptions, materialOptions: mainMaterialOptions, on: false, controls: modeControlSchemas['Bars'] },
+      { id: 'particles', name: 'Particles', on: false, controls: [['Hue','220'],['Intensity','50'],['Amount','50'],['Size','50'], { label: 'Shape', type: 'select', value: 'Orb', options: ['Orb', 'Circle', 'Cube', 'Square', 'Diamond', 'Triangle', 'Hex', 'Octagon', 'Star', 'Cross', 'Plus', 'X', 'Spark', 'Line', 'Shard', 'Ring'] }, ['Spread','68'], ['Speed','50'], ['Beat Expand','50'], ['Opacity','100']] },
+      { id: 'floorGrid', name: 'Floor Grid', on: false, controls: [['Hue','220'],['Intensity','50'],['Glow','50'],['Height','50'],['Density','50'],['Speed','50'],['Wave','50'],['Depth','50'],['Motion','50']] },
+      { id: 'sonicRunway', name: 'Tunnel', on: false, controls: [
+        { label: 'Shape', type: 'select', value: 'Octagon', options: ['Arch', 'Round', 'Oval', 'Rectangle', 'Rounded rectangle', 'Triangle', 'Diamond', 'Pentagon', 'Hexagon', 'Octagon', 'Star'] },
+        { label: 'Floor', type: 'select', value: 'Runway', options: ['None', 'Runway', 'Grid', 'Obsidian', 'Stone tiles', 'Brushed metal', 'Ribbed deck'] },
+        ['Hue','220'],['Response','50'],['Glow','50'],['Size','50'],['Depth','50'],
+        ['Thickness','50'],['Speed','50'],['Twist','0'],['Opacity','65'],['Brightness','65']
+      ] },
+      { id: 'lightBeams', name: 'Light Beams', on: false, controls: [['Hue','220'],['Intensity','50'],['Glow','50'],['Count','50'],['Width','50'],['Spread','50'],['Speed','50'],['Angle','50'],['Random','50']] },
+      { id: 'shockwave', name: 'Shockwave', on: false, controls: [['Hue','220'],['Intensity','50'],['Glow','50'],['Size','50'],['Width','50'],['Scatter','50'],['Speed','50'],['Depth','50'],['Fade','50']] },
+    ];
+
+    leftRail.innerHTML += animationData.map(section => `
+      <section class="anim-card collapsed" data-effect-id="${section.id}">
+        <div class="anim-head">
+          <div class="anim-head-main">
+            <div class="anim-title">${section.id === 'main' ? 'Visualizers' : section.name}</div>
+          </div>
+          <div class="anim-head-actions">
+            <button class="randomize-btn" type="button" aria-label="RGB randomize" aria-pressed="false">RGB</button>
+            <button class="collapse-btn" type="button" aria-label="Expand settings" aria-expanded="false">▸</button>
+            <label class="toggle">
+              <input type="checkbox" ${section.on ? 'checked' : ''} />
+              <span></span>
+            </label>
+          </div>
+        </div>
+        <div class="anim-body">
+          ${section.id === 'main'
+            ? `<div class="main-select-stack centerpiece-selects"><select class="anim-select main-effect-select" aria-label="Visualizer">${section.options.map((option) => `<option ${option === section.name ? 'selected' : ''}>${option}</option>`).join('')}</select><select class="anim-select main-material-select" aria-label="Visualizer material">${section.materialOptions.map((option) => `<option value="${option}" ${option === 'Solid' ? 'selected' : ''}>${option === 'Glass Bubble' ? 'Glass' : option}</option>`).join('')}</select></div>`
+            : ''}
+          <div class="slider-grid">
+            ${section.controls.map((control) => controlMarkup(control)).join('')}
+          </div>
+        </div>
+      </section>
+    `).join('');
+
+    const previewArt = document.querySelector('.preview-art');
+    const preview3d = document.getElementById('preview-3d');
+    const backgroundEnabled = document.getElementById('background-enabled');
+    const backgroundBrightnessSlider = document.getElementById('background-brightness-slider');
+    const backgroundHueSlider = document.getElementById('background-hue-slider');
+    const bgColor = document.getElementById('bg-color');
+    const bgWhite = document.getElementById('bg-white');
+    const customBgEnabled = document.getElementById('custom-bg-enabled');
+    const customBgInput = document.getElementById('custom-bg-input');
+    const customBgBtn = document.getElementById('custom-bg-btn');
+    const customBgFit = document.getElementById('custom-bg-fit');
+    const customBgImageLayer = document.getElementById('custom-bg-image-layer');
+    const customBgVideoLayer = document.getElementById('custom-bg-video-layer');
+    const customBackgroundState = {
+      url: '',
+      kind: '',
+    };
+    function localSampleTrackUrl(fileName) {
+      return new URL(`../Synesthia/Sample Music/${encodeURIComponent(fileName)}`, window.location.href).href;
+    }
+    const sampleTracks = ["45th Street.mp3", "Alien Pulse.mp3", "Celtic Knot.mp3", "Harbor Nights.mp3", "Soft Breathing Sky.mp3"].map((name) => ({ name, url: localSampleTrackUrl(name), duration: 0 }));
+
+    // Hue controls intentionally run orange at the left through the spectrum to red at the right.
+    // Unlike a 0–360 wheel, the endpoints now describe two distinct colors.
+    const spectrumHue = (value) => 30 + Math.max(0, Math.min(1, Number(value) / 360)) * 330;
+
+    function updateSliderFill(slider) {
+      if (slider.classList.contains('spectrum-slider')) {
+        return;
+      }
+      const min = Number(slider.min || 0);
+      const max = Number(slider.max || 100);
+      const value = Number(slider.value || 0);
+      const percent = Math.max(0, Math.min(100, max === min ? 0 : ((value - min) / (max - min)) * 100));
+      // A range thumb travels through the track width minus its own hit box.
+      // Offset the painted fill so its endpoint stays beneath the thumb center.
+      const thumbHitSize = 9;
+      const correction = (0.5 - percent / 100) * thumbHitSize;
+      slider.style.setProperty('--fill', `calc(${percent}% + ${correction}px)`);
+    }
+
+    const primaryModeCard = document.querySelector('.anim-card[data-effect-id="main"]');
+    const primaryModeSelect = primaryModeCard?.querySelector('.main-effect-select') ?? primaryModeCard?.querySelector('.anim-select');
+    const primaryModeGrid = primaryModeCard?.querySelector('.slider-grid');
+    const modeControlState = Object.fromEntries(
+      Object.entries(modeControlSchemas).map(([name, controls]) => [name, controls.map(([label, value]) => [label, value])]),
+    );
+    let activeModeControlName = primaryModeSelect?.value ?? 'Bars';
+
+    function setCardCollapsed(card, collapsed) {
+      card.classList.toggle('collapsed', collapsed);
+      const body = card.querySelector('.anim-body');
+      if (body) body.hidden = collapsed;
+      const collapseBtn = card.querySelector('.collapse-btn');
+      if (collapseBtn) {
+        collapseBtn.textContent = collapsed ? '▸' : '▾';
+        collapseBtn.setAttribute('aria-expanded', String(!collapsed));
+      }
+    }
+
+    document.querySelectorAll('.anim-card').forEach((card) => {
+      const collapseBtn = card.querySelector('.collapse-btn');
+      collapseBtn?.addEventListener('click', () => {
+        setCardCollapsed(card, !card.classList.contains('collapsed'));
+      });
+      setCardCollapsed(card, card.classList.contains('collapsed'));
+      const randomizeBtn = card.querySelector('.randomize-btn');
+      randomizeBtn?.addEventListener('click', () => {
+        const active = !randomizeBtn.classList.contains('active-toggle');
+        randomizeBtn.classList.toggle('active-toggle', active);
+        randomizeBtn.setAttribute('aria-pressed', String(active));
+      });
+    });
+
+    function syncCurrentModeControlState() {
+      if (!primaryModeGrid) {
+        return;
+      }
+      const state = [];
+      primaryModeGrid.querySelectorAll('.slider-cell').forEach((cell) => {
+        const label = cell.querySelector('.slider-label-row span')?.textContent?.trim();
+        const slider = cell.querySelector('input[type="range"]');
+        if (label && slider) {
+          state.push([label, slider.value]);
+        }
+      });
+      if (state.length > 0) {
+        modeControlState[activeModeControlName] = state;
+      }
+    }
+
+    function renderPrimaryModeControls(modeName) {
+      if (!primaryModeGrid) {
+        return;
+      }
+      primaryModeGrid.innerHTML = (modeControlState[modeName] ?? modeControlSchemas[modeName] ?? []).map(([label, value]) => sliderMarkup(label, value)).join('');
+      primaryModeGrid.querySelectorAll('.real-slider').forEach((slider) => {
+        updateSliderFill(slider);
+        slider.addEventListener('input', () => updateSliderFill(slider));
+      });
+      activeModeControlName = modeName;
+    }
+
+    function hideCustomBackgroundMedia() {
+      customBgImageLayer.hidden = true;
+      customBgImageLayer.removeAttribute('src');
+      customBgVideoLayer.hidden = true;
+      customBgVideoLayer.pause();
+      customBgVideoLayer.removeAttribute('src');
+      customBgVideoLayer.load();
+    }
+
+    function updatePreviewBackground() {
+      const brightness = Math.max(0, Math.min(100, Number(backgroundBrightnessSlider.value || 65))) / 100;
+      previewArt.style.setProperty('--bg-color-lightness', `${3 + brightness * 32}%`);
+      previewArt.style.setProperty('--bg-bloom-lightness', `${22 + brightness * 48}%`);
+      previewArt.style.setProperty('--bg-bloom-alpha', String(0.12 + brightness * 0.36));
+      const fit = customBgFit.value;
+      customBgImageLayer.style.objectFit = fit === 'tile' ? 'none' : fit;
+      customBgVideoLayer.style.objectFit = fit === 'tile' ? 'none' : fit;
+      previewArt.style.backgroundImage = '';
+      previewArt.style.backgroundRepeat = '';
+      if (!backgroundEnabled.checked) {
+        hideCustomBackgroundMedia();
+        previewArt.dataset.backgroundMode = 'black';
+        return;
+      }
+      if (customBgEnabled.checked && customBackgroundState.url) {
+        previewArt.dataset.backgroundMode = 'custom';
+        if (fit === 'tile' && customBackgroundState.kind === 'image') {
+          customBgImageLayer.src = customBackgroundState.url;
+          customBgImageLayer.hidden = true;
+          customBgVideoLayer.hidden = true;
+          customBgVideoLayer.pause();
+          previewArt.style.backgroundImage = `url("${customBackgroundState.url}")`;
+          previewArt.style.backgroundRepeat = 'repeat';
+          return;
+        }
+        if (customBackgroundState.kind === 'video') {
+          customBgImageLayer.hidden = true;
+          customBgVideoLayer.hidden = false;
+          if (customBgVideoLayer.src !== customBackgroundState.url) {
+            customBgVideoLayer.src = customBackgroundState.url;
+          }
+          customBgVideoLayer.currentTime = 0;
+          customBgVideoLayer.play().catch(() => {});
+        } else {
+          customBgVideoLayer.hidden = true;
+          customBgVideoLayer.pause();
+          customBgImageLayer.hidden = false;
+          customBgImageLayer.src = customBackgroundState.url;
+        }
+        return;
+      }
+
+      hideCustomBackgroundMedia();
+      previewArt.dataset.backgroundMode = bgWhite.checked ? 'white' : 'color';
+      previewArt.style.setProperty('--bg-hue', String(spectrumHue(backgroundHueSlider.value)));
+    }
+
+    function applyPreviewHue(value) {
+      bgColor.checked = true;
+      bgWhite.checked = false;
+      previewArt.style.setProperty('--bg-hue', String(spectrumHue(value)));
+      updatePreviewBackground();
+    }
+
+    function applyBackgroundMode(mode) {
+      bgColor.checked = mode !== 'white';
+      bgWhite.checked = mode === 'white';
+      updatePreviewBackground();
+    }
+
+    document.querySelectorAll('.real-slider').forEach((slider) => {
+      updateSliderFill(slider);
+      slider.addEventListener('input', () => updateSliderFill(slider));
+    });
+
+    primaryModeSelect?.addEventListener('change', () => {
+      syncCurrentModeControlState();
+      renderPrimaryModeControls(primaryModeSelect.value);
+    });
+
+    applyPreviewHue(backgroundHueSlider.value);
+    backgroundEnabled.addEventListener('change', updatePreviewBackground);
+    backgroundBrightnessSlider.addEventListener('input', updatePreviewBackground);
+    backgroundHueSlider.addEventListener('input', () => applyPreviewHue(backgroundHueSlider.value));
+    bgColor.addEventListener('change', () => {
+      if (bgColor.checked) {
+        applyBackgroundMode('color');
+      } else {
+        bgColor.checked = true;
+      }
+    });
+    bgWhite.addEventListener('change', () => {
+      if (bgWhite.checked) {
+        applyBackgroundMode('white');
+      } else {
+        applyPreviewHue(backgroundHueSlider.value);
+      }
+    });
+
+    customBgBtn.addEventListener('click', () => customBgInput.click());
+    customBgInput.addEventListener('change', () => {
+      const file = customBgInput.files?.[0];
+      if (!file) {
+        return;
+      }
+
+      if (customBackgroundState.url) {
+        URL.revokeObjectURL(customBackgroundState.url);
+      }
+
+      customBackgroundState.url = URL.createObjectURL(file);
+      customBackgroundState.file = file;
+      customBackgroundState.media = null;
+      customBackgroundState.kind = file.type.startsWith('video/') ? 'video' : 'image';
+      customBgEnabled.checked = true;
+      updatePreviewBackground();
+      customBgInput.value = '';
+    });
+    customBgEnabled.addEventListener('change', updatePreviewBackground);
+    customBgFit.addEventListener('change', updatePreviewBackground);
+
+    const audio = new Audio();
+    audio.crossOrigin = 'anonymous';
+    audio.preload = 'metadata';
+
+    const musicState = {
+      playlist: [],
+      currentIndex: -1,
+      loadedPlaylistIndex: -1,
+      currentSampleIndex: -1,
+      sourceKind: '',
+      loop: false,
+      shuffle: false,
+      scrollOffset: 0,
+    };
+
+    const fileInput = document.getElementById('music-file-input');
+    const sampleMusicSelect = document.getElementById('sample-music-select');
+    const sampleMusicLoadBtn = document.getElementById('sample-music-load-btn');
+    const prevBtn = document.getElementById('prev-btn');
+    const dropzoneBtn = document.getElementById('dropzone-btn');
+    const playBtn = document.getElementById('play-btn');
+    const pauseBtn = document.getElementById('pause-btn');
+    const stopBtn = document.getElementById('stop-btn');
+    const nextBtn = document.getElementById('next-btn');
+    const loopBtn = document.getElementById('loop-btn');
+    const shuffleBtn = document.getElementById('shuffle-btn');
+    const muteBtn = document.getElementById('mute-btn');
+    const recordStartBtn = document.getElementById('record-start-btn');
+    const recordStopBtn = document.getElementById('record-stop-btn');
+    const recordSaveBtn = document.getElementById('record-save-btn');
+    const recordStatus = document.getElementById('record-status');
+    const volumeSlider = document.getElementById('volume-slider');
+    const exportFormatSelect = document.getElementById('export-format-select');
+    const exportResolutionSelect = document.getElementById('export-resolution-select');
+    const exportFpsSelect = document.getElementById('export-fps-select');
+    const exportQualitySelect = document.getElementById('export-quality-select');
+    const exportAudioSelect = document.getElementById('export-audio-select');
+    const previewViewport = document.getElementById('preview-viewport');
+    const previewFrame = document.getElementById('preview-frame');
+    const progressSlider = document.getElementById('progress-slider');
+    const progressStart = document.getElementById('progress-start-time');
+    const progressEnd = document.getElementById('progress-end-time');
+    const progressCurrent = document.getElementById('song-progress-current');
+    const progressFill = document.getElementById('song-progress-fill');
+    const progressThumb = document.getElementById('song-progress-thumb');
+    const exportLengthSelect = document.getElementById('export-length-select');
+    const customResolutionDialog = document.getElementById('custom-resolution-dialog');
+    const customResolutionWidth = document.getElementById('shamonsoft-custom-width');
+    const customResolutionHeight = document.getElementById('shamonsoft-custom-height');
+    const customResolutionApply = document.getElementById('custom-resolution-apply');
+    const customResolutionCancel = document.getElementById('custom-resolution-cancel');
+    const exportPathButton = document.getElementById('export-path-button');
+    const exportButton = document.getElementById('export-button');
+    const videoProgressStart = document.getElementById('video-progress-start');
+    const videoProgressEnd = document.getElementById('video-progress-end');
+    const previewTimelineProgress = document.querySelector('.timeline-progress');
+    const playlistItems = document.getElementById('playlist-items');
+    const playlistCount = document.getElementById('playlist-count');
+    const playlistScroll = document.getElementById('playlist-scroll');
+    const clearPlaylistBtn = document.getElementById('clear-playlist-btn');
+    const currentTrackName = document.getElementById('current-track-name');
+    const currentTrackMeta = document.getElementById('current-track-meta');
+    const currentTrackBadge = document.getElementById('current-track-badge');
+    const trackMeterFill = document.getElementById('track-meter-fill');
+    const rightRail = document.querySelector('.right-rail');
+    const centerStack = document.querySelector('.center-stack');
+    let playlistVisibleRows = 1;
+    let playlistResizeFrame = 0;
+    let audioContext = null;
+    let mediaSource = null;
+    let analyser = null;
+    let outputGain = null;
+    let frequencyData = null;
+    let sampleObjectUrl = '';
+    let lastVolumeBeforeMute = Number(volumeSlider.value) || 80;
+    let progressDragging = false;
+
+    sampleMusicSelect.innerHTML = `<option value="">Sample Audio</option>${sampleTracks.map((track, index) => `<option value="${index}">${track.name.replace(/\.[^.]+$/, '')}</option>`).join('')}`;
+
+    function getCurrentTrack() {
+      if (musicState.sourceKind === 'sample') {
+        return sampleTracks[musicState.currentSampleIndex] ?? null;
+      }
+      return musicState.playlist[musicState.loadedPlaylistIndex] ?? null;
+    }
+
+    const visualState = {
+      tubeCount: 24,
+      smoothed: new Array(24).fill(0.1),
+      overall: 0,
+    };
+    const recordingState = {
+      active: false,
+      accumulatedSeconds: 0,
+      startedAtMs: 0,
+      rafId: 0,
+    };
+    const exportStorageKey = 'synesthia-export-state-v1';
+    const exportState = {
+      format: exportFormatSelect.value,
+      resolution: exportResolutionSelect.value,
+      fps: Number(exportFpsSelect.value),
+      durationSeconds: Math.min(60, Math.max(1, Number(exportLengthSelect.value) || 60)),
+      quality: exportQualitySelect.value,
+      audioBitrate: Number(exportAudioSelect.value),
+      customWidth: 1920,
+      customHeight: 1080,
+      fileName: '',
+      fileHint: '',
+      fileHandle: null,
+    };
+
+    const runtimeFlags = new URLSearchParams(location.search);
+    const ffmpegAvailable = runtimeFlags.get('ffmpeg') !== '0';
+    if (!ffmpegAvailable) {
+      exportFormatSelect.querySelectorAll('option[value="gif"], option[value="png-sequence"]').forEach((option) => {
+        option.disabled = true;
+        option.title = 'Use the packaged Windows application to enable this format.';
+      });
+      if (exportFormatSelect.selectedOptions[0]?.disabled) exportFormatSelect.value = 'webm-vp8';
+      exportFormatSelect.title = 'Export requires the bundled tools in the packaged Windows application.';
+    }
+    const mediaCaptureState = {
+      recorder: null,
+      stream: null,
+      chunks: [],
+      mimeType: '',
+      extension: 'webm',
+      flushPromise: null,
+      nativeStreaming: false,
+      nativeWriteQueue: Promise.resolve(),
+      nativeFinalized: false,
+    };
+
+    function readExportStorage() {
+      try {
+        return JSON.parse(localStorage.getItem(exportStorageKey) || '{}');
+      } catch {
+        return {};
+      }
+    }
+
+    function writeExportStorage() {
+      try {
+        localStorage.setItem(exportStorageKey, JSON.stringify({
+          format: exportState.format,
+          resolution: exportState.resolution,
+          fps: exportState.fps,
+          durationSeconds: exportState.durationSeconds,
+          quality: exportState.quality,
+          audioBitrate: exportState.audioBitrate,
+          customWidth: exportState.customWidth,
+          customHeight: exportState.customHeight,
+          fileName: exportState.fileName,
+          fileHint: exportState.fileHint,
+        }));
+      } catch {}
+    }
+
+    function syncExportStateFromControls() {
+      // Legacy projects/presets may carry a removed MP4/VP9 select value.
+      if (!['webm-vp8', 'gif', 'png-sequence'].includes(exportFormatSelect.value)) exportFormatSelect.value = 'webm-vp8';
+      exportState.format = exportFormatSelect.value;
+      exportState.resolution = exportResolutionSelect.value;
+      exportState.fps = Number(exportFpsSelect.value);
+      exportState.durationSeconds = Math.min(60, Math.max(1, Number(exportLengthSelect.value) || 60));
+      exportState.quality = exportQualitySelect.value;
+      exportState.audioBitrate = Number(exportAudioSelect.value);
+      exportState.customWidth = Math.max(64, Math.min(7680, Number(customResolutionWidth.value || 1920)));
+      exportState.customHeight = Math.max(64, Math.min(7680, Number(customResolutionHeight.value || 1080)));
+      writeExportStorage();
+    }
+
+    function selectedResolutionSize() {
+      if (exportResolutionSelect.value === 'custom') {
+        return {
+          width: Math.max(64, Number(document.getElementById('shamonsoft-custom-width')?.value || 1920)),
+          height: Math.max(64, Number(document.getElementById('shamonsoft-custom-height')?.value || 1080)),
+        };
+      }
+      const [width, height] = exportResolutionSelect.value.split('x').map(Number);
+      return {
+        width: Number.isFinite(width) && width > 0 ? width : 1920,
+        height: Number.isFinite(height) && height > 0 ? height : 1080,
+      };
+    }
+
+    function updatePreviewAspect() {
+      const { width, height } = selectedResolutionSize();
+      const targetRatio = width / height;
+      const viewportRatio = previewViewport.clientWidth && previewViewport.clientHeight
+        ? previewViewport.clientWidth / previewViewport.clientHeight
+        : 16 / 9;
+      previewFrame.style.setProperty('--preview-aspect', `${width} / ${height}`);
+      previewFrame.classList.toggle('preview-fit-height', targetRatio < viewportRatio);
+      previewFrame.classList.toggle('preview-fit-width', targetRatio >= viewportRatio);
+      previewFrame.dataset.resolution = `${width}x${height}`;
+    }
+    new ResizeObserver(updatePreviewAspect).observe(previewViewport);
+
+    function updateExportPathButton() {
+      exportPathButton.querySelector(".audio-button-label").textContent = '...';
+      exportPathButton.title = exportState.fileHint || 'Choose export file';
+      exportButton.title = exportState.fileHint
+        ? `Prepare export to ${exportState.fileHint}`
+        : 'Choose export file, then prepare export';
+    }
+
+    function hydrateExportControls() {
+      const stored = readExportStorage();
+      if (stored.format) exportFormatSelect.value = stored.format;
+      if (stored.resolution) exportResolutionSelect.value = stored.resolution;
+      if (stored.fps) exportFpsSelect.value = String(stored.fps);
+      if (stored.durationSeconds) exportLengthSelect.value = String(Math.min(Number(stored.durationSeconds), 60));
+      if (stored.quality) exportQualitySelect.value = stored.quality;
+      if (stored.audioBitrate) exportAudioSelect.value = String(stored.audioBitrate);
+      customResolutionWidth.value = String(Math.max(64, Math.min(7680, Number(stored.customWidth || 1920))));
+      customResolutionHeight.value = String(Math.max(64, Math.min(7680, Number(stored.customHeight || 1080))));
+      if (exportFormatSelect.selectedIndex < 0 || exportFormatSelect.selectedOptions[0]?.disabled) {
+        exportFormatSelect.value = 'webm-vp8';
+      }
+      if (exportResolutionSelect.selectedIndex < 0) exportResolutionSelect.value = '1920x1080';
+      if (exportFpsSelect.selectedIndex < 0) exportFpsSelect.value = '60';
+      if (exportLengthSelect.selectedIndex < 0) exportLengthSelect.value = '60';
+      if (exportQualitySelect.selectedIndex < 0) exportQualitySelect.value = '12';
+      if (exportAudioSelect.selectedIndex < 0) exportAudioSelect.value = '320';
+      exportState.fileName = stored.fileName || '';
+      exportState.fileHint = stored.fileHint || '';
+      syncExportStateFromControls();
+      updatePreviewAspect();
+      updateVideoTimeline();
+      updateExportPathButton();
+    }
+
+    function getRecorderFormatConfig() {
+      return { mimeType: 'video/webm;codecs=vp8,opus', extension: 'webm' };
+    }
+
+    function getExportExtension() {
+      if (exportState.format === 'gif') return 'gif';
+      if (exportState.format === 'png-sequence') return 'zip';
+      return 'webm';
+    }
+
+    function buildSuggestedExportName() {
+      const currentTrack = getCurrentTrack();
+      const trackName = currentTrack?.file?.name || currentTrack?.name || 'shamonsoft-visual-music';
+      const baseName = trackName.replace(/\.[^.]+$/, '').replace(/[<>:"/\\|?*\x00-\x1F]/g, '').trim() || 'shamonsoft-visual-music';
+      return `${baseName}.${getExportExtension()}`;
+    }
+
+    function getSavePickerTypes() {
+      const extension = getExportExtension();
+      if (extension === 'gif') return [{ description: 'Animated GIF', accept: { 'image/gif': ['.gif'] } }];
+      if (extension === 'zip') return [{ description: 'PNG Image Sequence', accept: { 'application/zip': ['.zip'] } }];
+      return [{ description: 'WebM Video', accept: { 'video/webm': ['.webm'] } }];
+    }
+
+    async function chooseExportFile() { return window.__amlExport.choose(); }
+
+    function buildExportRequest(overrides = {}) {
+      const customWidth = Number(document.getElementById('shamonsoft-custom-width')?.value || 1920);
+      const customHeight = Number(document.getElementById('shamonsoft-custom-height')?.value || 1080);
+      const [presetWidth, presetHeight] = exportState.resolution.split('x').map(Number);
+      const width = exportState.resolution === 'custom' ? Math.max(64, Math.min(7680, customWidth)) : presetWidth;
+      const height = exportState.resolution === 'custom' ? Math.max(64, Math.min(7680, customHeight)) : presetHeight;
+      const requestedDuration = overrides.durationSeconds ?? exportState.durationSeconds;
+      return {
+        format: exportState.format,
+        resolution: { width, height },
+        fps: exportState.fps,
+        durationSeconds: requestedDuration,
+        videoBitrateMbps: Number(exportState.quality),
+        audioBitrateKbps: exportState.audioBitrate,
+        outputFileName: exportState.fileName || buildSuggestedExportName(),
+        outputTarget: exportState.fileHint || exportState.fileName || '',
+        outputFolder: exportState.fileHint || exportState.fileName || '',
+        trackName: getCurrentTrack()?.file?.name || getCurrentTrack()?.name || '',
+        saveMode: overrides.saveMode || 'full',
+        capturedSeconds: Math.min(getRecordedSeconds(), requestedDuration),
+        requestedAt: new Date().toISOString(),
+      };
+    }
+
+    function getPreviewCaptureCanvas() {
+      const composed = document.querySelector('.shamonsoft-compositor-canvas');
+      if (composed && composed.style.display !== 'none') return composed;
+      const proceduralCanvas = document.getElementById('glcanvas');
+      if (proceduralCanvas?.dataset.active === 'true') return proceduralCanvas;
+      return preview3d.querySelector('canvas');
+    }
+
+    async function ensureMediaRecorderSession() { return window.__amlExport.ensure(); }
+    function resetMediaRecorderSession() { return window.__amlExport.reset(); }
+    async function finalizeRecordingBlob() { return window.__amlExport.finalize(); }
+    async function handleExportClick() { return window.__amlExport.save(); }
+    async function handleSaveNowClick() { return window.__amlExport.save(); }
+    function stopPlaybackAndReset() {
+      audio.pause(); audio.currentTime = 0;
+      updateProgressUI(); setButtonState(playBtn, false); setButtonState(pauseBtn, false);
+    }
+
+    function ensureAudioAnalysis() {
+      if (audioContext || analyser) {
+        return;
+      }
+
+      try {
+        audioContext = new AudioContext();
+        mediaSource = audioContext.createMediaElementSource(audio);
+        analyser = audioContext.createAnalyser();
+        outputGain = audioContext.createGain();
+        // Resolve sub-bass without making every visual wait behind a long FFT
+        // envelope. Display attack/release is applied in seconds below.
+        analyser.fftSize = 4096;
+        analyser.smoothingTimeConstant = 0.42;
+        frequencyData = new Uint8Array(analyser.frequencyBinCount);
+
+        mediaSource.connect(analyser);
+        analyser.connect(outputGain);
+        outputGain.connect(audioContext.destination);
+        outputGain.gain.value = Number(volumeSlider.value) / 100;
+        audio.volume = 1;
+      } catch (error) {
+        console.error('Audio analysis init failed.', error);
+        audioContext = null;
+        mediaSource = null;
+        analyser = null;
+        outputGain = null;
+        frequencyData = null;
+        audio.volume = Number(volumeSlider.value) / 100;
+      }
+    }
+
+    async function disableAudioAnalysisFallback() {
+      // A MediaElementAudioSourceNode cannot be re-created for this element.
+      // Keep the graph intact; a closed graph would also kill the recording branch.
+      throw new Error('Audio processing could not resume. Restart Audio Motion Lab.');
+    }
+
+    const analysisFrame = {
+      active: false, time: 0, dt: 1 / 60, sampleRate: 48000, revision: 0,
+      frequencies: new Uint8Array(0), bands: new Float32Array(64),
+      waveform: new Float32Array(256), rms: 0, peak: 0,
+    };
+    let analysisTimeData = null;
+    let analysisTimestamp = -1;
+    let analysisTrack = '';
+    let analysisPlaybackPosition = 0;
+    let analysisRanges = [];
+    let analysisRangeKey = '';
+
+    // Fractional-bin weights avoid abrupt steps and missing low frequencies.
+    // Use Hz rather than hard-coded bin numbers so 44.1/48/96 kHz tracks agree.
+    function frequencyRangeMean(values, sampleRate, minimumHz, maximumHz) {
+      if (!values.length) return 0;
+      const hzPerBin = sampleRate / (values.length * 2);
+      const first = Math.max(0.5, minimumHz / hzPerBin);
+      const last = Math.min(values.length - 0.5, maximumHz / hzPerBin);
+      if (last <= first) return 0;
+      let sum = 0;
+      let weight = 0;
+      for (let index = Math.max(1, Math.floor(first)); index <= Math.ceil(last) && index < values.length; index += 1) {
+        const overlap = Math.max(0, Math.min(last, index + 0.5) - Math.max(first, index - 0.5));
+        sum += values[index] * overlap;
+        weight += overlap;
+      }
+      return weight > 0 ? sum / (weight * 255) : 0;
+    }
+
+    function readAudioAnalysisFrame() {
+      // document.timeline.currentTime is shared by all callbacks in this RAF.
+      // Main, procedural, modulation and post effects can consume one sample.
+      const now = Number(document.timeline?.currentTime ?? performance.now());
+      if (now === analysisTimestamp) return analysisFrame;
+      const dt = analysisTimestamp < 0 ? 1 / 60 : Math.max(0.001, Math.min(0.05, (now - analysisTimestamp) / 1000));
+      analysisTimestamp = now;
+      analysisFrame.time = now / 1000;
+      analysisFrame.dt = dt;
+      analysisFrame.active = Boolean(analyser && audio.src && !audio.paused && !audio.ended && !audio.seeking);
+      const source = audio.currentSrc || audio.src || '';
+      const playbackPosition = Number(audio.currentTime) || 0;
+      if (source !== analysisTrack || Math.abs(playbackPosition - analysisPlaybackPosition) > 0.5) {
+        analysisFrame.revision += 1;
+        analysisFrame.bands.fill(0);
+        analysisFrame.waveform.fill(0);
+      }
+      analysisTrack = source;
+      analysisPlaybackPosition = playbackPosition;
+
+      if (!analysisFrame.active) {
+        const settle = Math.exp(-dt / 0.14);
+        for (let index = 0; index < analysisFrame.bands.length; index += 1) analysisFrame.bands[index] *= settle;
+        for (let index = 0; index < analysisFrame.waveform.length; index += 1) analysisFrame.waveform[index] *= settle;
+        analysisFrame.frequencies.fill(0);
+        analysisFrame.rms = 0;
+        analysisFrame.peak = 0;
+        return analysisFrame;
+      }
+
+      if (!frequencyData || frequencyData.length !== analyser.frequencyBinCount) frequencyData = new Uint8Array(analyser.frequencyBinCount);
+      if (!analysisTimeData || analysisTimeData.length !== analyser.fftSize) analysisTimeData = new Float32Array(analyser.fftSize);
+      analyser.getByteFrequencyData(frequencyData);
+      analyser.getFloatTimeDomainData(analysisTimeData);
+      analysisFrame.frequencies = frequencyData;
+      analysisFrame.sampleRate = analyser.context.sampleRate;
+      const rangeKey = `${frequencyData.length}:${analysisFrame.sampleRate}`;
+      if (rangeKey !== analysisRangeKey) {
+        analysisRangeKey = rangeKey;
+        const minimumHz = 30;
+        const maximumHz = Math.min(16000, analysisFrame.sampleRate * 0.48);
+        analysisRanges = Array.from({ length: analysisFrame.bands.length }, (_, index) => [
+          minimumHz * (maximumHz / minimumHz) ** (index / analysisFrame.bands.length),
+          minimumHz * (maximumHz / minimumHz) ** ((index + 1) / analysisFrame.bands.length),
+        ]);
+      }
+      for (let index = 0; index < analysisFrame.bands.length; index += 1) {
+        const range = analysisRanges[index];
+        const target = frequencyRangeMean(frequencyData, analysisFrame.sampleRate, range[0], range[1]) ** 0.86;
+        const current = analysisFrame.bands[index];
+        const amount = 1 - Math.exp(-dt / (target > current ? 0.035 : 0.14));
+        analysisFrame.bands[index] = current + (target - current) * amount;
+      }
+
+      let squareSum = 0;
+      let peak = 0;
+      for (const value of analysisTimeData) {
+        squareSum += value * value;
+        peak = Math.max(peak, Math.abs(value));
+      }
+      analysisFrame.rms = Math.min(1, Math.sqrt(squareSum / analysisTimeData.length));
+      analysisFrame.peak = Math.min(1, peak);
+      // Anchor a short oscilloscope window at a rising crossing; this keeps
+      // periodic tones legible while retaining the actual signed waveform.
+      const windowLength = Math.min(Math.floor(analysisTimeData.length / 2), Math.round(analysisFrame.sampleRate * 0.025));
+      let start = 0;
+      const trigger = Math.max(0.003, peak * 0.08);
+      let armed = false;
+      for (let index = 1; index < analysisTimeData.length - windowLength; index += 1) {
+        if (analysisTimeData[index] < -trigger) armed = true;
+        if (armed && analysisTimeData[index - 1] <= 0 && analysisTimeData[index] > 0) { start = index; break; }
+      }
+      for (let index = 0; index < analysisFrame.waveform.length; index += 1) {
+        const position = start + index / (analysisFrame.waveform.length - 1) * (windowLength - 1);
+        const left = Math.floor(position);
+        const fraction = position - left;
+        const value = analysisTimeData[left] * (1 - fraction) + analysisTimeData[Math.min(left + 1, analysisTimeData.length - 1)] * fraction;
+        analysisFrame.waveform[index] = Math.max(-1, Math.min(1, value));
+      }
+      return analysisFrame;
+    }
+
+    window.__shamonsoftAudioAnalysis = { read: readAudioAnalysisFrame, bandMean: frequencyRangeMean };
+
+    function readBandLevels(bandCount = visualState.tubeCount) {
+      const source = readAudioAnalysisFrame().bands;
+      const count = Math.max(1, Math.round(Number(bandCount) || visualState.tubeCount));
+      const bandLevels = Array.from({ length: count }, (_, index) => {
+        const position = count === 1 ? (source.length - 1) * 0.5 : index / (count - 1) * (source.length - 1);
+        const left = Math.floor(position);
+        const fraction = position - left;
+        return source[left] * (1 - fraction) + source[Math.min(left + 1, source.length - 1)] * fraction;
+      });
+      visualState.overall = bandLevels.reduce((total, value) => total + value, 0) / bandLevels.length;
+      return bandLevels;
+    }
+
+    function formatTime(totalSeconds) {
+      if (!Number.isFinite(totalSeconds) || totalSeconds < 0) {
+        return '00:00';
+      }
+
+      const minutes = Math.floor(totalSeconds / 60).toString().padStart(2, '0');
+      const seconds = Math.floor(totalSeconds % 60).toString().padStart(2, '0');
+      return `${minutes}:${seconds}`;
+    }
+
+    function formatDurationCompact(totalSeconds) {
+      if (!Number.isFinite(totalSeconds) || totalSeconds <= 0) {
+        return '0:00';
+      }
+
+      const total = Math.floor(totalSeconds);
+      const hours = Math.floor(total / 3600);
+      const minutes = Math.floor((total % 3600) / 60);
+      const seconds = total % 60;
+      if (hours > 0) {
+        return `${hours}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+      }
+      return `${minutes}:${String(seconds).padStart(2, '0')}`;
+    }
+
+    function formatTargetDuration(seconds) {
+      if (seconds % 3600 === 0) {
+        const hours = seconds / 3600;
+        return `${hours}h target`;
+      }
+      if (seconds % 60 === 0) {
+        const minutes = seconds / 60;
+        return `${minutes}m target`;
+      }
+      return `${seconds}s target`;
+    }
+
+    function cleanAudioType(track) {
+      const sourceType = track?.file?.type || '';
+      const extension = (track?.file?.name || track?.name || '').split('.').pop()?.toUpperCase();
+      if (extension) {
+        return extension;
+      }
+      if (sourceType.includes('mpeg')) return 'MP3';
+      if (sourceType.includes('wav')) return 'WAV';
+      if (sourceType.includes('ogg')) return 'OGG';
+      return 'Audio';
+    }
+
+    function setButtonState(button, active) {
+      button.classList.toggle('active-toggle', active);
+    }
+
+    function getRecordedSeconds() {
+      const runningSeconds = recordingState.active
+        ? Math.max(0, (performance.now() - recordingState.startedAtMs) / 1000)
+        : 0;
+      return Math.min(
+        getSelectedVideoLengthSeconds(),
+        recordingState.accumulatedSeconds + runningSeconds,
+      );
+    }
+
+    function updateRecordingStatus() {
+      const recordedSeconds = getRecordedSeconds();
+      const targetSeconds = getSelectedVideoLengthSeconds();
+      const recorderConfig = getRecorderFormatConfig();
+      const fallbackNotice = '';
+      const baseDetail = `${formatTargetDuration(targetSeconds)} • ${exportState.format.toUpperCase()} ${exportState.resolution} ${exportState.fps}fps`;
+
+      if (recordingState.active) {
+        recordStatus.textContent = `Recording ${formatTime(recordedSeconds)} / ${formatTime(targetSeconds)} • ${baseDetail}${fallbackNotice}`;
+      } else if (recordedSeconds > 0) {
+        recordStatus.textContent = `Recorded ${formatTime(recordedSeconds)} / ${formatTime(targetSeconds)} • ${baseDetail}${fallbackNotice}`;
+      } else {
+        recordStatus.textContent = `Ready • ${baseDetail}${fallbackNotice}`;
+      }
+
+      setButtonState(recordStartBtn, recordingState.active);
+      setButtonState(recordStopBtn, !recordingState.active && recordedSeconds > 0);
+      setButtonState(recordSaveBtn, recordedSeconds > 0);
+    }
+
+    function dispatchRecordingMessage(type, payload = {}) {
+      if (window.__amlBrowserHost?.postMessage) {
+        window.__amlBrowserHost.postMessage({ type, payload });
+      }
+
+      window.dispatchEvent(new CustomEvent(type, { detail: payload }));
+    }
+
+    function tickRecordingTimeline() { return window.__amlExport.tick(); }
+    async function startRecordingSession() { return window.__amlExport.start(); }
+    function stopRecordingSession() { return window.__amlExport.stop(); }
+
+    function getSelectedVideoLengthSeconds() {
+      return Math.min(60, window.__amlExport?.duration?.() ?? Number(exportLengthSelect?.value || 60));
+    }
+
+    function updateVideoTimeline() {
+      const videoLength = getSelectedVideoLengthSeconds();
+      const recordedSeconds = getRecordedSeconds();
+      const currentTime = Math.min(
+        recordedSeconds > 0 || recordingState.active
+          ? recordedSeconds
+          : (audio.currentTime || 0),
+        videoLength || 0,
+      );
+      const percent = videoLength > 0 ? (currentTime / videoLength) * 100 : 0;
+
+      videoProgressStart.textContent = formatTime(currentTime);
+      videoProgressEnd.textContent = formatTime(videoLength);
+      previewTimelineProgress.style.width = `${percent}%`;
+    }
+
+    function updateProgressUI() {
+      const duration = Number.isFinite(audio.duration) ? audio.duration : 0;
+      progressSlider.disabled = duration <= 0;
+      if (progressDragging && duration > 0) { updateVideoTimeline(); return; }
+      const currentTime = Math.min(audio.currentTime || 0, duration || 0);
+      const percent = duration > 0 ? (currentTime / duration) * 100 : 0;
+
+      progressSlider.max = duration > 0 ? duration : 1;
+      progressSlider.value = duration > 0 ? currentTime : 0;
+      progressSlider.style.setProperty('--fill', `calc(${percent}% + ${(0.5 - percent / 100) * 9}px)`);
+      progressSlider.setAttribute('aria-valuetext', `${formatTime(currentTime)} of ${formatTime(duration)}`);
+      progressFill.style.width = `${percent}%`;
+      progressThumb.style.left = `${percent}%`;
+      progressStart.textContent = formatTime(currentTime);
+      progressEnd.textContent = formatTime(duration);
+      progressCurrent.textContent = `${formatTime(currentTime)} / ${formatTime(duration)}`;
+      updateVideoTimeline();
+    }
+
+    function updateTrackMeta() {
+      const currentTrack = getCurrentTrack();
+
+      if (!currentTrack) {
+        currentTrackName.textContent = 'No track loaded';
+        currentTrackMeta.textContent = 'Load music to begin';
+        currentTrackBadge.hidden = true;
+        trackMeterFill.style.width = '0%';
+        progressStart.textContent = '00:00';
+        progressEnd.textContent = '00:00';
+        progressCurrent.textContent = '00:00 / 00:00';
+        progressFill.style.width = '0%';
+        progressThumb.style.left = '0%';
+        progressSlider.value = 0;
+        progressSlider.disabled = true;
+        progressDragging = false;
+        progressSlider.style.setProperty('--fill', '0%');
+        updateVideoTimeline();
+        return;
+      }
+
+      currentTrackName.textContent = currentTrack.file?.name || currentTrack.name;
+      const duration = Number.isFinite(audio.duration) ? audio.duration : (currentTrack.duration || 0);
+      currentTrackMeta.textContent = `${cleanAudioType(currentTrack)} • ${formatDurationCompact(duration)}`;
+      currentTrackBadge.textContent = currentTrack.isLibrary ? 'Library' : 'Sample';
+      currentTrackBadge.hidden = !currentTrack.isSample && !currentTrack.isLibrary;
+      updateProgressUI();
+    }
+
+    function attachTrack(index) {
+      const track = musicState.playlist[index];
+      if (!track) {
+        return;
+      }
+
+      if (audio.src && musicState.currentIndex !== index) {
+        audio.pause();
+      }
+
+      musicState.currentIndex = index;
+      musicState.loadedPlaylistIndex = index;
+      musicState.currentSampleIndex = -1;
+      musicState.sourceKind = 'playlist';
+      sampleMusicSelect.value = '';
+      musicState.playlist.forEach((item, itemIndex) => {
+        item.active = itemIndex === index;
+      });
+
+      if (sampleObjectUrl) {
+        URL.revokeObjectURL(sampleObjectUrl);
+        sampleObjectUrl = '';
+      }
+      audio.src = track.url;
+      audio.loop = musicState.loop;
+      audio.currentTime = 0;
+      audio.load();
+      updateTrackMeta();
+      renderPlaylist();
+    }
+
+    function selectPlaylistTrack(index) {
+      const track = musicState.playlist[index];
+      if (!track) {
+        return;
+      }
+
+      musicState.currentIndex = index;
+      musicState.playlist.forEach((item, itemIndex) => {
+        item.active = itemIndex === index;
+      });
+      renderPlaylist();
+    }
+
+    function restorePlaylistTrack(index) {
+      if (musicState.playlist.length === 0) {
+        musicState.currentIndex = -1;
+        musicState.loadedPlaylistIndex = -1;
+        musicState.currentSampleIndex = -1;
+        musicState.sourceKind = '';
+        if (sampleObjectUrl) {
+          URL.revokeObjectURL(sampleObjectUrl);
+          sampleObjectUrl = '';
+        }
+        audio.pause();
+        audio.removeAttribute('src');
+        audio.load();
+        updateTrackMeta();
+        renderPlaylist();
+        return false;
+      }
+
+      const nextIndex = index >= 0 && index < musicState.playlist.length ? index : 0;
+      attachTrack(nextIndex);
+      return true;
+    }
+
+    function guessSampleMimeType(fileName) {
+      if (/\.wav$/i.test(fileName)) {
+        return 'audio/wav';
+      }
+      if (/\.ogg$/i.test(fileName)) {
+        return 'audio/ogg';
+      }
+      return 'audio/mpeg';
+    }
+
+    async function readSampleTrackAsFile(track) {
+      const sampleData = window.__SAMPLE_MUSIC_DATA__?.[track.name];
+      if (!sampleData?.base64) {
+        throw new Error(`Missing sample data for ${track.name}`);
+      }
+      const base64 = sampleData.base64;
+      const mimeType = sampleData.mimeType || guessSampleMimeType(track.name);
+      const binary = atob(base64);
+      const bytes = new Uint8Array(binary.length);
+
+      for (let index = 0; index < binary.length; index += 1) {
+        bytes[index] = binary.charCodeAt(index);
+      }
+
+      return new File([bytes], track.name, { type: mimeType });
+    }
+
+    async function addSampleTrackToPlaylist(index) {
+      const track = sampleTracks[index];
+      if (!track) {
+        return false;
+      }
+
+      const existingIndex = musicState.playlist.findIndex((item) => item.sourceUrl === track.url || (!item.sourceUrl && item.file?.name === track.name));
+      if (existingIndex >= 0) {
+        attachTrack(existingIndex);
+        return true;
+      }
+
+      const previousCount = musicState.playlist.length;
+      const sampleData = window.__SAMPLE_MUSIC_DATA__?.[track.name];
+      if (sampleData?.base64) {
+        const file = await readSampleTrackAsFile(track);
+        loadFiles([file], { isSample: true });
+        if (musicState.playlist[previousCount]) musicState.playlist[previousCount].sourceUrl = track.url;
+      } else if (track.url) {
+        musicState.playlist.push({
+          file: { name: track.name, type: guessSampleMimeType(track.name) },
+          url: track.url,
+          sourceUrl: track.url,
+          active: false,
+          duration: Number(track.duration || 0),
+          isSample: false,
+          isLibrary: true,
+        });
+      } else {
+        return false;
+      }
+      attachTrack(previousCount);
+      return musicState.playlist.length === previousCount + 1;
+    }
+
+    function updatePlaylistCapacity() {
+      const availableHeight = playlistItems.getBoundingClientRect().height;
+      if (availableHeight <= 0) {
+        return;
+      }
+      const nextVisibleRows = Math.max(1, Math.floor((availableHeight + 4) / 28));
+      if (nextVisibleRows === playlistVisibleRows) {
+        return;
+      }
+      playlistVisibleRows = nextVisibleRows;
+      musicState.scrollOffset = Math.min(musicState.scrollOffset, Math.max(0, musicState.playlist.length - playlistVisibleRows));
+      renderPlaylist();
+    }
+
+    const playlistCapacityObserver = new ResizeObserver(() => {
+      window.cancelAnimationFrame(playlistResizeFrame);
+      playlistResizeFrame = window.requestAnimationFrame(updatePlaylistCapacity);
+    });
+    playlistCapacityObserver.observe(playlistItems);
+
+    function renderPlaylist() {
+      playlistCount.textContent = `${musicState.playlist.length} SONG${musicState.playlist.length === 1 ? '' : 'S'}`;
+      clearPlaylistBtn.hidden = musicState.playlist.length <= 1;
+      playlistItems.style.setProperty('--playlist-visible-rows', String(playlistVisibleRows));
+
+      const rows = Array.from({ length: playlistVisibleRows }, (_, rowIndex) => {
+        const actualIndex = musicState.scrollOffset + rowIndex;
+        const track = musicState.playlist[actualIndex];
+
+        if (!track) {
+          return '<div class="playlist-row empty"><div class="playlist-main" aria-hidden="true"></div></div>';
+        }
+
+        const isSelected = actualIndex === musicState.currentIndex;
+        const isPlaying = musicState.sourceKind === 'playlist' && actualIndex === musicState.loadedPlaylistIndex;
+        const rowClass = [isSelected ? 'selected' : '', isPlaying ? 'playing' : ''].filter(Boolean).join(' ');
+
+        return `
+          <div class="playlist-row ${rowClass}">
+            <button class="playlist-main" type="button" data-select-index="${actualIndex}">
+              <span class="playlist-index">${String(actualIndex + 1).padStart(2, '0')}</span>
+              <span class="playlist-name-wrap">
+                <span class="playlist-name">${track.file.name}</span>
+              </span>
+            </button>
+            <div class="playlist-actions">
+              <button class="mini-move" type="button" data-move-up="${actualIndex}" aria-label="Move track up" title="Move up">↑</button>
+              <button class="mini-move" type="button" data-move-down="${actualIndex}" aria-label="Move track down" title="Move down">↓</button>
+              <button class="mini-move" type="button" data-remove-index="${actualIndex}" aria-label="Remove track" title="Remove track">×</button>
+            </div>
+          </div>`;
+      });
+
+      playlistItems.innerHTML = rows.join('');
+
+      const playlistNeedsScroll = musicState.playlist.length > playlistVisibleRows;
+      playlistScroll.max = Math.max(0, musicState.playlist.length - playlistVisibleRows);
+      playlistScroll.value = musicState.scrollOffset;
+      playlistScroll.style.display = playlistNeedsScroll ? 'block' : 'none';
+      playlistItems.parentElement.classList.toggle('has-scroll', playlistNeedsScroll);
+    }
+
+    function loadFiles(files, options = {}) {
+      const audioFiles = Array.from(files).filter((file) => file.type.startsWith('audio/') || /\.(mp3|wav|ogg|m4a|flac)$/i.test(file.name));
+      if (audioFiles.length === 0) {
+        return;
+      }
+
+      const addedTracks = audioFiles.map((file) => ({
+        file,
+        url: URL.createObjectURL(file),
+        active: false,
+        duration: 0,
+        isSample: Boolean(options.isSample),
+      }));
+
+      musicState.playlist.push(...addedTracks);
+
+      if (musicState.sourceKind !== 'playlist' || musicState.currentIndex === -1 || !audio.src) {
+        attachTrack(Math.max(0, musicState.playlist.length - addedTracks.length));
+      } else {
+        renderPlaylist();
+      }
+    }
+
+    function moveTrack(index, direction) {
+      const targetIndex = index + direction;
+      if (targetIndex < 0 || targetIndex >= musicState.playlist.length) {
+        return;
+      }
+
+      const [track] = musicState.playlist.splice(index, 1);
+      musicState.playlist.splice(targetIndex, 0, track);
+
+      const moved = value => value === index ? targetIndex : value === targetIndex ? index : value;
+      musicState.currentIndex = moved(musicState.currentIndex);
+      musicState.loadedPlaylistIndex = moved(musicState.loadedPlaylistIndex);
+
+      if (musicState.currentIndex >= 0) {
+        musicState.playlist.forEach((item, itemIndex) => {
+          item.active = itemIndex === musicState.currentIndex;
+        });
+      }
+
+      renderPlaylist();
+    }
+
+    function clearPlaylist() {
+      musicState.playlist.forEach((track) => {
+        if (track?.url) {
+          URL.revokeObjectURL(track.url);
+        }
+      });
+      musicState.playlist = [];
+      musicState.currentIndex = -1;
+      musicState.loadedPlaylistIndex = -1;
+      musicState.currentSampleIndex = -1;
+      musicState.sourceKind = '';
+      audio.pause();
+      audio.removeAttribute('src');
+      audio.load();
+      updateTrackMeta();
+      renderPlaylist();
+    }
+
+    function removeTrack(index) {
+      if (index < 0 || index >= musicState.playlist.length) {
+        return;
+      }
+
+      const [removedTrack] = musicState.playlist.splice(index, 1);
+      if (removedTrack?.url) {
+        URL.revokeObjectURL(removedTrack.url);
+      }
+
+      if (musicState.currentIndex === index) {
+        if (musicState.playlist.length === 0) {
+          musicState.currentIndex = -1;
+          musicState.loadedPlaylistIndex = -1;
+          if (musicState.sourceKind === 'playlist') {
+            audio.pause();
+            audio.removeAttribute('src');
+            audio.load();
+          }
+        } else {
+          musicState.currentIndex = Math.min(index, musicState.playlist.length - 1);
+        }
+      } else if (musicState.currentIndex > index) {
+        musicState.currentIndex -= 1;
+      }
+
+      if (musicState.loadedPlaylistIndex === index) {
+        musicState.loadedPlaylistIndex = -1;
+        if (musicState.sourceKind === 'playlist') {
+          audio.pause();
+          audio.removeAttribute('src');
+          audio.load();
+        }
+      } else if (musicState.loadedPlaylistIndex > index) {
+        musicState.loadedPlaylistIndex -= 1;
+      }
+
+      if (musicState.currentIndex >= 0 && musicState.currentIndex < musicState.playlist.length) {
+        musicState.playlist.forEach((item, itemIndex) => {
+          item.active = itemIndex === musicState.currentIndex;
+        });
+      } else {
+        musicState.playlist.forEach((item) => {
+          item.active = false;
+        });
+      }
+
+      if (musicState.playlist.length === 0 && musicState.sourceKind === 'playlist') {
+        musicState.sourceKind = '';
+      }
+
+      updateTrackMeta();
+      renderPlaylist();
+    }
+
+    async function playAttachedAudio() {
+      ensureAudioAnalysis();
+      if (audioContext) {
+        try {
+          await audioContext.resume();
+        } catch (error) {
+          console.warn('Audio context resume failed. Falling back to direct audio.', error);
+          await disableAudioAnalysisFallback();
+        }
+        if (audioContext && audioContext.state !== 'running') {
+          console.warn(`Audio context state is ${audioContext.state}. Falling back to direct audio.`);
+          await disableAudioAnalysisFallback();
+        }
+      }
+      audio.volume = outputGain ? 1 : Number(volumeSlider.value) / 100;
+      return audio.play().then(() => {
+        setButtonState(playBtn, true);
+        setButtonState(pauseBtn, false);
+      }).catch((error) => {
+        console.error('Audio play failed.', error);
+        currentTrackMeta.textContent = 'Audio playback failed';
+        setButtonState(playBtn, false);
+        setButtonState(pauseBtn, false);
+        throw error;
+      });
+    }
+
+    function playCurrentTrack() {
+      if (musicState.currentIndex >= 0 && (musicState.sourceKind !== 'playlist' || musicState.loadedPlaylistIndex !== musicState.currentIndex || !audio.src)) {
+        restorePlaylistTrack(musicState.currentIndex);
+      }
+
+      if (!getCurrentTrack()) {
+        return;
+      }
+
+      if (musicState.sourceKind === 'sample' && !audio.src) {
+        currentTrackMeta.textContent = 'Sample track could not be loaded';
+        return;
+      }
+      playAttachedAudio().catch(() => {});
+    }
+
+    function playNextTrack() {
+      if (musicState.sourceKind !== 'playlist' || musicState.playlist.length === 0) {
+        return;
+      }
+
+      let nextIndex;
+      if (musicState.shuffle) {
+        nextIndex = Math.floor(Math.random() * musicState.playlist.length);
+      } else {
+        nextIndex = (musicState.currentIndex + 1) % musicState.playlist.length;
+      }
+      attachTrack(nextIndex);
+      playAttachedAudio().catch(() => {});
+      setButtonState(playBtn, true);
+      setButtonState(pauseBtn, false);
+    }
+
+    function playPreviousTrack() {
+      if (musicState.sourceKind !== 'playlist' || musicState.playlist.length === 0) {
+        return;
+      }
+
+      let prevIndex;
+      if (musicState.shuffle) {
+        prevIndex = Math.floor(Math.random() * musicState.playlist.length);
+      } else {
+        prevIndex = (musicState.currentIndex - 1 + musicState.playlist.length) % musicState.playlist.length;
+      }
+      attachTrack(prevIndex);
+      playAttachedAudio().catch(() => {});
+    }
+
+    function updateMuteButton() {
+      const muted = Number(volumeSlider.value) === 0;
+      muteBtn.querySelector(".audio-button-label").textContent = muted ? 'Unmute' : 'Mute';
+      setButtonState(muteBtn, muted);
+    }
+
+    let lastTrackMeterAt = 0;
+    function updateTrackMeter(now = 0) {
+      if (now - lastTrackMeterAt < 50) {
+        window.requestAnimationFrame(updateTrackMeter);
+        return;
+      }
+      lastTrackMeterAt = now;
+      let level = 0;
+      const audioFrame = readAudioAnalysisFrame();
+      if (audioFrame.active) level = Math.min(1, audioFrame.rms * 2.2);
+      const percent = Math.max(0, Math.min(100, level * 100));
+      trackMeterFill.style.width = `${percent}%`;
+      window.requestAnimationFrame(updateTrackMeter);
+    }
+
+    dropzoneBtn.addEventListener('click', () => fileInput.click());
+    dropzoneBtn.addEventListener('dragover', (event) => {
+      event.preventDefault();
+      dropzoneBtn.classList.add('dragover');
+    });
+    dropzoneBtn.addEventListener('dragleave', () => dropzoneBtn.classList.remove('dragover'));
+    dropzoneBtn.addEventListener('drop', (event) => {
+      event.preventDefault();
+      dropzoneBtn.classList.remove('dragover');
+      loadFiles(event.dataTransfer.files);
+    });
+
+    fileInput.addEventListener('change', (event) => {
+      loadFiles(event.target.files);
+      fileInput.value = '';
+    });
+    sampleMusicLoadBtn.addEventListener('click', async () => {
+      if (sampleMusicSelect.value === '') {
+        return;
+      }
+      const added = await addSampleTrackToPlaylist(Number(sampleMusicSelect.value));
+      currentTrackMeta.textContent = added ? 'Track loaded and ready' : 'Track could not be loaded';
+    });
+    sampleMusicSelect.addEventListener('change', () => {});
+
+    prevBtn.addEventListener('click', playPreviousTrack);
+    playBtn.addEventListener('click', playCurrentTrack);
+    pauseBtn.addEventListener('click', () => {
+      audio.pause();
+      setButtonState(playBtn, false);
+      setButtonState(pauseBtn, true);
+    });
+    stopBtn.addEventListener('click', () => {
+      stopPlaybackAndReset();
+    });
+    loopBtn.addEventListener('click', () => {
+      musicState.loop = !musicState.loop;
+      audio.loop = musicState.loop;
+      setButtonState(loopBtn, musicState.loop);
+    });
+    shuffleBtn.addEventListener('click', () => {
+      musicState.shuffle = !musicState.shuffle;
+      setButtonState(shuffleBtn, musicState.shuffle);
+    });
+    nextBtn.addEventListener('click', playNextTrack);
+    muteBtn.addEventListener('click', () => {
+      const currentValue = Number(volumeSlider.value);
+      if (currentValue === 0) {
+        volumeSlider.value = String(lastVolumeBeforeMute || 80);
+      } else {
+        lastVolumeBeforeMute = currentValue;
+        volumeSlider.value = '0';
+      }
+      updateSliderFill(volumeSlider);
+      if (outputGain) {
+        outputGain.gain.value = Number(volumeSlider.value) / 100;
+      } else {
+        audio.volume = Number(volumeSlider.value) / 100;
+      }
+      updateMuteButton();
+    });
+    clearPlaylistBtn.addEventListener('click', clearPlaylist);
+
+    progressSlider.addEventListener('input', () => {
+      const duration = Number.isFinite(audio.duration) ? audio.duration : 0;
+      const currentTime = Math.min(Number(progressSlider.value), duration || 0);
+      const percent = duration > 0 ? (currentTime / duration) * 100 : 0;
+      progressSlider.style.setProperty('--fill', `calc(${percent}% + ${(0.5 - percent / 100) * 9}px)`);
+      progressSlider.setAttribute('aria-valuetext', `${formatTime(currentTime)} of ${formatTime(duration)}`);
+      progressFill.style.width = `${percent}%`;
+      progressThumb.style.left = `${percent}%`;
+      progressStart.textContent = formatTime(currentTime);
+      progressCurrent.textContent = `${formatTime(currentTime)} / ${formatTime(duration)}`;
+    });
+
+    function commitPlaybackSeek() {
+      progressDragging = false;
+      if (Number.isFinite(audio.duration) && audio.duration > 0) {
+        audio.currentTime = Math.max(0, Math.min(audio.duration, Number(progressSlider.value)));
+      }
+      updateProgressUI();
+    }
+    progressSlider.addEventListener('pointerdown', () => { progressDragging = true; });
+    progressSlider.addEventListener('change', commitPlaybackSeek);
+    window.addEventListener('pointerup', () => { if (progressDragging) commitPlaybackSeek(); });
+    window.addEventListener('pointercancel', () => {
+      if (!progressDragging) return;
+      progressDragging = false;
+      updateProgressUI();
+    });
+
+    playlistScroll.addEventListener('input', () => {
+      musicState.scrollOffset = Number(playlistScroll.value);
+      renderPlaylist();
+    });
+
+    playlistItems.addEventListener('click', (event) => {
+      const selectButton = event.target.closest('[data-select-index]');
+      if (selectButton) {
+        selectPlaylistTrack(Number(selectButton.dataset.selectIndex));
+        return;
+      }
+
+      const moveUp = event.target.closest('[data-move-up]');
+      if (moveUp) {
+        moveTrack(Number(moveUp.dataset.moveUp), -1);
+        return;
+      }
+
+      const moveDown = event.target.closest('[data-move-down]');
+      if (moveDown) {
+        moveTrack(Number(moveDown.dataset.moveDown), 1);
+        return;
+      }
+
+      const removeButton = event.target.closest('[data-remove-index]');
+      if (removeButton) {
+        removeTrack(Number(removeButton.dataset.removeIndex));
+      }
+    });
+    playlistItems.addEventListener('dblclick', (event) => {
+      const selectButton = event.target.closest('[data-select-index]');
+      if (!selectButton) {
+        return;
+      }
+      selectPlaylistTrack(Number(selectButton.dataset.selectIndex));
+      playCurrentTrack();
+    });
+
+    audio.addEventListener('loadedmetadata', () => {
+      const currentTrack = getCurrentTrack();
+      if (currentTrack) {
+        currentTrack.duration = Number.isFinite(audio.duration) ? audio.duration : 0;
+      }
+      updateTrackMeta();
+      renderPlaylist();
+    });
+    audio.addEventListener('error', () => {
+      currentTrackMeta.textContent = 'Audio could not be loaded';
+      setButtonState(playBtn, false);
+      setButtonState(pauseBtn, false);
+    });
+    audio.addEventListener('timeupdate', updateProgressUI);
+    audio.addEventListener('ended', () => {
+      if (!musicState.loop) {
+        playNextTrack();
+      }
+    });
+    audio.addEventListener('play', () => {
+      setButtonState(playBtn, true);
+      setButtonState(pauseBtn, false);
+    });
+    audio.addEventListener('pause', () => {
+      if (!audio.ended) {
+        setButtonState(playBtn, false);
+      }
+    });
+
+    audio.volume = 1;
+    updateSliderFill(volumeSlider);
+    volumeSlider.addEventListener('input', () => {
+      updateSliderFill(volumeSlider);
+      if (outputGain) {
+        outputGain.gain.value = Number(volumeSlider.value) / 100;
+      } else {
+        audio.volume = Number(volumeSlider.value) / 100;
+      }
+      updateMuteButton();
+    });
+
+    exportLengthSelect.addEventListener('change', () => {
+      if (recordingState.accumulatedSeconds > getSelectedVideoLengthSeconds()) {
+        recordingState.accumulatedSeconds = getSelectedVideoLengthSeconds();
+      }
+      updateVideoTimeline();
+      updateRecordingStatus();
+    });
+    [exportResolutionSelect, exportFpsSelect, exportLengthSelect, exportQualitySelect, exportAudioSelect].forEach((select) => {
+      select.addEventListener('change', syncExportStateFromControls);
+    });
+    let previousPresetResolution = exportResolutionSelect.value === 'custom' ? '1920x1080' : exportResolutionSelect.value;
+    exportResolutionSelect.addEventListener('change', () => {
+      if (exportResolutionSelect.value === 'custom') {
+        customResolutionDialog.showModal();
+        customResolutionWidth.focus();
+        customResolutionWidth.select();
+      } else {
+        previousPresetResolution = exportResolutionSelect.value;
+        updatePreviewAspect();
+      }
+    });
+    customResolutionApply.addEventListener('click', () => {
+      customResolutionWidth.value = String(Math.max(64, Math.min(7680, Number(customResolutionWidth.value || 1920))));
+      customResolutionHeight.value = String(Math.max(64, Math.min(7680, Number(customResolutionHeight.value || 1080))));
+      syncExportStateFromControls();
+      updatePreviewAspect();
+      customResolutionDialog.close('apply');
+    });
+    customResolutionCancel.addEventListener('click', () => {
+      exportResolutionSelect.value = previousPresetResolution;
+      syncExportStateFromControls();
+      updatePreviewAspect();
+      customResolutionDialog.close('cancel');
+    });
+    customResolutionDialog.addEventListener('cancel', (event) => {
+      event.preventDefault();
+      customResolutionCancel.click();
+    });
+    exportFormatSelect.addEventListener('change', () => {
+      const previousExtension = exportState.fileName.split('.').pop()?.toLowerCase();
+      syncExportStateFromControls();
+      if (getRecordedSeconds() > getSelectedVideoLengthSeconds()) {
+        recordingState.accumulatedSeconds = getSelectedVideoLengthSeconds();
+      }
+      const nextExtension = getExportExtension();
+      if (exportState.fileName && previousExtension && previousExtension !== nextExtension) {
+        exportState.fileName = exportState.fileName.replace(/\.[^.]+$/, `.${nextExtension}`);
+        exportState.fileHint = exportState.fileName;
+        exportState.fileHandle = null;
+        writeExportStorage();
+      }
+      updateExportPathButton();
+      updateRecordingStatus();
+    });
+    exportPathButton.addEventListener('click', () => {
+      chooseExportFile().catch((error) => {
+        console.error('Choosing export file failed.', error);
+      });
+    });
+    exportButton.addEventListener('click', () => {
+      handleExportClick().catch((error) => {
+        console.error('Preparing export failed.', error);
+      });
+    });
+    recordStartBtn.addEventListener('click', () => {
+      startRecordingSession().catch((error) => {
+        console.error('Starting recording failed.', error);
+        recordStatus.textContent = 'Recording could not start in this runtime';
+      });
+    });
+    recordStopBtn.addEventListener('click', () => stopRecordingSession());
+    recordSaveBtn.addEventListener('click', () => {
+      handleSaveNowClick().catch((error) => {
+        console.error('Saving partial export failed.', error);
+      });
+    });
+
+    function readFallbackBandLevels(barCount) {
+      return readBandLevels(barCount);
+    }
+
+    function readFallbackControls() {
+      const routedValue = (target, fallback) => window.__shamonsoftAudioRouter?.value?.(target, fallback) ?? fallback;
+      const modeCard = document.querySelector('.anim-card[data-effect-id="main"]');
+      const modeName = modeCard?.querySelector('.main-effect-select')?.value
+        ?? modeCard?.querySelector('.anim-select')?.value
+        ?? 'Bars';
+      const materialName = modeCard?.querySelector('.main-material-select')?.value ?? 'Solid';
+      const modeValues = {};
+      modeCard?.querySelectorAll('.slider-cell').forEach((cell) => {
+        const label = cell.querySelector('.slider-label-row span')?.textContent?.trim().toLowerCase() ?? '';
+        const input = cell.querySelector('input[type="range"], select');
+        if (label && input) {
+          const baseValue = input.tagName === 'SELECT' ? input.value : (label === 'hue' ? spectrumHue(input.value) : Number(input.value));
+          const routeTarget = ({ scale: 'Main Scale', motion: 'Main Motion', rotate: 'Main Rotate', glow: 'Main Glow' })[label];
+          modeValues[label] = routeTarget ? routedValue(routeTarget, baseValue) : baseValue;
+        }
+      });
+
+      const effects = {};
+      const randomize = {};
+      const rgbModes = {};
+      const effectValues = {};
+      document.querySelectorAll('.anim-card').forEach((card) => {
+        const effectId = card.dataset.effectId;
+        if (!effectId) {
+          return;
+        }
+        effects[effectId] = Boolean(card.querySelector('.toggle input[type="checkbox"]')?.checked);
+        randomize[effectId] = Boolean(card.querySelector('.randomize-btn')?.classList.contains('active-toggle'));
+        rgbModes[effectId] = card.querySelector('.rgb-mode-select')?.value || 'flow';
+        if (effectId !== 'main') {
+          const values = {};
+          card.querySelectorAll('.slider-cell').forEach((cell) => {
+            const label = cell.querySelector('.slider-label-row span')?.textContent?.trim().toLowerCase().replace(/\s+/g, '') ?? '';
+            const input = cell.querySelector('input[type="range"], select');
+            if (label && input) {
+              values[label] = input.tagName === 'SELECT' ? input.value : (label === 'hue' ? spectrumHue(input.value) : Number(input.value));
+            }
+          });
+          effectValues[effectId] = values;
+        }
+      });
+
+      const controls = {
+        modeName,
+        materialName,
+        mode: modeValues,
+        effects,
+        randomize,
+        rgbModes,
+        effectValues,
+        global: { glow: 65 },
+        background: {
+          hue: spectrumHue(backgroundHueSlider.value ?? 220),
+          brightness: Number(backgroundBrightnessSlider.value ?? 65),
+          color: bgColor.checked,
+          black: false,
+          white: bgWhite.checked,
+          enabled: backgroundEnabled.checked,
+          customEnabled: backgroundEnabled.checked && customBgEnabled.checked && Boolean(customBackgroundState.url),
+        },
+      };
+      return window.__shamonsoftMotionSafety?.applyControls?.(controls) || controls;
+    }
+
+    function startPreviewRenderer() {
+      if (typeof window.startFallbackVisualizer !== 'function') {
+        return;
+      }
+
+      window.startFallbackVisualizer({
+        container: preview3d,
+        getBandLevels: readFallbackBandLevels,
+        getIsActive: () => Boolean(analyser && !audio.paused && audio.src),
+        getControls: readFallbackControls,
+      });
+    }
+
+    renderPlaylist();
+    updateTrackMeta();
+    updateMuteButton();
+    window.requestAnimationFrame(updateTrackMeter);
+    updateVideoTimeline();
+    hydrateExportControls();
+    updateRecordingStatus();
+    startPreviewRenderer();
+
+  </script>
+  <script src="./video-lab-presets.js"></script>
+  <script src="./video-lab-renderer.js"></script>
+  <script src="./shamonsoft-workspace.js"></script>
+  <script src="./shamonsoft-audio-library.js"></script>
+  <script src="./shamonsoft-scene-catalog.js"></script>
+  <script src="./shamonsoft-overlays.js"></script>
+  <script src="./shamonsoft-compositor.js"></script>
+  <script src="./shamonsoft-audio-router.js"></script>
+  <script src="./shamonsoft-studio.js"></script>
+  <script src="./shamonsoft-presets.js"></script>
+  <script src="./shamonsoft-performance.js"></script>
+  <script src="./shamonsoft-panel-browser.js"></script>
+  <script src="./shamonsoft-slider-scales.js"></script>
+  <script src="./shamonsoft-tooltips.js"></script>
+  <script src="./shamonsoft-safety-history.js"></script>
+  <script src="./shamonsoft-projects.js"></script>
+  <script src="./shamonsoft-export.js"></script>
+  <script src="./shamonsoft-help-content.js"></script>
+  <script src="./shamonsoft-help.js"></script>
+</body>
+</html>

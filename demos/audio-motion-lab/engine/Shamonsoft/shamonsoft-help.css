@@ -1,0 +1,66 @@
+#helpCenter,#supportDialog{padding:0;color:var(--t-text);background:var(--t-panel);border:1px solid var(--t-line2);border-radius:10px;box-shadow:0 24px 100px #0009}
+#helpCenter{width:min(1220px,calc(100vw - 40px));height:min(850px,calc(100vh - 40px));max-width:none;max-height:none}
+#helpCenter[open]{display:flex;flex-direction:column}#helpCenter::backdrop,#supportDialog::backdrop{background:#0009}
+#helpCenter button,#supportDialog button{font-family:inherit;cursor:pointer;color:var(--t-text);background:var(--t-raised);border:1px solid var(--t-line);border-radius:5px;padding:8px 11px;line-height:1.35}
+#helpCenter button:hover,#supportDialog button:hover{background:var(--t-accent-bg);border-color:var(--t-accent)}
+#helpCenter button:focus-visible,#supportDialog button:focus-visible,#helpCenter input:focus-visible,#supportDialog input:focus-visible{outline:2px solid var(--t-accent);outline-offset:2px}
+.help-top{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;padding:22px 26px;border-bottom:1px solid var(--t-line);background:linear-gradient(110deg,var(--t-accent-bg),var(--t-panel))}.help-eyebrow{color:var(--t-accent2);font-size:10px;letter-spacing:.12em}.help-top h2{margin:7px 0;font-size:25px;letter-spacing:-.02em;color:var(--t-text)}.help-top p{margin:0;font-size:12px;color:var(--t-text);line-height:1.5}
+#helpCenter .help-close,#supportDialog .help-close{font-size:21px;line-height:1;width:34px;height:34px;padding:0;flex:none}
+.help-searchbar{padding:15px 26px 12px;border-bottom:1px solid var(--t-line)}.help-searchbar>label{display:block;margin-bottom:7px;font-size:11px;color:var(--t-accent2)}.help-searchbox{display:flex;gap:8px}.help-searchbox input{flex:1;min-width:0;padding:11px 13px;font-size:14px;border:1px solid var(--t-line2);border-radius:5px;background:var(--t-bg);color:var(--t-text)}#helpResultCount{display:block;min-height:16px;margin-top:7px;font-size:11px;color:var(--t-muted)}
+.help-workspace{display:grid;grid-template-columns:210px minmax(0,1fr);min-height:0;flex:1}.help-workspace nav{padding:14px 10px;overflow-y:auto;border-right:1px solid var(--t-line);background:var(--t-bg)}#helpCategories button{display:flex;width:100%;justify-content:space-between;text-align:left;gap:8px;margin-bottom:5px;padding:10px;font-size:12px;background:transparent;border-color:transparent}#helpCategories button.active{background:var(--t-accent-bg);border-color:var(--t-accent);color:var(--t-accent2)}#helpCategories small{color:var(--t-muted)}
+#helpMain{overflow-y:auto;padding:23px 28px;min-width:0;line-height:1.65;font-size:14px;color:var(--t-text)}#helpMain h2{margin:0 0 8px;font-size:24px;line-height:1.3}#helpMain h3{font-size:16px;line-height:1.4;margin:24px 0 9px;color:var(--t-accent2)}#helpMain p{margin:8px 0 15px}#helpMain li{margin:7px 0}#helpMain ol,#helpMain ul{padding-left:23px}#helpMain strong,#helpMain b{color:var(--t-text)}
+.help-intro{max-width:720px;color:var(--t-muted)}.help-cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:16px}#helpMain .help-card{text-align:left;padding:16px 18px;background:var(--t-panel2);min-width:0}.help-card b{display:block;font-size:14px;margin:4px 0 7px}.help-card span{display:block;font-size:12px;line-height:1.6;color:var(--t-muted)}.help-card small,.help-crumb{font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:var(--t-accent2)}
+.help-chips{display:flex;flex-wrap:wrap;gap:7px;margin:13px 0 23px}.help-chips button{font-size:11px}#helpMain .help-back{font-size:11px;padding:6px 10px;margin-bottom:20px}.help-article{max-width:780px;margin:auto}.help-article>header{padding-bottom:16px;border-bottom:1px solid var(--t-line);margin-bottom:18px}.help-article>header>p{color:var(--t-muted);font-size:13px}.help-article table{border-collapse:collapse;width:100%;margin:16px 0;font-size:12px}.help-article th,.help-article td{text-align:left;vertical-align:top;padding:10px;border:1px solid var(--t-line);overflow-wrap:anywhere}.help-article th{background:var(--t-accent-bg)}.help-article td:first-child{width:31%;color:var(--t-accent2)}.help-note{border-left:3px solid var(--t-accent);padding:10px 14px;background:var(--t-panel2);font-size:13px;margin:17px 0}.help-related{border-top:1px solid var(--t-line);margin-top:26px;padding-top:12px}.help-related>div{display:flex;flex-wrap:wrap;gap:8px}.help-related button{font-size:11px}#helpMain mark{background:var(--t-accent-bg);color:var(--t-accent2);border-bottom:1px solid var(--t-accent);padding:0 1px}
+.help-bottom{display:flex;justify-content:space-between;align-items:center;gap:12px;border-top:1px solid var(--t-line);padding:10px 18px;font-size:10px;color:var(--t-muted)}.help-bottom button{font-size:10px}#helpCenter kbd{font-family:inherit;border:1px solid var(--t-line2);border-radius:3px;padding:2px 4px;color:var(--t-text)}
+#supportDialog{width:min(610px,calc(100vw - 40px));max-height:calc(100vh - 40px);overflow-y:auto}.support-body{padding:22px 26px;font-size:13px;line-height:1.6}.support-body>label{font-size:11px;color:var(--t-accent2)}.support-address-row{display:flex;gap:8px;margin:7px 0 24px}.support-address-row input{min-width:0;flex:1;padding:11px 12px;font-size:16px;user-select:text}.support-address-row button{font-size:10px}.support-body h3{font-size:14px;margin-bottom:10px}#supportMailClients{display:flex;flex-wrap:wrap;gap:8px}#supportMailClients button{font-size:12px}.support-hint{color:var(--t-muted);font-size:12px}.support-guidance{border:1px solid var(--t-line);background:var(--t-panel2);padding:14px 16px;margin-top:20px;border-radius:5px}.support-guidance p{margin:6px 0;font-size:12px}#supportStatus{min-height:22px;color:var(--t-accent2);font-size:12px}
+@media(max-width:760px){.help-workspace{grid-template-columns:160px minmax(0,1fr)}#helpMain{padding:18px}.help-cards{grid-template-columns:1fr}.help-top,.help-searchbar{padding:14px 18px}.help-bottom>span:last-child{display:none}}
+
+/* Familiar contents-and-article help layout. */
+#helpCenter{width:min(1140px,calc(100vw - 40px));height:min(800px,calc(100vh - 40px));border-radius:8px}
+#helpCenter .help-top{align-items:center;padding:14px 20px;background:var(--t-panel)}
+#helpCenter .help-top h2{font-size:19px;margin:0;font-weight:600;letter-spacing:0}
+#helpCenter .help-searchbar{padding:12px 20px 10px}
+#helpCenter .help-searchbox input{padding:9px 12px}
+#helpCenter .help-workspace{grid-template-columns:275px minmax(0,1fr)}
+#helpCategories{padding:10px 12px 20px;background:var(--t-panel)}
+#helpCategories h3{font-size:11px;font-weight:600;letter-spacing:.02em;color:var(--t-muted);margin:18px 8px 6px}
+#helpCategories>h3,#helpCategories>section:first-child h3{margin-top:3px}
+#helpCategories button{display:block;text-align:left;padding:7px 10px;margin:1px 0;font-size:12px;line-height:1.4;border-radius:4px;border:0;color:var(--t-text)}
+#helpCategories button.active{background:var(--t-accent-bg);color:var(--t-accent2);box-shadow:inset 2px 0 var(--t-accent)}
+#helpCategories button small{display:block;font-size:10px;margin-top:3px;color:var(--t-muted)}
+#helpMain{background:var(--t-bg);padding:28px 34px}
+#helpMain:focus{outline:none}
+#helpMain h2{font-size:23px;font-weight:600}
+#helpMain h3{color:var(--t-text);font-size:16px}
+#helpCenter .help-article>header{padding-bottom:12px;margin-bottom:20px}
+#helpCenter .help-article>header>p{font-size:14px}
+#helpCenter .help-related>div{display:block}
+#helpCenter .help-related button{display:block;border:0;background:transparent;color:var(--t-accent2);padding:4px 0;text-align:left;font-size:12px}
+#helpCenter .help-related button:hover{text-decoration:underline}
+#helpCenter .help-bottom{justify-content:space-between;padding:8px 18px}
+#helpCenter .help-bottom button{border:0;background:transparent;color:var(--t-accent2);font-size:11px;padding:5px}
+#helpCenter #helpClearSearch[hidden]{display:none}
+#helpCenter .help-empty{padding-top:20px}
+@media(max-width:760px){#helpCenter .help-workspace{grid-template-columns:205px minmax(0,1fr)}#helpMain{padding:20px}#helpCategories{padding-inline:7px}}
+
+/* Map only the new dialogs to AML's accepted Dark/Light palette. */
+#helpCenter,#supportDialog {
+ --t-text:var(--studio-text);--t-panel:var(--studio-top);--t-panel2:var(--studio-bottom);
+ --t-line:var(--studio-border);--t-line2:var(--studio-border);--t-raised:var(--studio-button-top);
+ --t-bg:var(--studio-input);--t-muted:var(--studio-muted);--t-accent:var(--studio-accent);
+ --t-accent2:var(--studio-accent);--t-accent-bg:color-mix(in srgb,var(--studio-accent) 12%,var(--studio-top));
+ font-family:"Segoe UI",Arial,sans-serif;border-radius:5px;box-shadow:0 2px 6px #0004;
+}
+#helpCenter *,#supportDialog *{scrollbar-color:var(--studio-scroll-thumb) var(--studio-scroll-track);scrollbar-width:thin}
+#helpCenter ::-webkit-scrollbar,#supportDialog ::-webkit-scrollbar{width:10px;height:10px}
+#helpCenter ::-webkit-scrollbar-thumb,#supportDialog ::-webkit-scrollbar-thumb{background:var(--studio-scroll-thumb);border-radius:5px}
+#helpCenter ::-webkit-scrollbar-track,#supportDialog ::-webkit-scrollbar-track{background:var(--studio-scroll-track)}
+#helpCenter::backdrop,#supportDialog::backdrop{background:#0006}
+#supportAddress{background:var(--studio-input);color:var(--studio-text);border:1px solid var(--studio-border);border-radius:5px}
+html .export-block{gap:8px;flex-wrap:wrap}
+html .export-block .export-grid{flex:1 1 650px;width:auto}
+.aml-header-actions{display:flex;gap:6px;flex:none;margin-left:auto;align-self:center;justify-content:flex-end}
+html .aml-header-actions .help-toolbar-button{font-size:10px;min-height:30px;white-space:nowrap;padding:6px 8px}
+#helpCenter .help-bottom{flex-wrap:wrap}
+@media(max-width:650px){#helpCenter .help-workspace{grid-template-columns:160px minmax(0,1fr)}#helpMain{padding:16px}.support-address-row{flex-wrap:wrap}}
+

@@ -1,0 +1,69 @@
+/* Reference layout, scoped to the audio section; preview content is untouched. */
+html .audio-studio-panel { padding: 8px; min-width: 0; }
+html .audio-studio-panel .music-controls-grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 6px; }
+html .audio-studio-panel .music-control-group { padding: 10px 12px; gap: 14px; border-radius: 3px; background: var(--panel-2); min-width: 0; }
+html .audio-studio-panel .audio-load-row { grid-template-columns: minmax(150px, .95fr) minmax(250px, 1.5fr) minmax(220px, 1.15fr); }
+html .audio-studio-panel .audio-transport-row { grid-template-columns: minmax(180px, 1.25fr) minmax(260px, 1.8fr) minmax(110px, .7fr); }
+html .audio-studio-panel .audio-export-row { grid-template-columns: minmax(340px, 1.1fr) minmax(240px, 1fr); align-items: start; }
+html .audio-studio-panel .music-group-title { font-size: .64rem; font-weight: 600; letter-spacing: .15em; margin: 0 0 7px; color: var(--muted); }
+html .audio-studio-panel .audio-volume-section,
+html .audio-studio-panel .audio-transport-section,
+html .audio-studio-panel .audio-repeat-section,
+html .audio-studio-panel .audio-seek-section { border-left: 1px solid var(--border); padding-left: 14px; min-width: 0; }
+html .audio-studio-panel .sample-music-row { display: grid; grid-template-columns: minmax(0, 1fr) 94px; gap: 8px; }
+html .audio-studio-panel #sample-music-select { width: 100%; min-width: 0; height: 38px; font-size: .76rem; text-overflow: ellipsis; }
+html .audio-studio-panel button { display: flex; align-items: center; justify-content: center; gap: 7px; height: 38px !important; min-height: 38px !important; padding: 0 8px !important; font-size: .7rem !important; border-radius: 3px !important; white-space: nowrap; }
+html .audio-studio-panel button:focus-visible, html .audio-studio-panel input:focus-visible { outline: 2px solid var(--cyan); outline-offset: 2px; }
+html .audio-studio-panel .audio-icon { width: 19px; height: 19px; flex: 0 0 auto; color: var(--text); }
+html .audio-studio-panel #play-btn .audio-icon,
+html .audio-studio-panel #loop-btn .audio-icon,
+html .audio-studio-panel #shuffle-btn .audio-icon,
+html .audio-studio-panel #record-save-btn .audio-icon,
+html .audio-studio-panel #export-button .audio-icon { color: var(--cyan); }
+html .audio-studio-panel #record-start-btn .audio-icon { color: #ed5872; }
+html .audio-studio-panel button:disabled { opacity: .48; cursor: default; }
+html .audio-studio-panel #dropzone-btn { width: 100%; height: 38px !important; min-height: 38px !important; justify-content: flex-start; border: 1px dashed var(--border); text-align: left; }
+html .audio-studio-panel .dropzone-subtitle { display: block; color: var(--text); font-size: .72rem; }
+html .audio-studio-panel .audio-load-hint { display: block; color: var(--muted); font-size: .62rem; }
+html .audio-studio-panel .music-volume-row { display: grid; grid-template-columns: 20px minmax(0, 1fr) 72px; gap: 8px; align-items: center; }
+html .audio-studio-panel .music-buttons { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 7px; margin: 0; }
+html .audio-studio-panel .audio-repeat-section .music-buttons { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+html .audio-studio-panel .music-buttons button { flex-direction: column; gap: 5px; height: 56px !important; min-height: 56px !important; }
+html .audio-studio-panel .music-buttons .audio-icon { width: 22px; height: 22px; }
+html .audio-studio-panel .now-playing-card { display: grid; grid-template-columns: 46px minmax(0, 1fr); padding: 5px 7px; gap: 10px; min-height: 56px; }
+html .audio-studio-panel .now-playing-art { width: 44px; height: 44px; border-radius: 5px; }
+html .audio-studio-panel .now-playing-icon { width: 24px; height: 24px; }
+html .audio-studio-panel .track-copy { min-width: 0; }
+html .audio-studio-panel .track-name { font-size: .8rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+html .audio-studio-panel .track-meta { font-size: .65rem; }
+html .audio-studio-panel .track-meter { margin-top: 5px; height: 4px; }
+html .audio-studio-panel .record-buttons { display: grid; grid-template-columns: 1fr 1fr 1fr 30px 1.05fr; gap: 7px; margin: 0; }
+html .audio-studio-panel #export-button { grid-column: auto; border: 1px solid var(--cyan); }
+html .audio-studio-panel .record-status { font-size: .58rem; min-height: 12px; margin: 4px 0 0; color: var(--muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+html .audio-studio-panel .song-progress-panel { display: grid; grid-template-columns: auto minmax(50px, 1fr) auto; gap: 9px; align-items: center; height: 38px; margin: 0; }
+html .audio-studio-panel .song-progress-panel > span { font-size: .67rem; color: var(--muted); white-space: nowrap; }
+html .audio-studio-panel .song-progress-track { position: relative; height: 30px; background: transparent; border: 0; overflow: visible; }
+html .audio-studio-panel #progress-slider { appearance: none; -webkit-appearance: none; position: static; inset: auto; width: 100%; height: 30px; opacity: 1; margin: 0; background: transparent; cursor: pointer; touch-action: none; }
+html .audio-studio-panel #progress-slider::-webkit-slider-runnable-track,
+html .audio-studio-panel #volume-slider::-webkit-slider-runnable-track { height: 7px; border-radius: 4px; background: linear-gradient(to right, var(--cyan) 0 var(--fill, 0%), var(--border) var(--fill, 0%) 100%); }
+html .audio-studio-panel #progress-slider::-webkit-slider-thumb,
+html .audio-studio-panel #volume-slider::-webkit-slider-thumb { appearance: none; -webkit-appearance: none; width: 10px; height: 20px; margin-top: -6.5px; border-radius: 2px; background: var(--text); border: 1px solid var(--border); box-shadow: 0 0 0 2px var(--panel-2); }
+html .audio-studio-panel #progress-slider:disabled { cursor: default; opacity: .5; }
+@media (max-width: 1250px) {
+  html .audio-studio-panel .music-control-group { gap: 8px; padding: 8px; }
+  html .audio-studio-panel .audio-load-row { grid-template-columns: minmax(130px, .9fr) minmax(210px, 1.45fr) minmax(180px, 1fr); }
+  html .audio-studio-panel .audio-transport-row { grid-template-columns: minmax(160px, 1.15fr) minmax(220px, 1.6fr) minmax(100px, .7fr); }
+  html .audio-studio-panel .audio-export-row { grid-template-columns: minmax(320px, 1.15fr) minmax(200px, 1fr); }
+  html .audio-studio-panel .audio-volume-section, html .audio-studio-panel .audio-transport-section, html .audio-studio-panel .audio-repeat-section, html .audio-studio-panel .audio-seek-section { padding-left: 8px; }
+  html .audio-studio-panel .record-buttons .audio-icon { width: 14px; height: 14px; }
+}
+@media (max-width: 1000px) {
+  html .audio-studio-panel .audio-load-row { grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); }
+  html .audio-studio-panel .audio-volume-section { grid-column: 1 / -1; border: 0; padding: 0; }
+  html .audio-studio-panel .audio-transport-row { grid-template-columns: minmax(0, 1fr) minmax(0, 1.7fr); }
+  html .audio-studio-panel .audio-repeat-section { grid-column: 2; }
+  html .audio-studio-panel .audio-repeat-section .music-group-title { display: none; }
+  html .audio-studio-panel .audio-repeat-section .music-buttons button { flex-direction: row; height: 32px !important; min-height: 32px !important; }
+  html .audio-studio-panel .audio-export-row { grid-template-columns: minmax(0, 1fr); }
+  html .audio-studio-panel .audio-seek-section { border: 0; padding: 0; }
+}
