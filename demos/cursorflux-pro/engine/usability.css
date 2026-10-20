@@ -1,0 +1,40 @@
+/* Keep the established Dark/Light tokens; give tasks a clear visual hierarchy. */
+[hidden]{display:none!important}
+.workspace{grid-template-columns:228px minmax(480px,1fr) 310px}
+.mast .project-tag{position:static;transform:none;margin-left:auto;max-width:225px;flex:1;min-width:60px}
+.mast-right{margin-left:0}.mast-actions{margin-left:8px}.brand{font-size:13px}
+.ux-pane-heading{padding:13px 12px 8px;font-size:12px;font-weight:650;color:var(--text)}
+.ux-help{font-size:12px;line-height:1.5;color:var(--secondary);margin:8px 0}
+.settings-pane>.ux-help{padding:0 12px;margin:8px 0 3px}
+.role-list{grid-template-columns:1fr;gap:4px}.role{height:44px;flex-direction:row;justify-content:flex-start;text-align:left;padding-right:30px}.role img{width:32px;height:32px}.role .label{width:auto;flex:1}.role b{font-size:12px;white-space:nowrap}.role-edit{top:10px}
+.theme-picker{padding:4px 12px 8px}.field>label,.check,.settings-group>summary,.inspector-tabs button{font-size:12px}
+.preview-block{grid-template-columns:minmax(230px,274px) minmax(190px,1fr);min-height:294px;gap:12px}
+.preview-actions{display:grid;grid-template-columns:1fr 1fr;gap:6px}.preview-actions>#applyWindows{grid-column:1/-1;height:34px;font-size:12px}.preview-actions>.ux-menu{grid-column:1/-1}
+.preview-info{gap:5px}.preview-info>label{font-size:12px}.preview-info .check{margin:3px 0}.preview-frame{overflow:hidden}
+.ux-menu{position:relative;flex:none}.ux-menu>summary{list-style:none;cursor:pointer;border:1px solid var(--border);border-radius:4px;padding:6px 9px;font-size:12px;font-weight:600;background:var(--button)}
+.ux-menu>summary:after{content:' ▾';color:var(--secondary)}.ux-menu>summary::-webkit-details-marker{display:none}
+.ux-menu-items{position:absolute;top:calc(100% + 5px);right:0;min-width:225px;padding:6px;background:var(--surface);border:1px solid var(--borderStrong);border-radius:5px;box-shadow:0 6px 20px #0005;z-index:45;display:flex;flex-direction:column;gap:4px}
+.ux-menu-items button{width:100%;height:32px;text-align:left;font-size:12px}.ux-menu:not([open])>.ux-menu-items{display:none}
+.ux-apply-state{display:flex;flex-wrap:wrap;gap:6px 16px;justify-content:space-between;padding:8px 12px;border-bottom:1px solid var(--borderSoft);background:var(--toolbarStrip);font-size:11px}.ux-apply-state span{color:var(--secondary)}
+.ux-current-look{padding:0 12px;margin:8px 0 0;font-size:12px;color:var(--text)}
+#inspectSize{position:absolute;bottom:7px;right:7px;z-index:2;font-size:11px}
+.skin-create-bar{flex-wrap:wrap}.skin-create-bar span{font-size:11px;flex-basis:100%}.skin-card b{font-size:12px}.skin-card small{font-size:10px}
+#inspectorTabs{display:flex;flex-wrap:wrap;height:auto;gap:3px;padding:6px}#inspectorTabs button{flex:1 0 auto;min-height:30px}#advancedAppearance{color:var(--secondary);font-weight:500}
+.effects-pill input:focus-visible+span{outline:2px solid var(--accent);outline-offset:3px}
+.lab-shell{grid-template-rows:auto auto minmax(0,1fr)}
+.lab-workflow{display:flex;align-items:center;gap:6px;padding:8px 12px;border-bottom:1px solid var(--border);background:var(--surface)}
+.lab-workflow>button{min-width:100px}.lab-workflow>.ux-help{margin:0 0 0 12px;font-size:11px}
+.lab-window .lab-body{grid-template-columns:224px minmax(400px,1fr) 320px}
+.lab-tabs{grid-template-columns:1fr 1fr;margin-top:0}.lab-group summary{font-size:12px}.lab-inspector label{font-size:12px}
+#labAppearancePanel{display:flex;flex-direction:column;height:100%;min-height:0}#labAppearancePanel #settings{padding:8px;overflow:auto}#labAppearancePanel #inspectorTabs{flex:none}
+.lab-shell[data-section=appearance] .lab-settings{padding:0;overflow:hidden}
+.lab-shell[data-section=appearance] #labTools,.lab-shell[data-section=appearance] .lab-tool-help,.lab-shell[data-section=appearance] .lab-shapes,.lab-shell[data-section=appearance] .lab-bar-shape,.lab-shell[data-section=appearance] .lab-bar-canvas,.lab-shell[data-section=appearance] .lab-bar-part{display:none}
+.lab-shell:not([data-section=appearance]) #labSkinActions{display:none}
+#labAppearanceStage{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:20px;text-align:center;background:var(--surfaceInset)}
+#labAppearanceStage .lab-preview{width:300px;height:300px;max-width:min(100%,300px);margin:0;order:1}#labAppearanceStage small{order:2;color:var(--secondary);font-size:12px}#labAppearanceStage p{margin:0;color:var(--secondary)}
+#labSkinActions input{width:100%;margin-bottom:8px}#labSkinActions button{width:100%;height:auto;min-height:32px;white-space:normal;margin:3px 0;padding:5px}
+.ux-correction{padding-bottom:8px;margin-bottom:8px;border-bottom:1px solid var(--borderSoft)}
+.lab-actions #labSave{min-width:74px}.lab-actions{margin-left:auto}
+@media(max-width:1220px){.workspace{grid-template-columns:205px minmax(455px,1fr) 280px}.mast .brand{display:none}.mast .project-tag{display:block;max-width:180px}.preview-block{grid-template-columns:230px minmax(185px,1fr);padding:10px;gap:10px}.preview-frame{height:274px}.lab-window .lab-body{grid-template-columns:195px minmax(330px,1fr) 290px}.lab-workflow>.ux-help{max-width:48%;font-size:10px}.lab-workflow>button{min-width:85px}}
+
+#labAppearancePanel .field>label{display:flex;justify-content:space-between;gap:8px}#labAppearancePanel .field output{margin-left:auto}

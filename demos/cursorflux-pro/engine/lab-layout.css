@@ -1,0 +1,142 @@
+/* Lab has its own silver chrome. Rendered cursor artwork keeps its original colors. */
+.lab-window .lab-shell{
+ --window:#202832;--sidebar:#2B3540;--surface:#34414D;--surfaceHover:#414F5C;--surfacePressed:#243B4D;--surfaceInset:#242F39;
+ --toolbar:#36424E;--toolbarStrip:#303C47;--border:#738493;--borderSoft:#536574;--borderStrong:#AAB7C2;
+ --text:#F0F4F7;--secondary:#C3CDD6;--muted:#A5B3BF;--disabled:#8998A6;--button:#354451;--buttonHover:#475968;--buttonDisabled:#2C3742;
+ inset:0;border:3px solid #B8C4CE;grid-template-rows:72px minmax(0,1fr) 60px;background:var(--window);box-shadow:inset 0 0 0 1px #E0E6EC,0 14px 45px #0007;
+}
+.light .lab-window .lab-shell{
+ --window:#E3E9EE;--sidebar:#E2E8ED;--surface:#F5F7F9;--surfaceHover:#E7EFF5;--surfaceInset:#EDF1F4;--toolbarStrip:#D9E1E8;
+ --border:#92A4B4;--borderSoft:#B3C0CB;--borderStrong:#687F92;--text:#203242;--secondary:#435B70;--muted:#5F7588;--disabled:#8496A5;
+ --button:#F8FAFC;--buttonHover:#E7F0F7;--buttonDisabled:#DCE3E9;border-color:#7E95A8;
+}
+.lab-window .lab-top.lab-workspace-bar{padding:0 18px;gap:28px;align-items:center;flex-wrap:nowrap;background:linear-gradient(115deg,#E1E7EC,#B7C3CD);border-bottom:2px solid #8D9EAD;color:#213342}
+.lab-window .lab-window-brand{display:flex;flex-direction:column;justify-content:center;align-items:flex-start;gap:3px;align-self:stretch;margin:0;padding:0 24px 0 0;min-width:195px;background:none;color:#213342;border-right:1px solid #899BAA;letter-spacing:1px}
+.lab-window-brand strong{font-size:19px}.lab-window-brand span{font-size:10px;font-weight:600;letter-spacing:1.3px}
+.lab-section-nav{display:flex;gap:8px}.lab-section-nav button{height:40px;min-width:115px;font-size:13px;background:#D6DFE6;border-color:#91A3B2;color:#263D50}
+.lab-section-nav button:hover{background:#ECF1F5;border-color:#627E95}.lab-section-nav button.selected{background:#264B6B;color:#F0F7FE;border-color:#18374F;box-shadow:inset 0 0 0 1px #7696B0}
+.lab-window .lab-body{grid-template-columns:340px minmax(0,1fr);gap:0;background:var(--window);min-height:0}
+.lab-control-rail{display:flex;flex-direction:column;min-height:0;background:var(--sidebar);border-right:2px solid #899AA8}
+.lab-context{padding:14px 16px 10px;background:var(--toolbarStrip);border-bottom:1px solid var(--border);flex:none}
+.lab-context .lab-bar-role{display:block;min-width:0}.lab-context label{display:block;font-size:12px;font-weight:650;margin-bottom:6px;color:var(--text)}.lab-context select{width:100%;height:34px}
+.lab-context .lab-small-help{font-size:11px;margin:8px 0 0}
+.lab-control-scroll{min-height:0;flex:1;overflow:auto;padding:12px 14px 20px;scrollbar-gutter:stable}
+.lab-rail-card,.lab-control-rail .lab-group,.lab-control-rail .effects-group{border:1px solid var(--borderSoft);border-radius:5px;background:var(--surface);padding:0;margin:0 0 12px}
+.lab-rail-card>summary,.lab-control-rail .lab-group>summary,.lab-control-rail .effects-group>summary{display:flex;align-items:center;gap:8px;min-height:38px;padding:8px 12px;font-size:12px;font-weight:650;list-style:none;cursor:pointer;margin:0;border:0}
+.lab-rail-card>summary:before,.lab-control-rail .lab-group>summary:before,.lab-control-rail .effects-group>summary:before{content:'';flex:0 0 12px;width:12px;height:12px;background:var(--secondary);clip-path:polygon(20% 10%,85% 50%,20% 90%);margin:0;transform:none}
+.lab-rail-card[open]>summary:before,.lab-control-rail .lab-group[open]>summary:before,.lab-control-rail .effects-group[open]>summary:before{clip-path:polygon(10% 20%,90% 20%,50% 85%)}
+.lab-rail-card>summary::-webkit-details-marker,.lab-control-rail .lab-group>summary::-webkit-details-marker{display:none}
+.lab-rail-card[open]>summary,.lab-control-rail .lab-group[open]>summary{border-bottom:1px solid var(--borderSoft);background:var(--toolbarStrip)}
+.lab-card-content{padding:12px}.lab-control-rail .lab-group>summary~*{margin-left:12px;margin-right:12px}.lab-control-rail .lab-group>summary~:last-child{margin-bottom:12px}
+.lab-control-rail label{font-size:12px;display:block;color:var(--secondary);margin:9px 0 5px}.lab-control-rail select,.lab-control-rail input[type=number],.lab-control-rail input[type=text]{width:100%}
+.lab-control-rail button{font-size:12px;min-height:31px;height:auto;padding:5px 8px}.lab-control-rail .check{display:flex;align-items:center;gap:8px}
+.lab-small-help{font-size:11px;line-height:1.5;color:var(--secondary);margin:9px 0}.lab-control-rail #labTools{margin-top:10px;grid-template-columns:1fr 1fr}
+.lab-control-rail .lab-bar-shape{display:block;min-width:0}.lab-control-rail .lab-shapes{padding:12px;min-height:0;max-height:none;background:var(--surface);border:1px solid var(--borderSoft);border-radius:5px;flex:none;margin-bottom:12px}
+.lab-control-rail .lab-shapes h3{font-size:12px;margin:0 0 9px;color:var(--text)}.lab-control-rail #labLayers{min-height:42px;max-height:200px;overflow:auto}.lab-control-rail .lab-shapes>.lab-tool-grid{margin-top:10px}
+.lab-selection-card{margin-top:10px;min-width:0;padding:0 0 7px;border-bottom:1px solid var(--borderSoft)}.lab-bar-part-name{display:flex;align-items:center;gap:7px}.lab-bar-part-name strong{font-size:12px;overflow:hidden;text-overflow:ellipsis;flex:1}.lab-bar-part-name button{flex:none}
+.lab-control-rail .pair{display:grid;grid-template-columns:1fr 1fr;gap:8px}.lab-control-rail .lab-tool-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.lab-control-rail #labCurveGroup{border:0;margin:0;background:none}.lab-control-rail #labCurveGroup>summary{display:none}.lab-control-rail #labCurveGroup>*{margin-left:0;margin-right:0}
+.lab-control-rail #labGeometryPanel{margin-bottom:12px}.lab-control-rail #labPointControls{border:1px solid var(--borderSoft);border-radius:5px;padding:12px;background:var(--surface)}
+.lab-control-rail #labDrawingControls .ux-correction{border:0;margin:0;padding:0}.lab-control-rail .lab-bar-canvas{display:block;width:100%;padding:0;min-width:0}.lab-bar-canvas .lab-canvas-actions{display:flex;gap:6px;margin-top:12px}.lab-canvas-actions button:last-child{flex:1}
+.lab-control-rail #labAppearancePanel{display:block;height:auto}.lab-control-rail #settings{padding:0;overflow:visible;flex:none}.lab-control-rail .card-body{padding:12px}
+.lab-control-rail #labSkinActions{display:block!important}.lab-control-rail #labSkinActions>p:first-child{margin-top:0}.lab-control-rail #labAnimationPanel{padding:0;margin-bottom:12px}.lab-control-rail #labAnimationPanel>strong{display:none}
+.lab-control-rail #labMoreSkin .inspector-title{margin:0 0 10px;padding:7px 0;background:none;font-size:12px;color:var(--text)}.lab-control-rail #labMoreSkin .inspector-panel+.inspector-panel{border-top:1px solid var(--borderSoft);padding-top:12px;margin-top:12px}
+.lab-control-rail #labMoreSkin .texture-group h3{font-size:12px}.lab-control-rail .field>label{display:flex;justify-content:space-between;gap:8px}.lab-control-rail output{color:var(--text);margin-left:auto}
+.lab-visuals{display:grid;grid-template-columns:minmax(0,1fr) 196px;grid-template-rows:minmax(0,1fr) auto;min-height:0;min-width:0;background:var(--window)}
+.lab-visuals.lab-skin-view{grid-template-columns:minmax(0,1fr)}
+.lab-visuals .lab-canvas-wrap{min-height:0;display:flex;flex-direction:column;overflow:hidden;background:#172029}
+.lab-visuals #labCanvas{flex:1;min-height:0;height:100%;width:100%;outline:0}.lab-grid{stroke:#415363;stroke-width:.10}.lab-grid.major{stroke:#607786;stroke-width:.16}.lab-guides{stroke:#5E96C6;opacity:.6}
+.lab-canvas-header{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:10px 14px;background:var(--toolbarStrip);color:var(--secondary);font-size:11px;border-bottom:1px solid var(--borderSoft);flex:none}
+.lab-canvas-header #labReadout{position:static;inset:auto;background:none;padding:0;color:var(--secondary);font-size:11px}
+.lab-preview-dock{padding:15px 12px;background:var(--sidebar);border-left:1px solid var(--borderSoft);overflow:auto;min-height:0}.lab-preview-dock h2{font-size:12px;margin:0 0 6px;color:var(--text)}.lab-preview-dock>strong{font-size:11px;font-weight:500;color:var(--secondary)}
+.lab-window .lab-preview-dock .lab-preview{width:168px;height:168px;margin:12px auto 8px;max-width:100%;background-color:#151B21}
+#labSizeNote{font-size:11px;line-height:1.5;color:var(--secondary)}
+.lab-visual-guide{grid-column:1/-1;padding:10px 16px;background:var(--toolbarStrip);border-top:1px solid var(--borderSoft);min-height:45px}.lab-guide{font-size:12px;line-height:1.45;color:var(--secondary)}
+.lab-bottom{display:flex;align-items:center;justify-content:space-between;gap:15px;padding:10px 16px;background:linear-gradient(110deg,#D7DFE6,#B5C2CD);border-top:2px solid #8D9FAD;color:#263B4D}
+.lab-bottom-text{display:flex;flex-direction:column;gap:3px;font-size:11px}.lab-bottom-text strong{font-size:12px}.lab-bottom .lab-actions{padding:0;margin:0;gap:7px}.lab-bottom button{height:34px;min-width:64px;background:#D7E1E8;color:#233D52;border-color:#849BAD}.lab-bottom button:disabled{background:#C4CED7;color:#7A8A98;border-color:#A6B5C1}.lab-bottom #labSave{background:#214E75;color:#F4F9FF;border-color:#1A3C59;min-width:90px}
+.lab-inline-status{display:flex;align-items:center;gap:8px;min-width:0;border-top:1px solid var(--borderSoft);padding-top:7px;line-height:1.45;font-size:11px;color:var(--secondary);margin-top:7px}.lab-inline-status>span{flex:1}.lab-inline-status .lab-dismiss{flex:none;min-width:20px;height:20px;padding:0;font-size:16px}
+.lab-window #labAppearanceStage{background:#172029;justify-content:center;gap:10px;color:#E8F0F7;padding:20px}.lab-window #labAppearanceStage>p,.lab-window #labAppearanceStage>small{color:#B9C9D7}
+.lab-window #labAppearanceStage .lab-preview{width:min(340px,70%);height:min(340px,70%);max-width:340px;object-fit:contain}.lab-skin-view .lab-canvas-header{display:none}
+.lab-window .lab-save{z-index:50}.lab-save .actions button{height:auto;min-height:31px}
+@media(max-width:1100px){.lab-window .lab-body{grid-template-columns:305px minmax(0,1fr)}.lab-visuals{grid-template-columns:minmax(0,1fr) 168px}.lab-window .lab-preview-dock .lab-preview{width:140px;height:140px}.lab-window .lab-window-brand{min-width:190px}.lab-section-nav button{min-width:95px}.lab-bottom-text span{max-width:370px}.lab-control-scroll{padding:10px}}
+/* 6.5: full app workspace, compact cards and one consistent control rail. */
+.lab-window .lab-shell{--lab-rail-width:400px;grid-template-rows:64px minmax(0,1fr);box-shadow:inset 0 0 0 1px #E0E6EC;border-width:2px}
+.lab-window .lab-top.lab-workspace-bar{display:grid;grid-template-columns:minmax(170px,1fr) minmax(180px,240px) minmax(170px,1fr);gap:16px;padding:6px 16px;background:#C7D2DC}
+.lab-window .lab-window-brand{border:0;padding:0;min-width:0;cursor:default;justify-content:center;gap:2px;letter-spacing:.8px}
+.lab-window .lab-window-brand:active{cursor:default}.lab-window-brand span{font-size:11px;letter-spacing:.35px}.lab-window-brand strong{font-size:19px}
+.lab-top .lab-bar-role{display:flex;align-items:center;gap:10px;min-width:0;justify-self:center;width:100%;margin:0}
+.lab-top .lab-bar-role label{font-size:11px;white-space:nowrap;font-weight:650}.lab-top .lab-bar-role select{width:160px;min-width:0;height:32px;background:#E9EFF4;color:#203242;border-color:#8397A8}
+.lab-top .lab-actions{justify-self:end;margin:0;padding:0;gap:6px}.lab-top .lab-actions button{height:32px;min-width:58px;padding:5px 10px;background:#E2EAF0;color:#233D52;border-color:#849BAD}
+.lab-top .lab-actions button:disabled{background:#C6D1DB;color:#728699;border-color:#A0B1BF}.lab-top .lab-actions #labSave{background:#214E75;color:#F4F9FF;border-color:#1A3C59;min-width:76px}
+.lab-window .lab-body{grid-template-columns:var(--lab-rail-width) minmax(0,1fr)}
+.lab-control-rail>.lab-section-nav{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;padding:10px 12px;border-bottom:1px solid var(--border);background:var(--toolbarStrip);flex:none}
+.lab-control-rail .lab-section-nav button{min-width:0;width:100%;height:34px;margin:0;border-radius:4px;font-weight:650}
+.lab-control-scroll{padding:12px;overflow-x:hidden;scrollbar-gutter:stable}
+.lab-control-rail :is(input,select,button){box-sizing:border-box;min-width:0;max-width:100%}
+.lab-control-rail :is(.lab-rail-card,.lab-group,.settings-card,.effects-group,.lab-shapes,#labPointControls){border:1px solid var(--borderSoft);border-radius:4px;background:var(--surface);margin:0 0 10px;min-width:0;overflow:hidden}
+.lab-control-rail :is(.lab-rail-card,.lab-group,.settings-card,.effects-group)>summary{font-size:12px;font-weight:650;min-height:36px;padding:8px 12px;background:var(--toolbarStrip)}
+.lab-control-rail .lab-group>summary~:not(summary){margin:8px 12px}.lab-control-rail .lab-group>summary~:last-child{margin-bottom:12px}
+.lab-control-rail .lab-card-content,.lab-control-rail .card-body{padding:12px}
+.lab-control-rail .lab-group>select{width:calc(100% - 24px)}
+.lab-control-rail .lab-number-row{display:grid;grid-template-columns:minmax(0,1fr) 96px;align-items:center;gap:8px;margin:7px 0}
+.lab-control-rail .lab-number-row:has(#labAngle){grid-template-columns:minmax(0,1fr) 88px auto}
+.lab-control-rail .lab-number-row label{margin:0;line-height:1.25}.lab-control-rail .lab-number-row input[type=number]{width:100%;height:30px;padding:4px 6px;text-align:right;font-variant-numeric:tabular-nums}
+.lab-control-rail .pair{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:8px 0}
+.lab-control-rail .pair>div{min-width:0}.lab-control-rail .pair .lab-number-row{grid-template-columns:minmax(0,1fr) 88px;margin:0}
+.lab-control-rail label{margin:7px 0 5px}.lab-control-rail select,.lab-control-rail input[type=text]{height:31px}
+.lab-control-rail .colorfield{display:flex;align-items:center;gap:8px}.lab-control-rail .colorfield input[type=color]{width:34px;height:31px;flex:none}.lab-control-rail .colorfield input[type=text]{width:100px;flex:none;font-family:Consolas,monospace}
+.lab-control-rail .lab-bar-shape{margin-top:10px}.lab-control-rail #labTools{margin-top:0}
+.lab-control-rail .lab-shapes{padding:12px}.lab-control-rail .lab-selection-card{margin-top:8px}.lab-control-rail #labAnimationPanel{border:0;margin:0;padding:0;background:none}
+.lab-control-rail #labAnimationPanel>label:first-of-type{margin-top:0}.lab-control-rail .field{margin-bottom:10px}.lab-control-rail input[type=range]{max-width:100%;width:100%}
+.lab-visuals{grid-template-rows:minmax(0,1fr)}.lab-window .lab-visuals .lab-canvas-wrap{grid-row:1}.lab-preview-dock{grid-row:1}
+.lab-window .lab-bottom,.lab-window .lab-context,.lab-window .lab-visual-guide{display:none!important}
+.lab-window .lab-small-help,.lab-window .lab-help,.lab-window .lab-tool-help{display:none!important}
+.lab-window [hidden]{display:none!important}
+.lab-window #labStatus{position:absolute;right:16px;top:72px;max-width:min(560px,calc(100% - 32px));z-index:45;margin:0;padding:9px 12px;background:var(--surface);border:1px solid var(--borderStrong);border-radius:4px;box-shadow:0 2px 8px #0004}
+.lab-window #labStatusText{line-height:1.4}.lab-window #labAppearanceStage{padding:12px;gap:8px}
+@media(max-width:1250px){.lab-window .lab-shell{--lab-rail-width:360px}.lab-control-rail .pair .lab-number-row{grid-template-columns:minmax(0,1fr) 78px}.lab-visuals{grid-template-columns:minmax(0,1fr) 168px}.lab-window .lab-preview-dock .lab-preview{width:140px;height:140px}}
+
+.lab-window .lab-top .lab-bar-role label{color:#203242}
+.lab-control-rail .lab-group>input[type=range]{width:calc(100% - 24px)}
+.lab-control-rail #labSkinActions>p,.lab-window #labSelectionDetail{display:none!important}
+.lab-control-rail .field .colorfield input[type=text]{width:100px;flex:none}
+.lab-control-rail .field .colorfield input[type=color]{width:34px;flex:none}
+.lab-control-rail .inspector-panel{padding:0}
+.lab-control-rail #labAppearancePanel #settings{padding:0;overflow:visible}
+.lab-control-rail #labAnimationPanel>label:has(output){display:flex;justify-content:space-between;gap:8px}
+
+/* Keep the RGB switch intact and separate from the disclosure arrow. */
+.lab-control-rail summary .effects-pill{display:inline-flex;align-items:center;flex:none;order:2;margin:0 0 0 auto;gap:0}
+.lab-control-rail summary .effects-pill>span{display:block;flex:0 0 34px}
+.lab-control-rail #labCanvasSettings .check{margin:8px 0}
+.lab-control-rail #labCanvasSettings .lab-bar-canvas select{margin-top:2px}
+
+
+/* Shapes uses the same compact disclosure card as the other Lab controls. */
+.lab-control-rail details.lab-shapes{padding:0}
+.lab-control-rail details.lab-shapes>summary{display:flex;align-items:center;gap:8px;min-height:36px;padding:8px 12px;font-size:12px;font-weight:650;list-style:none;cursor:pointer;background:var(--toolbarStrip)}
+.lab-control-rail details.lab-shapes>summary:before{content:'';width:12px;height:12px;flex:0 0 12px;background:var(--secondary);clip-path:polygon(20% 10%,85% 50%,20% 90%)}
+.lab-control-rail details.lab-shapes[open]>summary:before{clip-path:polygon(10% 20%,90% 20%,50% 85%)}
+.lab-control-rail details.lab-shapes>summary::-webkit-details-marker{display:none}
+.lab-control-rail details.lab-shapes[open]>summary{border-bottom:1px solid var(--borderSoft)}
+.lab-control-rail details.lab-shapes>#labLayers,.lab-control-rail details.lab-shapes>.lab-tool-grid{margin:10px 12px}
+.lab-control-rail #labPointControls{padding:0}
+
+.lab-hotspot-anchor{fill:var(--surface);stroke:var(--text);stroke-width:.35;pointer-events:none}
+#labCanvas[data-tool=hotspot]{cursor:crosshair;touch-action:none}
+
+.roles-pane #settings{min-height:0;overflow:auto}
+.lab-control-rail #labResetHotspot{margin-top:8px}
+
+.lab-hotspot.invalid{stroke:#ff6262}
+.lab-hotspot.invalid.selected circle:not(.hit){fill:#ff6262}
+
+#labSetHot.selected{background:var(--accentTint);border-color:var(--accent);color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent)}
+
+#labChooseContext{max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;background:#E9EFF4;color:#203242;border-color:#8397A8;padding:6px 12px}
+#labContextMenu{position:absolute;z-index:200;top:58px;left:50%;transform:translateX(-50%);width:min(620px,calc(100% - 24px));background:var(--surface);color:var(--text);border:1px solid var(--border);border-radius:8px;box-shadow:0 10px 30px #0008;padding:12px}
+.context-menu-title{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;font-weight:700}.context-menu-columns{display:grid;grid-template-columns:1fr 1fr;gap:14px}.context-menu-columns strong{display:block;margin-bottom:7px}.context-menu-columns>div>div{display:flex;flex-direction:column;gap:4px;max-height:min(440px,65vh);overflow:auto}.context-menu-columns button{text-align:left}.context-menu-columns button.selected{background:var(--accentTint);border-color:var(--accent);color:var(--accent)}
+
+.context-menu-columns button{display:flex;align-items:center;gap:10px;min-height:50px;flex-shrink:0}.context-thumbnail{flex:0 0 40px;object-fit:contain;border-radius:4px;background:repeating-conic-gradient(#263640 0% 25%,#16232c 0% 50%) 50%/12px 12px}.context-thumbnail:not(.ready){visibility:hidden}.context-thumbnail.failed{visibility:visible;font-size:9px}:root.light .context-thumbnail{background:repeating-conic-gradient(#e1e7ed 0% 25%,#f7f9fc 0% 50%) 50%/12px 12px}
+
+.lab-shell #labContextMenu .context-menu-columns button{height:50px;min-height:50px;flex:0 0 50px}

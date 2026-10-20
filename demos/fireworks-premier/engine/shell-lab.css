@@ -1,0 +1,97 @@
+.tool-window.lab-window{left:12px;top:48px;width:calc(100vw - 24px);height:calc(100vh - 66px);max-width:1600px;max-height:1100px;min-width:720px;border-radius:4px}
+.lab-window .tool-window-body{padding:8px;overflow:auto}.lab-window .lab-preview{display:flex;flex-direction:column;min-height:360px;background:#02050b}.lab-window .lab-preview>canvas{min-height:160px;flex:1;height:0;object-fit:contain}.lab-window .lab-tabs{height:auto;min-height:66px;display:grid;grid-template-columns:repeat(4,1fr)}.lab-window .lab-tabs button{min-height:32px;font-size:11px}.lab-window .lab-actions-bar{flex-wrap:wrap}.lab-window .lab-actions-bar button{font-size:11px;min-height:28px}.lab-window .lab-library-panel{min-width:0}.lab-window .lab-shell-library{grid-template-columns:repeat(2,minmax(0,1fr))}.lab-window .lab-shell-card b{white-space:normal}.lab-window .lab-shell-card canvas{max-width:100%}
+.sl-toolbar,.sl-transport,.sl-tools{display:flex;align-items:center;gap:5px;flex-wrap:wrap;padding:7px;background:var(--t-panel,#11181f);border-bottom:1px solid var(--t-line,#354958);color:var(--t-text,#e8f0f7);font-size:11px}.sl-toolbar button,.sl-transport button,.sl-tools button,.sl-row button,.sl-library button{min-height:27px;padding:4px 8px;border:1px solid var(--t-line,#354958);border-radius:4px;background:var(--t-bg,#101820);color:var(--t-text,#e8f0f7);font:600 11px 'Segoe UI',sans-serif}.sl-toolbar button.active,.sl-tools button.active{background:var(--t-accent-bg,#112f4e);border-color:var(--t-accent,#2793ed);color:var(--t-accent,#2793ed)}.sl-toolbar select,.sl-toolbar input,.sl-transport select,.sl-tools input,.sl-tools select,.sl-row input,.sl-row select,.sl-property input,.sl-property select{height:28px;min-width:0;border:1px solid var(--t-line,#354958);border-radius:4px;background:var(--t-input,var(--t-bg,#0d151c));color:var(--t-text,#e8f0f7);padding:3px 5px;font:11px 'Segoe UI',sans-serif}.sl-toolbar input[type=number]{width:70px}.sl-transport input[type=range]{flex:1;min-width:120px}.sl-transport output{font:11px Consolas;min-width:62px}.sl-note{font-size:11px;color:var(--t-muted,#a7bacb);padding:7px;line-height:1.5}.sl-section{padding:9px;border:1px solid var(--t-line,#354958);border-radius:3px;margin-bottom:8px;background:var(--t-panel,#11181f)}.sl-section h3{font-size:11px;margin:0 0 9px;color:var(--t-text,#e8f0f7)}.sl-properties{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}.sl-property{display:flex;flex-direction:column;gap:4px;font-size:11px;color:var(--t-text,#e8f0f7)}.sl-property input[type=checkbox]{align-self:start}.sl-property.wide{grid-column:1/-1}.sl-number-wrap{display:grid;grid-template-columns:1fr 70px 24px;gap:5px;align-items:center}.sl-number-wrap input[type=number]{width:70px;height:26px;font:11px Consolas;color:var(--t-text,#e8f0f7);background:var(--t-bg,#0d151c);border:1px solid var(--t-line,#354958)}.sl-number-wrap button{height:25px;padding:0;background:var(--t-panel,#11181f);color:var(--t-muted,#a7bacb);border:1px solid var(--t-line,#354958)}.sl-row{display:flex;gap:5px;align-items:center;margin-bottom:5px;flex-wrap:wrap}.sl-row input[type=number]{width:58px}.sl-row input[type=color]{width:34px;padding:2px}.sl-row select{max-width:140px}.sl-row .sl-grow{flex:1;min-width:80px}.sl-sequence-lane{height:38px;position:relative;margin-bottom:9px;border:1px solid var(--t-line,#354958);background:var(--t-bg,#0d151c);overflow:hidden}.sl-stage-dot{position:absolute;height:26px;top:5px;border:1px solid var(--t-accent,#2793ed);background:var(--t-accent-bg,#112f4e);color:var(--t-text,#e8f0f7);padding:3px;font-size:10px;cursor:ew-resize;white-space:nowrap;max-width:110px;overflow:hidden}.sl-stage.selected{border-color:var(--t-accent,#2793ed)}.sl-stage{padding:8px;border:1px solid var(--t-line,#354958);margin-bottom:6px}.sl-stage .sl-property input{width:100%}.sl-curve{width:100%;height:180px;border:1px solid var(--t-line,#354958);background:var(--t-bg,#0d151c);touch-action:none;cursor:crosshair}.sl-drawing{width:100%;flex:1;min-height:260px;touch-action:none;background:#08101a}.sl-draw-workspace{flex:1;min-height:0;display:flex;flex-direction:column}.sl-compare{display:flex;flex:1;min-height:180px}.sl-compare>div{flex:1;min-width:0;display:flex;flex-direction:column;color:#dbe6f0;text-align:center;font:11px Consolas}.sl-compare canvas{flex:1;width:100%;min-height:100px;height:0}.sl-hidden{display:none!important}.sl-library{display:grid;gap:5px}.sl-library button{text-align:left}.sl-status{padding:4px 8px;color:var(--t-muted,#a7bacb);background:var(--t-panel,#11181f);font:11px Consolas;min-height:21px}.sl-layer-extended{border-top:1px solid var(--t-line,#354958);padding-top:10px;margin-top:8px}.sl-locks{display:flex;gap:10px;flex-wrap:wrap;font-size:11px}.sl-locks label{display:flex;gap:4px;align-items:center}.sl-drawing:focus-visible,.sl-curve:focus-visible{outline:2px solid var(--t-accent,#2793ed)}
+@media(max-width:1200px){.lab-window .lab-shell-library{grid-template-columns:1fr}.lab-window .lab-tabs{grid-template-columns:repeat(4,1fr)}}
+
+.sl-section-reset{border:1px solid var(--t-line2);background:var(--t-panel2);color:var(--t-secondary);padding:3px 5px;border-radius:3px;cursor:pointer}.sl-section button:not(.sl-stage-dot){border:1px solid var(--t-line2);background:var(--t-panel2);color:var(--t-text);border-radius:4px;padding:5px 7px;font:600 11px Segoe UI}.sl-section button:hover,.sl-toolbar button:hover,.sl-tools button:hover,.sl-row button:hover{background:var(--t-hover);border-color:var(--t-accent)}.sl-property input[type=checkbox]{width:16px;height:16px}.sl-library .sl-row button{white-space:normal}
+
+/* Shell Lab has its own neutral silver frame; artwork keeps its original colors. */
+body[data-theme] .tool-window.lab-window{--sl-silver-bg:#202933;--sl-silver-head:#303d49;--sl-silver-line:#95a5b5;background:var(--sl-silver-bg);border:1px solid var(--sl-silver-line);box-shadow:0 24px 80px var(--t-shadow),0 0 0 1px #b5c3d34d}
+body[data-theme="sandstone"] .tool-window.lab-window{--sl-silver-bg:#e9edf1;--sl-silver-head:#dce3ea;--sl-silver-line:#8797a7}
+body[data-theme] .lab-window .tool-window-head{background:var(--sl-silver-head);border-bottom:1px solid var(--sl-silver-line)}
+body[data-theme] .lab-window .tool-window-body{background:var(--sl-silver-bg)}
+body[data-theme] .lab-window .tool-window-head b{color:var(--t-text)}
+body[data-theme] .lab-window .tool-window-head span{color:var(--t-secondary)}
+
+.sl-sidebar{grid-area:tools;display:flex;flex-direction:column;gap:8px;min-height:0;overflow:auto;padding:1px 4px 6px 1px}
+.sl-card{flex-shrink:0;background:var(--t-panel);border:1px solid var(--t-line2);border-radius:6px;padding:9px;box-shadow:0 1px 0 #a6b5c21a}
+.sl-sidebar .sl-toolbar,.sl-sidebar .sl-tools{align-items:stretch;gap:6px;padding:9px;border-bottom:1px solid var(--t-line2)}
+.sl-card h3,.sl-card-title{width:100%;margin:0 0 4px;color:var(--t-secondary);font:600 11px 'Segoe UI',sans-serif;letter-spacing:.04em}
+.sl-sidebar .sl-tools{display:flex;flex-direction:column}
+.sl-sidebar .sl-tools .sl-note{margin:0;padding:0;line-height:1.45;color:var(--t-secondary)}
+.sl-sidebar .sl-toolbar button{flex:1}
+.sl-sidebar .sl-tools button,.sl-project-card button{white-space:normal;text-align:left}
+.sl-sidebar .sl-tools button:disabled{opacity:.48;cursor:default}
+.sl-sidebar .sl-card #slDrawTools{border:0;padding:0;background:transparent}
+.sl-tool-grid{display:grid;grid-template-columns:1fr 1fr;gap:5px}
+.sl-tool-section{display:flex;flex-direction:column;gap:6px;padding-top:10px;margin-top:5px;border-top:1px solid var(--t-line2)}
+.sl-check{display:flex;align-items:center;gap:5px;font:11px 'Segoe UI',sans-serif;color:var(--t-text)}
+.sl-check input[type=checkbox]{width:15px;height:15px}
+.lab-layout>.lab-library-panel{grid-area:library;min-height:0;min-width:0;overflow:hidden;display:flex;flex-direction:column}
+.lab-layout>.lab-library-panel .lab-shell-library{flex:1;min-height:0;overflow:auto;height:auto;padding:5px 0 0;grid-template-columns:repeat(2,minmax(0,1fr))}
+.lab-window .sl-transport{flex-shrink:0;border-top:1px solid var(--t-line2);border-bottom:0}
+.sl-transport [data-lab-action="launch"]{border-color:var(--t-accent);background:var(--t-accent-bg);color:var(--t-accent2)}
+.lab-window .lab-preview,.lab-window .lab-editor{min-width:0}
+
+
+.sl-shape-manager h3{display:flex;justify-content:space-between;align-items:center}
+.sl-shape-manager h3 span{padding:2px 6px;border-radius:4px;background:var(--t-panel2);color:var(--t-text)}
+.sl-shape-list{display:grid;gap:5px;max-height:210px;overflow:auto;margin:6px 0 9px}
+.sl-shape-row{display:flex;gap:5px;align-items:center;padding:5px;border:1px solid var(--t-line2);border-radius:5px;background:var(--t-bg);min-width:0}
+.sl-shape-row.selected{border-color:var(--t-accent);background:var(--t-accent-bg)}
+.sl-shape-row button,.sl-shape-add button,.sl-shape-manager>.sl-row button{min-height:27px;border:1px solid var(--t-line2);border-radius:4px;background:var(--t-panel2);color:var(--t-text);padding:4px;font:600 10px 'Segoe UI',sans-serif}
+.sl-shape-row .sl-shape-pick{width:33px;height:33px;flex-shrink:0;color:var(--t-accent);padding:1px}
+.sl-shape-pick svg{display:block;width:100%;height:100%}
+.sl-shape-empty-icon{display:block;font-size:19px;text-align:center}
+.sl-shape-info{flex:1;min-width:0}.sl-shape-info input{width:100%;min-width:0;height:23px;border:1px solid transparent;background:transparent;color:var(--t-text);font:600 11px 'Segoe UI',sans-serif;border-radius:3px;padding:2px}
+.sl-shape-info input:focus{border-color:var(--t-accent);background:var(--t-panel2);outline:none}
+.sl-shape-row .sl-shape-detail{border:0;background:transparent;color:var(--t-secondary);font:10px 'Segoe UI',sans-serif;text-align:left;padding:0;min-height:18px;width:100%}
+.sl-shape-manager .sl-remove{color:var(--t-danger);border-color:color-mix(in srgb,var(--t-danger) 40%,var(--t-line2))}
+.sl-shape-add{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:5px;margin-bottom:6px}
+.sl-shape-add select{width:100%;min-width:0;height:28px;padding:3px;border:1px solid var(--t-line2);border-radius:4px;background:var(--t-panel2);color:var(--t-text);font:11px 'Segoe UI',sans-serif}
+.sl-shape-empty{padding:12px 6px;margin:0;color:var(--t-secondary);font:11px 'Segoe UI',sans-serif;line-height:1.5}
+.sl-shape-manager .sl-note{margin:0;padding:3px 0;color:var(--t-secondary)}
+.sl-shape-row .sl-base-shape{flex:1;min-width:0;text-align:left;border:0;background:transparent;font-size:11px}.sl-base-shape small{display:block;margin-top:3px;color:var(--t-secondary);font-weight:400;font-size:10px}
+.sl-shape-manager button:disabled,.sl-toolbar button:disabled{opacity:.45;cursor:default}
+
+/* Each column scrolls independently; tools sit between library and canvas. */
+.lab-window .lab-layout{grid-template-areas:"library tools canvas editor";grid-template-columns:190px 250px minmax(380px,1fr) 390px;grid-template-rows:minmax(0,1fr);min-width:1240px;gap:8px}
+.lab-window .lab-layout>.lab-library-panel{grid-area:library}
+.lab-window .lab-layout>.lab-preview{grid-area:canvas}
+.lab-window .lab-layout>.lab-editor{grid-area:editor}
+@media(max-width:1200px){.lab-window .lab-layout{grid-template-columns:150px 230px minmax(340px,1fr) 360px;min-width:1104px}.lab-layout>.lab-library-panel .lab-shell-library{grid-template-columns:1fr}}
+
+/* Usability review: preserve Library → tools → canvas → settings, with readable rows and a fixed save card. */
+.lab-window .lab-layout{grid-template-columns:208px 258px minmax(360px,1fr) 390px}
+.sl-sidebar{overflow:hidden;padding-right:0}.sl-card-scroll{flex:1;min-height:0;overflow:auto;display:flex;flex-direction:column;gap:8px;padding-right:4px}
+.sl-sidebar>.sl-toolbar,.sl-sidebar>.sl-project-card{flex:none}.sl-card{border-radius:4px}
+.sl-sidebar .sl-toolbar{padding:8px}.sl-card-title{margin-bottom:0}.sl-card h3{letter-spacing:0;font-size:11px}
+.sl-sidebar .sl-tools{padding:8px}.sl-sidebar .sl-tools button{min-height:30px;font-size:11px}
+.sl-sidebar .sl-card details>summary{cursor:pointer;color:var(--t-text);font:600 12px 'Segoe UI';padding:3px 0}
+.sl-tool-section{gap:5px;padding-top:7px;margin-top:3px}.sl-tool-section h3{margin-bottom:0}
+.sl-tool-section[open]{display:flex;flex-direction:column}.sl-tool-section .sl-note{font-size:11px}
+.sl-tool-grid{grid-template-columns:repeat(4,minmax(0,1fr));gap:4px}.sl-sidebar .sl-tool-grid button{padding:4px 2px;font-size:10px;text-align:center}
+.sl-project-card{display:grid!important;grid-template-columns:1fr 1fr;gap:5px!important}.sl-project-card h3,.sl-project-card #slSaveNote,.sl-project-card [data-lab-action="save"]{grid-column:1/-1}
+.sl-project-card [data-lab-action="save"]{text-align:center;font-size:12px!important;min-height:32px!important;border-color:var(--t-accent);color:var(--t-accent2);background:var(--t-accent-bg)}
+.sl-project-card #slSaveNote{font-size:11px;line-height:1.4}.sl-unsaved .tool-window-head #labWindowSub:after{content:' · Unsaved changes';color:var(--t-accent2)}
+.sl-shape-list{max-height:150px}.sl-shape-manager #slShapeNote{font-size:10px;line-height:1.4}
+.lab-layout>.lab-library-panel .lab-shell-library{display:flex;flex-direction:column;gap:5px;align-items:stretch}
+.lab-window .lab-shell-card{flex:none;display:grid;grid-template-columns:38px minmax(0,1fr);grid-template-rows:auto auto;gap:2px 6px;align-items:center;min-height:56px;padding:6px;text-align:left}
+.lab-window .lab-shell-card canvas{grid-row:1/3;width:34px;height:34px;margin:0}.lab-window .lab-shell-card b{font-size:11px;word-break:normal;overflow-wrap:normal;line-height:1.25}.lab-window .lab-shell-card span{font-size:10px}
+.lab-window .lab-shell-card[hidden]{display:none}.lab-window #slLibrarySearch{width:100%;height:30px;margin:6px 0 4px;border:1px solid var(--t-line2);border-radius:4px;background:var(--t-panel2);color:var(--t-text);padding:5px;font:11px 'Segoe UI'}
+.lab-window .lab-tabs{grid-template-columns:repeat(4,minmax(0,1fr));min-height:72px}.lab-window .lab-tabs button{font-size:11px;line-height:1.25;padding:5px 2px}
+.lab-window .field>span,.lab-window .toggle-row{font-size:11px;color:var(--t-secondary)}.lab-window .field{margin-bottom:10px}.lab-window .group h3{font-size:11px;letter-spacing:.04em}.lab-window .group-body{padding:10px}
+.lab-window .color-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.lab-window .color-grid label{display:flex;flex-direction:column;gap:4px;min-width:0;font-size:10px}.lab-window .color-grid input[type=color]{width:100%;min-width:0;height:28px}
+.lab-window .lab-layer-row{grid-template-columns:minmax(0,1fr) 44px}.lab-window .lab-layer-solo{width:36px}.lab-window .lab-readouts span{font-size:10px}
+.sl-transport button:disabled,.sl-transport input:disabled{opacity:.45}.sl-transport button{min-height:30px}.sl-status{font:11px 'Segoe UI';line-height:1.35;min-height:24px}
+.lab-window input:focus-visible,.lab-window select:focus-visible,.lab-window button:focus-visible,.lab-window summary:focus-visible{outline:2px solid var(--t-accent);outline-offset:1px}
+@media(max-width:1200px){.lab-window .lab-layout{grid-template-columns:180px 246px minmax(340px,1fr) 360px;min-width:1152px}}
+
+.sl-inactive{opacity:.45}.sl-project-card button{min-height:30px}.sl-project-card [data-lab-action="new-shell"]{grid-column:1/-1}
+
+.lab-window .lab-shell-card{height:auto;min-height:62px}.lab-window .lab-shell-card canvas{order:0}.lab-window .lab-shell-card b{padding-right:0}
+.sl-card-scroll>.sl-tools:first-child{display:grid;grid-template-columns:1fr 1fr}.sl-card-scroll>.sl-tools:first-child h3{grid-column:1/-1}.sl-card-scroll>.sl-tools:first-child button{text-align:center}
+.sl-project-card{grid-template-columns:repeat(3,minmax(0,1fr))!important}.sl-project-card [data-lab-action="new-shell"]{grid-column:auto}.sl-project-card button:not([data-lab-action="save"]){padding:4px;font-size:10px!important;text-align:center}
+.sl-correction-actions{display:grid;grid-template-columns:1fr 1fr;gap:4px}.sl-sidebar .sl-correction-actions button{text-align:center;padding:4px}.sl-correction-actions button:last-child{grid-column:1/-1}
+.sl-tool-section>label.sl-property{display:grid;grid-template-columns:1fr auto;gap:4px}.sl-tool-section>label.sl-property input{grid-column:1/-1}
+.sl-more-drawing{padding-top:8px;border-top:1px solid var(--t-line2);margin-top:7px}.sl-shape-manager .sl-note{line-height:1.25}

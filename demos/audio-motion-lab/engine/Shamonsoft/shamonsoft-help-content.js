@@ -311,7 +311,7 @@ window.AML_HELP_ARTICLES = [
     "title": "Keep animation smooth",
     "summary": "Reduce the heaviest settings before adding more layers.",
     "tags": "slow choppy jitter gpu cpu memory stutter lag performance resolution fps trails",
-    "body": "<ul><li>Start with 1920×1080 or 1280×720 and 30 or 60 FPS rather than 4K/120 FPS.</li><li>Reduce particle counts, procedural complexity, trails, feedback, glow and unnecessary layers.</li><li>Use a lower preview-quality setting for editing; set export resolution separately.</li><li>Close GPU-heavy applications and keep the recording window visible.</li></ul><p>Hardware, media decoding and scene complexity determine performance. The demo limits exports to 60 seconds; practical resolution and frame rate depend on your browser and hardware.</p>",
+    "body": "<ul><li>Start with 1920×1080 or 1280×720 and 30 or 60 FPS rather than 4K/120 FPS.</li><li>Reduce particle counts, procedural complexity, trails, feedback, glow and unnecessary layers.</li><li>Use a lower preview-quality setting for editing; set export resolution separately.</li><li>Close GPU-heavy applications and keep the recording window visible.</li></ul><p>Hardware, media decoding and scene complexity determine performance. The demo limits exports to 30 seconds; practical resolution and frame rate depend on your browser and hardware.</p>",
     "related": [
       "preview-tools",
       "long-recordings",
@@ -337,7 +337,7 @@ window.AML_HELP_ARTICLES = [
     "title": "Set resolution, FPS, length and bitrate",
     "summary": "Choose export settings before starting a recording.",
     "tags": "format resolution custom portrait square landscape width height fps bitrate length quality 3 hours",
-    "body": "<p>The upper bar chooses Format / Codec, Resolution, FPS, Length, Video bitrate and Audio bitrate. Resolution includes landscape, portrait, square and Custom size.</p><p>Custom sizes support 64–7680 pixels per side. FPS options extend from 24 to 120. The browser demo offers 10, 30 or 60 seconds. Large dimensions and high FPS can exceed your machine’s practical capture speed.</p><p>These controls lock while a recording or conversion session is active. The session keeps the settings chosen when it started; changing visible settings later is not a conversion override for that session.</p><p>For WebM, bitrate is a capture target rather than an exact final file size. Audio bitrate applies to WebM audio, not GIF/PNG.</p>",
+    "body": "<p>The upper bar chooses Format / Codec, Resolution, FPS, Length, Video bitrate and Audio bitrate. Resolution includes landscape, portrait, square and Custom size.</p><p>Custom sizes support 64–7680 pixels per side. FPS options extend from 24 to 120. The browser demo offers 10, 30 or 30 seconds. Large dimensions and high FPS can exceed your machine’s practical capture speed.</p><p>These controls lock while a recording or conversion session is active. The session keeps the settings chosen when it started; changing visible settings later is not a conversion override for that session.</p><p>For WebM, bitrate is a capture target rather than an exact final file size. Audio bitrate applies to WebM audio, not GIF/PNG.</p>",
     "related": [
       "recording",
       "long-recordings",
@@ -350,7 +350,7 @@ window.AML_HELP_ARTICLES = [
     "title": "Record and export a video",
     "summary": "Capture plays in real time; finishing works on the recorded footage.",
     "tags": "start rec stop rec save now export realtime duration pause minimize foreground background wait finish",
-    "body": "<ol><li>Choose your visual setup, track and export settings.</li><li>Click <b>Start Rec</b> and keep the app visible. Capture runs in real time; a one-minute recording needs one minute of active recording time.</li><li>Click <b>Stop Rec</b> when you have enough footage, or let the selected length stop capture.</li><li>Click <b>Save Now</b> or <b>EXPORT</b>, choose a destination and wait for completion.</li></ol><p>Stop Rec pauses recording and music; Start Rec can resume a paused, unfinalized session. Hiding/minimizing the app pauses animated capture; restore it and click Start Rec to resume.</p><p>Finishing seals the capture and packages/converts existing footage. That stage runs as fast as the task and hardware allow, can run minimized, and may take time for long GIF/PNG exports. Stop Rec cancels conversion; retained capture can be retried.</p><p>Do not start a replacement recording until you have saved or recovered the previous footage you need.</p>",
+    "body": "<ol><li>Choose your visual setup, track and export settings.</li><li>Click <b>Start Rec</b> and keep the app visible. Capture runs in real time; a one-minute recording needs 30 seconds of active recording time.</li><li>Click <b>Stop Rec</b> when you have enough footage, or let the selected length stop capture.</li><li>Click <b>Save Now</b> or <b>EXPORT</b>, choose a destination and wait for completion.</li></ol><p>Stop Rec pauses recording and music; Start Rec can resume a paused, unfinalized session. Hiding/minimizing the app pauses animated capture; restore it and click Start Rec to resume.</p><p>Finishing seals the capture and packages/converts existing footage. That stage runs as fast as the task and hardware allow, can run minimized, and may take time for long GIF/PNG exports. Stop Rec cancels conversion; retained capture can be retried.</p><p>Do not start a replacement recording until you have saved or recovered the previous footage you need.</p>",
     "related": [
       "recover-recording",
       "long-recordings",
@@ -374,9 +374,9 @@ window.AML_HELP_ARTICLES = [
     "id": "long-recordings",
     "category": "Recording and export",
     "title": "Demo duration and browser storage",
-    "summary": "Exports are limited to 60 seconds; editing and playback are unrestricted.",
+    "summary": "Exports are limited to 30 seconds; editing and playback are unrestricted.",
     "tags": "3 hour three hours endurance large file disk space bitrate storage limits ram",
-    "body": "<p>Choose 10, 30 or 60 seconds. The demo stops recording at its selected limit, and the exporter independently removes media beyond that limit. GIF and PNG conversion may take longer than the capture.</p><p>Projects, media and recovery recordings are stored locally in this browser using IndexedDB. Browser storage can be cleared or evicted; download important projects using Save. Private browsing may offer less space.</p><p>GIF and PNG conversion have a 512 MB working-data limit. If the scene exceeds it, the original recording stays recoverable; use a lower resolution, frame rate or shorter capture.</p>",
+    "body": "<p>Choose 10, 30 or 30 seconds. The demo stops recording at its selected limit, and the exporter independently removes media beyond that limit. GIF and PNG conversion may take longer than the capture.</p><p>Projects, media and recovery recordings are stored locally in this browser using IndexedDB. Browser storage can be cleared or evicted; download important projects using Save. Private browsing may offer less space.</p><p>GIF and PNG conversion have a 512 MB working-data limit. If the scene exceeds it, the original recording stays recoverable; use a lower resolution, frame rate or shorter capture.</p>",
     "related": [
       "recording",
       "performance",

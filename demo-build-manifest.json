@@ -1,0 +1,33 @@
+{
+  "schema": 1,
+  "websiteRevision": "2026-10-19-three-demos-30s",
+  "publication": "Local editor project only; not published",
+  "demos": [
+    {
+      "product": "Audio Motion Lab",
+      "desktopReference": "6.7",
+      "path": "demos/audio-motion-lab/",
+      "maxExportSeconds": 30,
+      "samples": 5
+    },
+    {
+      "product": "Fireworks Premier",
+      "desktopReference": "6.4",
+      "path": "demos/fireworks-premier/",
+      "maxExportSeconds": 30,
+      "samples": "Five shared owner-cleared AML tracks"
+    },
+    {
+      "product": "CursorFlux Pro",
+      "desktopReference": "7.3",
+      "path": "demos/cursorflux-pro/",
+      "exports": false,
+      "windowsInstallation": false,
+      "families": 14,
+      "roles": 17,
+      "materials": 44,
+      "nativeGeometrySourceSha256": "D4BF07B552FF0B3EDFC066A8070C6293F7FD97969F5BBB9845BF0DA117B9F35D"
+    }
+  ],
+  "maintenance": "For each native app revision, review and update its browser demo from the same source, preserve browser-only limits, record the source revision here and check the demo before publishing. CursorFlux C# renderer changes require a corresponding browser port update; this manifest does not automatically port them."
+}

@@ -12,6 +12,7 @@
   <link rel="stylesheet" href="./shamonsoft-audio.css" />
   <link rel="stylesheet" href="./shamonsoft-studio.css" />
   <link rel="stylesheet" href="./shamonsoft-help.css" />
+  <link rel="stylesheet" href="../../browser-layout.css?v=2" />
   <script>
     window.__shamonsoftRuntimeErrors = [];
     window.addEventListener('error', event => window.__shamonsoftRuntimeErrors.push(String(event.error?.stack || event.message || 'Unknown error')));
@@ -54,7 +55,7 @@
           <label class="field"><span>Format / Codec</span><select id="export-format-select"><option value="webm-vp8">WebM · VP8/Opus</option><option value="gif">Animated GIF</option><option value="png-sequence">PNG Sequence · ZIP</option></select></label>
           <label class="field"><span>Resolution</span><select id="export-resolution-select"><optgroup label="Landscape"><option value="1280x720">1280x720 HD</option><option value="1920x1080" selected>1920x1080 Full HD</option><option value="2560x1080">2560x1080 Ultrawide</option><option value="2560x1440">2560x1440 QHD</option><option value="3440x1440">3440x1440 Ultrawide</option><option value="3840x2160">3840x2160 4K</option></optgroup><optgroup label="Social / Portrait"><option value="1080x1920">1080x1920 Portrait</option><option value="1080x1350">1080x1350 Portrait Post</option><option value="1080x1080">1080x1080 Square</option></optgroup><optgroup label="Custom"><option value="custom">Custom size…</option></optgroup></select></label>
           <label class="field"><span>FPS</span><select id="export-fps-select"><option value="24">24</option><option value="25">25</option><option value="30">30</option><option value="50">50</option><option value="60" selected>60</option><option value="120">120</option></select></label>
-          <label class="field"><span>Length</span><select id="export-length-select"><option value="10">10 Seconds</option><option value="30">30 Seconds</option><option value="60" selected>1 Minute · Demo limit</option></select></label>
+          <label class="field"><span>Length</span><select id="export-length-select"><option value="5">5 Seconds</option><option value="10">10 Seconds</option><option value="30" selected>30 Seconds · Demo limit</option></select></label>
           <label class="field"><span>Video bitrate</span><select id="export-quality-select"><option value="3">Draft · 3 Mbps</option><option value="6">Medium · 6 Mbps</option><option value="12" selected>High · 12 Mbps</option><option value="24">Ultra · 24 Mbps</option><option value="40">Master · 40 Mbps</option></select></label>
           <div class="field theme-mode-field"><span>Mode</span><button id="shamonsoft-mode-button" class="tiny-btn text-btn" type="button" aria-label="Switch to Light mode" aria-pressed="false">Dark</button></div>
           <label class="field"><span>Audio</span><select id="export-audio-select"><option value="128">128 kbps</option><option value="192">192 kbps</option><option value="320" selected>320 kbps</option></select></label>
@@ -674,7 +675,7 @@
       format: exportFormatSelect.value,
       resolution: exportResolutionSelect.value,
       fps: Number(exportFpsSelect.value),
-      durationSeconds: Math.min(60, Math.max(1, Number(exportLengthSelect.value) || 60)),
+      durationSeconds: Math.min(30, Math.max(1, Number(exportLengthSelect.value) || 30)),
       quality: exportQualitySelect.value,
       audioBitrate: Number(exportAudioSelect.value),
       customWidth: 1920,
@@ -737,7 +738,7 @@
       exportState.format = exportFormatSelect.value;
       exportState.resolution = exportResolutionSelect.value;
       exportState.fps = Number(exportFpsSelect.value);
-      exportState.durationSeconds = Math.min(60, Math.max(1, Number(exportLengthSelect.value) || 60));
+      exportState.durationSeconds = Math.min(30, Math.max(1, Number(exportLengthSelect.value) || 30));
       exportState.quality = exportQualitySelect.value;
       exportState.audioBitrate = Number(exportAudioSelect.value);
       exportState.customWidth = Math.max(64, Math.min(7680, Number(customResolutionWidth.value || 1920)));
@@ -785,7 +786,7 @@
       if (stored.format) exportFormatSelect.value = stored.format;
       if (stored.resolution) exportResolutionSelect.value = stored.resolution;
       if (stored.fps) exportFpsSelect.value = String(stored.fps);
-      if (stored.durationSeconds) exportLengthSelect.value = String(Math.min(Number(stored.durationSeconds), 60));
+      if (stored.durationSeconds) exportLengthSelect.value = String(Math.min(Number(stored.durationSeconds), 30));
       if (stored.quality) exportQualitySelect.value = stored.quality;
       if (stored.audioBitrate) exportAudioSelect.value = String(stored.audioBitrate);
       customResolutionWidth.value = String(Math.max(64, Math.min(7680, Number(stored.customWidth || 1920))));
@@ -1135,7 +1136,7 @@
     function stopRecordingSession() { return window.__amlExport.stop(); }
 
     function getSelectedVideoLengthSeconds() {
-      return Math.min(60, window.__amlExport?.duration?.() ?? Number(exportLengthSelect?.value || 60));
+      return Math.min(30, window.__amlExport?.duration?.() ?? Number(exportLengthSelect?.value || 30));
     }
 
     function updateVideoTimeline() {

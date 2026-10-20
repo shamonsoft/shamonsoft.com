@@ -243,7 +243,7 @@
 
   function validate(project) {
     if(!project||project.schema!=="shamonsoft-project-v1"||!project.controls||typeof project.controls!=="object"||Array.isArray(project.controls))throw new Error("This is not a compatible AML settings file.");
-    const next=structuredClone(project); if(next.controls["id:export-length-select"]) next.controls["id:export-length-select"].value=String(Math.min(60,Number(next.controls["id:export-length-select"].value)||60)); const entries=Object.entries(next.controls);
+    const next=structuredClone(project); if(next.controls["id:export-length-select"]) next.controls["id:export-length-select"].value=String(Math.min(30,Number(next.controls["id:export-length-select"].value)||30)); const entries=Object.entries(next.controls);
     if(entries.length>10000)throw new Error("The settings file has too many controls.");
     for(const [key,value] of entries){if(!value||typeof value!=="object"||Array.isArray(value)||key.length>500)throw new Error("Invalid project control: "+key);if(value.value!=null&&!["string","number","boolean"].includes(typeof value.value))throw new Error("Invalid control value.");if(typeof value.value==="number"&&!Number.isFinite(value.value))throw new Error("Invalid numeric control.");if(value.checked!=null&&typeof value.checked!=="boolean")throw new Error("Invalid toggle value.")}
     if(next.layerOrder!=null&&(!Array.isArray(next.layerOrder)||next.layerOrder.some(x=>typeof x!=="string")))throw new Error("Invalid layer order.");

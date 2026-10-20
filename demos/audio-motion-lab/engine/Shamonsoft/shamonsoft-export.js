@@ -65,7 +65,7 @@
     if (session) throw new Error('Save/export the existing recording before starting another one.');
     if (document.hidden) throw new Error('Keep the app visible while recording animated content.');
     syncExportStateFromControls();
-    settings = { ...buildExportRequest(), durationSeconds: Math.min(60, buildExportRequest().durationSeconds || 60), hardwareEncode: false };
+    settings = { ...buildExportRequest(), durationSeconds: Math.min(30, buildExportRequest().durationSeconds || 30), hardwareEncode: false };
     const config = recorderConfig();
     ensureAudioAnalysis();
     if (!audioContext || !mediaSource) throw new Error('Audio capture is unavailable. Restart the app before recording.');
