@@ -1,6 +1,6 @@
 (() => {
  const $=s=>document.querySelector(s);let frame,closing=false;
- function launch(){if(frame)return;frame=document.createElement('iframe');frame.title='Audio Motion Lab creative workspace';frame.allow='autoplay; fullscreen; screen-wake-lock';frame.src='engine/Shamonsoft/index.html?browser-demo=1&v=20261030-demo107';frame.onload=()=>$('#loading').remove();$('#workspace').append(frame)}
+ function launch(){if(frame)return;frame=document.createElement('iframe');frame.title='Audio Motion Lab creative workspace';frame.allow='autoplay; fullscreen; screen-wake-lock';frame.src='engine/Shamonsoft/index.html?browser-demo=1&v=20261030-demo108';frame.onload=()=>$('#loading').remove();$('#workspace').append(frame)}
  function close(){if(closing)return;closing=true;window.close();setTimeout(()=>{location.href='../../audio-motion-lab.html'},150)}
  $('#close-demo').onclick=()=>{if(frame)frame.contentWindow.postMessage({type:'aml-demo-request-close'},location.origin);else close()};
  window.addEventListener('message',e=>{if(e.source!==frame?.contentWindow||e.origin!==location.origin)return;if(e.data?.type==='aml-demo-close')close();if(e.data?.type==='aml-demo-size'){window.resizeTo(Math.min(1728,screen.availWidth),Math.min(972,screen.availHeight));frame.contentWindow.dispatchEvent(new Event('resize'))}});

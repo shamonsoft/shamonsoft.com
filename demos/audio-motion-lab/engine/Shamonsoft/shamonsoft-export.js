@@ -193,8 +193,8 @@
     sealed = true;
     return null;
   }
-  async function choose() { throw new Error('Exports are available in the paid Windows app.'); }
-  async function save() { status('Exports are available in the paid Windows app.',true);return false; }
+  async function choose() { throw new Error('Feature locked in demo'); }
+  async function save() { status('Feature locked in demo',true);return false; }
   function reset() {
     if (exporting || starting) return;
     stop();
@@ -205,10 +205,10 @@
     mediaCaptureState.stream = null; window.__shamonsoftCompositor?.setCaptureSize();
     lock();
   }
-  window.__amlStopAtLimit = () => { stop(); status('Recording reached its demo limit. Exports require the paid Windows app.'); };
+  window.__amlStopAtLimit = () => { stop(); status('Recording reached its demo limit. Feature locked in demo'); };
   window.__amlPauseHidden = pauseHidden;
   document.addEventListener('visibilitychange', () => { if (document.hidden) pauseHidden(); });
-  exportPathButton.title = 'Exporting is available in the paid Windows app.';
+  exportPathButton.title = 'Feature locked in demo';
   window.__amlExport = { ensure, start, stop, tick, finalize, choose, save, reset,
     busy:()=>Boolean(session||starting||exporting),
     duration: () => settings?.durationSeconds };

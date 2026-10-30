@@ -3,10 +3,10 @@ window.AML_HELP_ARTICLES = [
     "id": "demo-output",
     "category": "Getting started",
     "title": "Browser demo: full interface, exports disabled",
-    "summary": "Explore all settings. Grayed export buttons require the paid Windows app.",
+    "summary": "Explore all settings. Grayed export buttons are locked in this demo.",
     "tags": "demo export paid disabled gray",
     "related": [],
-    "body": "<p>This demo shows the full app interface, options and Help. Media-export actions remain visible and grayed out. Preview, editing, music playback and project save/open stay available. Export instructions elsewhere in Help describe the paid Windows app.</p>"
+    "body": "<p>This demo shows the full app interface, options and Help. Media-export actions remain visible and grayed out. Preview, editing, music playback and project save/open stay available. Export instructions elsewhere in Help describe the full version.</p>"
   },
   {
     "id": "first-scene",

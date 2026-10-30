@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "websiteRevision": "20261030-demo107",
+  "websiteRevision": "20261030-demo108",
   "publication": "Local candidate; exact public deployment pending",
   "demos": [
     {
@@ -15,7 +15,7 @@
       "restorePrompt": false,
       "saveBeforeExitPrompt": false,
       "startup": "fresh-demo",
-      "assetRevision": "20261030-demo107"
+      "assetRevision": "20261030-demo108"
     },
     {
       "product": "Fireworks Premier",
@@ -29,7 +29,7 @@
       "restorePrompt": false,
       "saveBeforeExitPrompt": false,
       "startup": "fresh-demo",
-      "assetRevision": "20261030-demo107"
+      "assetRevision": "20261030-demo108"
     },
     {
       "product": "CursorFlux Pro",

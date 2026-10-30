@@ -44,7 +44,7 @@
  case 'clock':if(p.active){try{wake=await navigator.wakeLock?.request('screen')}catch{}}else{await wake?.release().catch(()=>{});wake=null}return true;
  case 'seal':{const r=await record(p.session);r.seconds=Math.min(30,r.options.durationSeconds,Math.max(.001,Number(p.seconds)||.001));r.sealed=true;await put('recordings',p.session,r);return true}
  case 'recover':{const id=await get('state','last-recording');if(!id)return{};const r=await record(id);if(!r.sequence)return{};const o=r.options;r.seconds=Math.min(30,Number(r.seconds)||0);if(!r.sealed){const chunks=[];for(let i=0;i<r.sequence;i++){const c=await get('chunks',id+':'+i);if(!c)throw Error('Retained recording is incomplete');chunks.push(c)}const trimmed=await AMLBrowserExport.trimWebM(new Blob(chunks,{type:'video/webm'}),o,Math.min(30,o.durationSeconds));r.seconds=trimmed.seconds;r.sealed=true;await put('recordings',id,r)}return{session:id,seconds:r.seconds,options:{Duration:Math.min(30,o.durationSeconds),Format:o.format,Width:o.resolution.width,Height:o.resolution.height,Fps:o.fps,VideoMbps:o.videoBitrateMbps,AudioKbps:o.audioBitrateKbps}}}
- case 'choose':case 'finish':throw Error('Exports are available in the paid Windows app.');
+ case 'choose':case 'finish':throw Error('Feature locked in demo');
  case 'cancel':conversion?.abort();return true;
  case 'preserve':return true;
  default:throw Error('Unsupported recording action: '+action);

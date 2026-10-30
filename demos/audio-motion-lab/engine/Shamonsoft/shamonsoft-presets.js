@@ -263,7 +263,7 @@
     notify("Preset deleted");
   }
 
-  function exportPresets() { notify('Preset exports are available in the paid Windows app.'); }
+  function exportPresets() { notify('Feature locked in demo'); }
 
   async function importPresets(file) {
     if (!file) return;

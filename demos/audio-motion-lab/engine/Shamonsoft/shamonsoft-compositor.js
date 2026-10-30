@@ -528,7 +528,7 @@
     requestAnimationFrame(frame);
   }
 
-  async function snapshot() { throw new Error('Snapshots are available in the paid Windows app.'); }
+  async function snapshot() { throw new Error('Feature locked in demo'); }
 
   function setCaptureSize(width, height) {
     captureWidth = Number.isFinite(Number(width)) ? Math.max(64, Math.min(7680, Math.round(Number(width)))) : 0;

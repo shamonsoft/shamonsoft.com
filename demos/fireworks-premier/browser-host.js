@@ -28,7 +28,7 @@
    }
    case 'open-saved-show':{const item=await get('projects',payload);if(!item)throw Error('This saved show is no longer available.');if(await window.__studioLoadProject(item.json))currentProject=item.id;return;}
    case 'project-reset':currentProject=null;return;
-   case 'export-request':case 'capture-start':case 'capture-chunk':case 'capture-finish':case 'capture-abort':case 'retry-export':case 'save-still':throw Error('Exports are available in the paid Windows app.');
+   case 'export-request':case 'capture-start':case 'capture-chunk':case 'capture-finish':case 'capture-abort':case 'retry-export':case 'save-still':throw Error('Feature locked in demo');
    case 'request-custom-scenes':await scenes();return;
    case 'save-custom-scene':{
     if(typeof payload.data!=='string'||!/^data:(image|video)\//.test(payload.data)||payload.data.length>64*1024*1024)throw Error('Scene media is invalid or exceeds the 64 MB browser limit.');
