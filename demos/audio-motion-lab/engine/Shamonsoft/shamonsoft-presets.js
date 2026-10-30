@@ -263,25 +263,7 @@
     notify("Preset deleted");
   }
 
-  function exportPresets() {
-    if (presets.length === 0) {
-      notify("There are no presets to export.");
-      return;
-    }
-    const backup = {
-      schema: "shamonsoft-val-presets-v1",
-      product: "Audio Motion Lab",
-      exportedAt: new Date().toISOString(),
-      presets,
-    };
-    const blob = new Blob([JSON.stringify(backup, null, 2)], { type: "application/json" });
-    const link = document.createElement("a");
-    link.href = URL.createObjectURL(blob);
-    link.download = `Shamonsoft-Presets-${new Date().toISOString().slice(0, 10)}.json`;
-    link.click();
-    setTimeout(() => URL.revokeObjectURL(link.href), 1000);
-    notify(`Exported ${presets.length} preset${presets.length === 1 ? "" : "s"}.`);
-  }
+  function exportPresets() { notify('Preset exports are available in the paid Windows app.'); }
 
   async function importPresets(file) {
     if (!file) return;

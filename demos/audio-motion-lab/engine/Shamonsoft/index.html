@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Audio Motion Lab — Browser Demo</title>
 <script src="../../jszip.min.js"></script>
-<script src="../../browser-export.js"></script>
+
 <script src="../../browser-host.js"></script>
   <link rel="stylesheet" href="../Synesthia/src/styles.css" />
   <link rel="stylesheet" href="./shamonsoft.css" />
@@ -38,7 +38,7 @@
   <script src="./shamonsoft-theme.js"></script>
   <script src="./shamonsoft-runway-glass.js"></script>
   <script src="../Synesthia/src/fallback-renderer.js"></script>
-</head>
+<style id="demo-no-export-style">.time-row[title*="Recording"],.time-row[title*="Recording"],.export-grid>label,.audio-export-row,#export-presets-button,[data-action*="snapshot"],#export-format-select,#export-resolution-select,#export-fps-select,#export-length-select,#export-quality-select,#export-audio-select{display:none!important}.demo-preview-header{display:flex!important;align-items:center;gap:12px}.demo-paid-note{font-size:12px;line-height:1.5;padding:8px 12px;color:var(--text,#aab7c5)}.top-bar{grid-template-columns:minmax(280px,1fr) minmax(280px,1fr)!important}</style></head>
 <body>
   <div class="app-shell">
     <header class="top-bar panel">
@@ -51,7 +51,7 @@
         </div>
       </div>
       <div class="export-block panel">
-        <div class="export-grid">
+        <div class="export-grid demo-preview-header"><span class="demo-paid-note">Preview and create here. <a href="../../../../audio-motion-lab.html" target="_top">Get Audio Motion Lab</a> to export.</span>
           <label class="field"><span>Format / Codec</span><select id="export-format-select"><option value="webm-vp8">WebM · VP8/Opus</option><option value="gif">Animated GIF</option><option value="png-sequence">PNG Sequence · ZIP</option></select></label>
           <label class="field"><span>Resolution</span><select id="export-resolution-select"><optgroup label="Landscape"><option value="1280x720">1280x720 HD</option><option value="1920x1080" selected>1920x1080 Full HD</option><option value="2560x1080">2560x1080 Ultrawide</option><option value="2560x1440">2560x1440 QHD</option><option value="3440x1440">3440x1440 Ultrawide</option><option value="3840x2160">3840x2160 4K</option></optgroup><optgroup label="Social / Portrait"><option value="1080x1920">1080x1920 Portrait</option><option value="1080x1350">1080x1350 Portrait Post</option><option value="1080x1080">1080x1080 Square</option></optgroup><optgroup label="Custom"><option value="custom">Custom size…</option></optgroup></select></label>
           <label class="field"><span>FPS</span><select id="export-fps-select"><option value="24">24</option><option value="25">25</option><option value="30">30</option><option value="50">50</option><option value="60" selected>60</option><option value="120">120</option></select></label>
@@ -1966,5 +1966,5 @@
   <script src="./shamonsoft-export.js"></script>
   <script src="./shamonsoft-help-content.js"></script>
   <script src="./shamonsoft-help.js"></script>
-</body>
+<script src="../../demo-no-export.js"></script></body>
 </html>

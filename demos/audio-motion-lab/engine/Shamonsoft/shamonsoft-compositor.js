@@ -528,25 +528,7 @@
     requestAnimationFrame(frame);
   }
 
-  async function snapshot(type = "image/png") {
-    const resolution = document.getElementById("export-resolution-select")?.value || "1920x1080";
-    const [presetWidth, presetHeight] = resolution.split("x").map(Number);
-    const width = resolution === "custom" ? Number(document.getElementById("shamonsoft-custom-width")?.value || 1920) : presetWidth;
-    const height = resolution === "custom" ? Number(document.getElementById("shamonsoft-custom-height")?.value || 1080) : presetHeight;
-    const previous = { width: captureWidth, height: captureHeight };
-    setCaptureSize(width, height);
-    await new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)));
-    const extension = type === "image/jpeg" ? "jpg" : "png";
-    const quality = type === "image/jpeg" ? .94 : undefined;
-    const blob = await new Promise(resolve => canvas.toBlob(resolve, type, quality));
-    if (previous.width && previous.height) setCaptureSize(previous.width, previous.height); else setCaptureSize();
-    if (!blob) return;
-    const link = document.createElement("a");
-    link.href = URL.createObjectURL(blob);
-    link.download = `Shamonsoft-Snapshot-${new Date().toISOString().replace(/[:.]/g, "-")}.${extension}`;
-    link.click();
-    setTimeout(() => URL.revokeObjectURL(link.href), 30000);
-  }
+  async function snapshot() { throw new Error('Snapshots are available in the paid Windows app.'); }
 
   function setCaptureSize(width, height) {
     captureWidth = Number.isFinite(Number(width)) ? Math.max(64, Math.min(7680, Math.round(Number(width)))) : 0;

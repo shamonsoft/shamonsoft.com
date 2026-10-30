@@ -1,21 +1,25 @@
 {
   "schema": 1,
-  "websiteRevision": "2026-10-19-three-demos-30s",
-  "publication": "Local editor project only; not published",
+  "websiteRevision": "2026-10-30-demo-no-export",
+  "publication": "Saved locally in Business Manager; publication pending",
   "demos": [
     {
       "product": "Audio Motion Lab",
       "desktopReference": "6.7",
       "path": "demos/audio-motion-lab/",
-      "maxExportSeconds": 30,
-      "samples": 5
+      "samples": 5,
+      "exports": false,
+      "projectDownloads": false,
+      "localSaves": true
     },
     {
       "product": "Fireworks Premier",
       "desktopReference": "6.4",
       "path": "demos/fireworks-premier/",
-      "maxExportSeconds": 30,
-      "samples": "Five shared owner-cleared AML tracks"
+      "samples": "Five shared owner-cleared AML tracks",
+      "exports": false,
+      "projectDownloads": false,
+      "localSaves": true
     },
     {
       "product": "CursorFlux Pro",

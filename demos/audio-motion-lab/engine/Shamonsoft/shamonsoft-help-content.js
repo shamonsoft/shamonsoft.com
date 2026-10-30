@@ -1,4 +1,3 @@
-// Product-specific help data; reused Fireworks search/navigation reads this immutable catalog.
 window.AML_HELP_ARTICLES = [
   {
     "id": "first-scene",
@@ -6,7 +5,7 @@ window.AML_HELP_ARTICLES = [
     "title": "Make your first visualization",
     "summary": "Load music, enable a visual layer, and press Play.",
     "tags": "start beginner blank preview music sample audio",
-    "body": "<ol><li>Choose a track in <b>Sample Audio</b> and click <b>Load Track</b>, or click/drag files into <b>Load Music</b>.</li><li>Open <b>Visualizers</b> using its triangle. Choose a visualizer and turn its switch <b>On</b>.</li><li>Press <b>Play</b> in the audio section. Adjust the visualizer’s size, glow and motion.</li><li>Add other layers only when you want them. Use <b>My Presets</b> to save a look.</li></ol><p>New workspaces start with all cards collapsed and visual layers off. An empty black preview is normal until a layer is enabled. Some visuals respond mainly while music plays.</p><p>To create a video, use <b>Start Rec</b>, then <b>Stop Rec</b> and <b>EXPORT</b>. Recording is real-time, not an instant offline render.</p>",
+    "body": "<p><b>Browser demo:</b> exports and downloads require the paid Windows app. Instructions about output below describe the paid app.</p><p><b>Browser demo:</b> exports and downloads require the paid Windows app. Instructions about output below describe the paid app.</p><ol><li>Choose a track in <b>Sample Audio</b> and click <b>Load Track</b>, or click/drag files into <b>Load Music</b>.</li><li>Open <b>Visualizers</b> using its triangle. Choose a visualizer and turn its switch <b>On</b>.</li><li>Press <b>Play</b> in the audio section. Adjust the visualizer\u2019s size, glow and motion.</li><li>Add other layers only when you want them. Use <b>My Presets</b> to save a look.</li></ol><p>New workspaces start with all cards collapsed and visual layers off. An empty black preview is normal until a layer is enabled. Some visuals respond mainly while music plays.</p><p>To create a video, use <b>Start Rec</b>, then <b>Stop Rec</b> and <b>EXPORT</b>. Recording is real-time, not an instant offline render.</p>",
     "related": [
       "workspace",
       "music",
@@ -20,7 +19,7 @@ window.AML_HELP_ARTICLES = [
     "title": "Find your way around",
     "summary": "Settings on the left, preview in the center, and playlist on the right.",
     "tags": "workspace layout panels header collapse expand cards",
-    "body": "<ul><li><b>Upper bar:</b> export format, resolution, FPS, length, video bitrate, appearance Mode and audio bitrate. Help Center and Contact Support are at the upper right.</li><li><b>Left pane:</b> Undo/Redo/Reset All, My Presets, visual layers, finishing effects and Music Response. A right-pointing triangle opens a card; a downward triangle closes it.</li><li><b>Center:</b> live preview, preview tools, music controls, recording and export.</li><li><b>Right:</b> the playlist and track reorder/remove controls.</li></ul><p>Collapsing a card hides its controls; it does not switch the layer off. Use the On/Off switch to control visibility.</p>",
+    "body": "<p><b>Browser demo:</b> exports and downloads require the paid Windows app. Instructions about output below describe the paid app.</p><p><b>Browser demo:</b> exports and downloads require the paid Windows app. Instructions about output below describe the paid app.</p><ul><li><b>Upper bar:</b> export format, resolution, FPS, length, video bitrate, appearance Mode and audio bitrate. Help Center and Contact Support are at the upper right.</li><li><b>Left pane:</b> Undo/Redo/Reset All, My Presets, visual layers, finishing effects and Music Response. A right-pointing triangle opens a card; a downward triangle closes it.</li><li><b>Center:</b> live preview, preview tools, music controls, recording and export.</li><li><b>Right:</b> the playlist and track reorder/remove controls.</li></ul><p>Collapsing a card hides its controls; it does not switch the layer off. Use the On/Off switch to control visibility.</p>",
     "related": [
       "layers",
       "preview-tools",
@@ -33,7 +32,7 @@ window.AML_HELP_ARTICLES = [
     "title": "Dark and Light appearance",
     "summary": "Change the interface colors without changing your video.",
     "tags": "mode dark light gray theme appearance",
-    "body": "<p>Click <b>Mode</b> beside the bitrate controls to switch between Dark and Light. Dark is the default for a fresh installation; your appearance choice is remembered locally.</p><p>Appearance affects the interface only. It does not recolor the preview, change your layers, or add a background to exported video. Scrollbars use neutral gray shades in both modes.</p>",
+    "body": "<p><b>Browser demo:</b> exports and downloads require the paid Windows app. Instructions about output below describe the paid app.</p><p><b>Browser demo:</b> exports and downloads require the paid Windows app. Instructions about output below describe the paid app.</p><p>Click <b>Mode</b> beside the bitrate controls to switch between Dark and Light. Dark is the default for a fresh installation; your appearance choice is remembered locally.</p><p>Appearance affects the interface only. It does not recolor the preview, change your layers, or add a background to exported video. Scrollbars use neutral gray shades in both modes.</p>",
     "related": [
       "workspace"
     ]
@@ -69,7 +68,7 @@ window.AML_HELP_ARTICLES = [
     "title": "Sliders, size and opacity",
     "summary": "Adjust scale and strength; Opacity controls coverage.",
     "tags": "transparency transparent opaque amount spread spacing sliders glow brightness",
-    "body": "<p>Slider labels depend on the layer. Amount/Density controls how much geometry appears; Size/Scale changes its size; Spread/Spacing changes its arrangement; Motion/Speed changes movement; Glow and Brightness change light intensity.</p><p><b>Opacity:</b> 100 is fully opaque and 0 is fully transparent for normal content. Intermediate values let other layers show through. Tunnel’s Opacity controls its glass panels; their structural frames and floor remain visible by design.</p><p>Higher size, count, glow and resolution settings can add substantial rendering work. Begin with moderate settings and increase one at a time.</p>",
+    "body": "<p>Slider labels depend on the layer. Amount/Density controls how much geometry appears; Size/Scale changes its size; Spread/Spacing changes its arrangement; Motion/Speed changes movement; Glow and Brightness change light intensity.</p><p><b>Opacity:</b> 100 is fully opaque and 0 is fully transparent for normal content. Intermediate values let other layers show through. Tunnel\u2019s Opacity controls its glass panels; their structural frames and floor remain visible by design.</p><p>Higher size, count, glow and resolution settings can add substantial rendering work. Begin with moderate settings and increase one at a time.</p>",
     "related": [
       "layers",
       "performance",
@@ -108,7 +107,7 @@ window.AML_HELP_ARTICLES = [
     "title": "Floor Grid",
     "summary": "A separate perspective grid beneath your composition.",
     "tags": "floor grid horizon lines perspective spacing speed",
-    "body": "<p>Floor Grid is an independent visual layer with its own controls, RGB options and layer order. Adjust spacing, scale and movement to suit the preview.</p><p>It is separate from Tunnel’s built-in Floor. If both are enabled, they overlap according to their layer order. For a clean tunnel-only look, switch Floor Grid off.</p>",
+    "body": "<p>Floor Grid is an independent visual layer with its own controls, RGB options and layer order. Adjust spacing, scale and movement to suit the preview.</p><p>It is separate from Tunnel\u2019s built-in Floor. If both are enabled, they overlap according to their layer order. For a clean tunnel-only look, switch Floor Grid off.</p>",
     "related": [
       "tunnel",
       "layers"
@@ -120,7 +119,7 @@ window.AML_HELP_ARTICLES = [
     "title": "Tunnel shapes and glass",
     "summary": "Travel continuously through a polished-glass tunnel.",
     "tags": "sonic runway tunnel glass shape arch square circle pentagon twist depth response speed brightness thickness wireframe",
-    "body": "<p>Choose a <b>Shape</b> and <b>Floor</b>. Polished glass is built in; there is no separate wall material or wireframe selector.</p><ul><li><b>Size:</b> tunnel opening scale. <b>Depth:</b> depth/number of visible sections.</li><li><b>Thickness:</b> frame width. <b>Speed:</b> forward travel.</li><li><b>Twist:</b> center 0 is straight. Left of center twists left; right twists right.</li><li><b>Response:</b> music influence. <b>Glow/Brightness:</b> frame lighting.</li><li><b>Opacity:</b> panel fill from transparent at 0 to opaque at 100. The floor and frames are separate.</li></ul><p>RGB Flow moves colors through the tunnel; Cycle changes the color phase together. With RGB off, Hue follows the slider spectrum. Floors stay neutral rather than being recolored by the tunnel’s Hue.</p>",
+    "body": "<p>Choose a <b>Shape</b> and <b>Floor</b>. Polished glass is built in; there is no separate wall material or wireframe selector.</p><ul><li><b>Size:</b> tunnel opening scale. <b>Depth:</b> depth/number of visible sections.</li><li><b>Thickness:</b> frame width. <b>Speed:</b> forward travel.</li><li><b>Twist:</b> center 0 is straight. Left of center twists left; right twists right.</li><li><b>Response:</b> music influence. <b>Glow/Brightness:</b> frame lighting.</li><li><b>Opacity:</b> panel fill from transparent at 0 to opaque at 100. The floor and frames are separate.</li></ul><p>RGB Flow moves colors through the tunnel; Cycle changes the color phase together. With RGB off, Hue follows the slider spectrum. Floors stay neutral rather than being recolored by the tunnel\u2019s Hue.</p>",
     "related": [
       "tunnel-floors",
       "rgb",
@@ -209,7 +208,7 @@ window.AML_HELP_ARTICLES = [
     "title": "Compositor & Post FX",
     "summary": "Apply a finishing treatment to the combined scene.",
     "tags": "compositing compositor post fx hue feedback blur bloom effects contrast",
-    "body": "<p>Compositor &amp; Post FX controls finishing effects on the combined image rather than an independently reordered object. Enable it only when you want its treatment.</p><p>Build a clear scene first, then add finishing effects gradually. Feedback and glow can build up an intense image; reduce the relevant settings or turn the card Off to compare against the untreated scene.</p><p>Text’s FX position determines whether it stays clean above the finishing effects or is treated with the rest of the scene.</p>",
+    "body": "<p>Compositor &amp; Post FX controls finishing effects on the combined image rather than an independently reordered object. Enable it only when you want its treatment.</p><p>Build a clear scene first, then add finishing effects gradually. Feedback and glow can build up an intense image; reduce the relevant settings or turn the card Off to compare against the untreated scene.</p><p>Text\u2019s FX position determines whether it stays clean above the finishing effects or is treated with the rest of the scene.</p>",
     "related": [
       "text",
       "music-response",
@@ -222,7 +221,7 @@ window.AML_HELP_ARTICLES = [
     "title": "Music Response links",
     "summary": "Map selected music energy to specific visual settings.",
     "tags": "audio modulation matrix routing gain attack release response strength react speed settle speed threshold beat custom hz bpm",
-    "body": "<p>Music Response adds custom links; switching it Off does not remove visualizers’ normal built-in music response.</p><p>Each row chooses a <b>music source</b>, a <b>visual destination</b> and an <b>amount</b>. Positive amounts add to the destination’s base setting; negative amounts subtract. Choose None to disable a row. Enable the destination effect for a visible result.</p><p>Sources include Sub Bass, Bass, Low Mid, Mid, High Mid, Treble, Custom A/B, Overall, Peak, Transient, Beat, Beat / 2 and Beat / 4. Destinations are Main Scale, Main Motion, Main Rotate, Main Glow, Post Hue and Post Feedback.</p><ul><li><b>Response strength:</b> strength of custom visual links, not playback volume.</li><li><b>React speed:</b> higher responds faster to rising energy.</li><li><b>Settle speed:</b> higher returns to the base setting faster.</li><li><b>Beat threshold:</b> detection sensitivity; BPM is an estimate.</li><li><b>Custom A/B Hz:</b> frequency ranges from 20–20,000 Hz.</li></ul><p>Values are bounded and applied as temporary modulation rather than rewriting the base slider settings. This does not certify a scene as safe for photosensitive viewers; evaluate flashing and motion before sharing.</p>",
+    "body": "<p>Music Response adds custom links; switching it Off does not remove visualizers\u2019 normal built-in music response.</p><p>Each row chooses a <b>music source</b>, a <b>visual destination</b> and an <b>amount</b>. Positive amounts add to the destination\u2019s base setting; negative amounts subtract. Choose None to disable a row. Enable the destination effect for a visible result.</p><p>Sources include Sub Bass, Bass, Low Mid, Mid, High Mid, Treble, Custom A/B, Overall, Peak, Transient, Beat, Beat / 2 and Beat / 4. Destinations are Main Scale, Main Motion, Main Rotate, Main Glow, Post Hue and Post Feedback.</p><ul><li><b>Response strength:</b> strength of custom visual links, not playback volume.</li><li><b>React speed:</b> higher responds faster to rising energy.</li><li><b>Settle speed:</b> higher returns to the base setting faster.</li><li><b>Beat threshold:</b> detection sensitivity; BPM is an estimate.</li><li><b>Custom A/B Hz:</b> frequency ranges from 20\u201320,000 Hz.</li></ul><p>Values are bounded and applied as temporary modulation rather than rewriting the base slider settings. This does not certify a scene as safe for photosensitive viewers; evaluate flashing and motion before sharing.</p>",
     "related": [
       "visualizers",
       "post-effects",
@@ -248,7 +247,7 @@ window.AML_HELP_ARTICLES = [
     "title": "Play, pause, seek and volume",
     "summary": "Drag the rectangular playback handle to jump within a track.",
     "tags": "transport playback scrub seek timeline play pause stop mute monitor volume audio recorded",
-    "body": "<p><b>Play</b> starts playback; <b>Pause</b> holds it; <b>Stop</b> stops playback. Drag the rectangular handle on the Playback slider to seek within the current song. Track time and total duration are shown alongside it.</p><p>The Playback slider is not the recording-duration timeline beneath the preview. Seeking during recording changes the music content captured from that point onward; it does not edit already-recorded footage.</p><p><b>Volume and Mute control what you hear, not the volume of recorded audio.</b> Muting your speakers does not intentionally remove audio from a WebM recording. GIF and PNG exports have no audio.</p>",
+    "body": "<p><b>Browser demo:</b> exports and downloads require the paid Windows app. Instructions about output below describe the paid app.</p><p><b>Browser demo:</b> exports and downloads require the paid Windows app. Instructions about output below describe the paid app.</p><p><b>Play</b> starts playback; <b>Pause</b> holds it; <b>Stop</b> stops playback. Drag the rectangular handle on the Playback slider to seek within the current song. Track time and total duration are shown alongside it.</p><p>The Playback slider is not the recording-duration timeline beneath the preview. Seeking during recording changes the music content captured from that point onward; it does not edit already-recorded footage.</p><p><b>Volume and Mute control what you hear, not the volume of recorded audio.</b> Muting your speakers does not intentionally remove audio from a WebM recording. GIF and PNG exports have no audio.</p>",
     "related": [
       "music",
       "recording",
@@ -261,7 +260,7 @@ window.AML_HELP_ARTICLES = [
     "title": "My Presets and backups",
     "summary": "Save a named visual setup and keep a portable backup.",
     "tags": "save preset thumbnails four columns export import backup restore rename delete local storage",
-    "body": "<p>My Presets is a collapsed card above Visualizers. Name and save a setup, then apply a saved thumbnail to restore its look. The library uses four columns and scrolls after roughly five rows.</p><p>Use the preset backup/export and import controls to move your named library or keep a copy. Presets are stored locally in the app’s browser profile, not automatically in a cloud account.</p><p>Presets save reusable visual looks. Use the main SAVE command for a complete .amllab project including imported music and backgrounds; preset backups remain separate.</p><p>Before replacing the app or clearing its local data, export a preset backup.</p>",
+    "body": "<p><b>Browser demo:</b> exports and downloads require the paid Windows app. Instructions about output below describe the paid app.</p><p><b>Browser demo:</b> exports and downloads require the paid Windows app. Instructions about output below describe the paid app.</p><p>My Presets is a collapsed card above Visualizers. Name and save a setup, then apply a saved thumbnail to restore its look. The library uses four columns and scrolls after roughly five rows.</p><p>Use the preset backup/export and import controls to move your named library or keep a copy. Presets are stored locally in the app\u2019s browser profile, not automatically in a cloud account.</p><p>Presets save reusable visual looks. Use the main SAVE command for a complete .amllab project including imported music and backgrounds; preset backups remain separate.</p><p>Before replacing the app or clearing its local data, export a preset backup.</p>",
     "related": [
       "project-save",
       "undo",
@@ -274,7 +273,7 @@ window.AML_HELP_ARTICLES = [
     "title": "Project settings and autosave",
     "summary": "Keep settings separately from your source media.",
     "tags": "ctrl s save json project autosave restore localstorage download",
-    "body": "<p>Use <b>SAVE</b> or <kbd>Ctrl+S</kbd> to save a complete <b>.amllab</b> project. The file includes visual settings, overlays, ordered playlist audio, selected/loaded tracks, loop/shuffle and custom image/video backgrounds. <b>SAVE AS</b> / <kbd>Ctrl+Shift+S</kbd> writes a separate copy.</p><p><b>OPEN</b> / <kbd>Ctrl+O</kbd> validates the file and media before replacing your workspace. Save First, Discard and Cancel protect unsaved work. <b>NEW</b> starts a blank project. Older JSON settings files open with an explicit warning because they did not contain music or backgrounds.</p><p>Disk-backed automatic recovery preserves imported media and offers an unsaved workspace on the next launch. The project status shows recovery/save failures. If recovery is unavailable, save your project before closing. A saved snapshot does not mark edits made during saving as saved.</p><p><b>WINDOW RESET</b> restores the fitted 1728 × 972 factory size. Normal window resizing and remembered bounds remain available.</p>",
+    "body": "<p>Use <b>SAVE</b> or <kbd>Ctrl+S</kbd> to save a complete <b>.amllab</b> project. The file includes visual settings, overlays, ordered playlist audio, selected/loaded tracks, loop/shuffle and custom image/video backgrounds. <b>SAVE AS</b> / <kbd>Ctrl+Shift+S</kbd> writes a separate copy.</p><p><b>OPEN</b> / <kbd>Ctrl+O</kbd> validates the file and media before replacing your workspace. Save First, Discard and Cancel protect unsaved work. <b>NEW</b> starts a blank project. Older JSON settings files open with an explicit warning because they did not contain music or backgrounds.</p><p>Disk-backed automatic recovery preserves imported media and offers an unsaved workspace on the next launch. The project status shows recovery/save failures. If recovery is unavailable, save your project before closing. A saved snapshot does not mark edits made during saving as saved.</p><p><b>WINDOW RESET</b> restores the fitted 1728 \u00d7 972 factory size. Normal window resizing and remembered bounds remain available.</p>",
     "related": [
       "presets",
       "recording"
@@ -286,7 +285,7 @@ window.AML_HELP_ARTICLES = [
     "title": "Undo, Redo and Reset All",
     "summary": "Return visual settings to an earlier state or start fresh.",
     "tags": "undo redo reset all ctrl z ctrl y",
-    "body": "<p>Use the upper-left Undo and Redo buttons to step through visual-setting changes. <kbd>Ctrl+Z</kbd> undoes; <kbd>Ctrl+Y</kbd> or <kbd>Ctrl+Shift+Z</kbd> redoes.</p><p>Reset All returns scene controls to their defaults. Do not treat it as an erase-media or delete-export command. Save a preset or settings backup before making a large reset if you want to keep your look.</p><p>Help search and support fields are kept out of visual snapshots and their typing does not trigger the scene’s undo shortcuts.</p>",
+    "body": "<p><b>Browser demo:</b> exports and downloads require the paid Windows app. Instructions about output below describe the paid app.</p><p><b>Browser demo:</b> exports and downloads require the paid Windows app. Instructions about output below describe the paid app.</p><p>Use the upper-left Undo and Redo buttons to step through visual-setting changes. <kbd>Ctrl+Z</kbd> undoes; <kbd>Ctrl+Y</kbd> or <kbd>Ctrl+Shift+Z</kbd> redoes.</p><p>Reset All returns scene controls to their defaults. Do not treat it as an erase-media or delete-export command. Save a preset or settings backup before making a large reset if you want to keep your look.</p><p>Help search and support fields are kept out of visual snapshots and their typing does not trigger the scene\u2019s undo shortcuts.</p>",
     "related": [
       "presets",
       "project-save"
@@ -298,7 +297,7 @@ window.AML_HELP_ARTICLES = [
     "title": "Freeze, snapshots, fullscreen and guides",
     "summary": "Preview controls help you judge the scene before recording.",
     "tags": "preview freeze save snapshot fullscreen safe guides quality full ultra fps",
-    "body": "<p><b>Freeze</b> holds the preview; click it again to resume animation. <b>Save Snapshot</b> saves a still image. <b>Fullscreen</b> expands the preview. <b>Safe Guides</b> helps judge content placement.</p><p>The preview-quality dropdown adjusts preview workload, including Full and Ultra settings. It is separate from export resolution and FPS. The FPS indicator is current preview performance, not a guarantee that export will maintain the selected FPS.</p><p>Unfreeze the preview before recording animated output. Inspect your composition at the intended aspect ratio before starting a long capture.</p>",
+    "body": "<p><b>Browser demo:</b> exports and downloads require the paid Windows app. Instructions about output below describe the paid app.</p><p><b>Browser demo:</b> exports and downloads require the paid Windows app. Instructions about output below describe the paid app.</p><p><b>Freeze</b> holds the preview; click it again to resume animation. <b>Save Snapshot</b> saves a still image. <b>Fullscreen</b> expands the preview. <b>Safe Guides</b> helps judge content placement.</p><p>The preview-quality dropdown adjusts preview workload, including Full and Ultra settings. It is separate from export resolution and FPS. The FPS indicator is current preview performance, not a guarantee that export will maintain the selected FPS.</p><p>Unfreeze the preview before recording animated output. Inspect your composition at the intended aspect ratio before starting a long capture.</p>",
     "related": [
       "performance",
       "export-settings",
@@ -311,7 +310,7 @@ window.AML_HELP_ARTICLES = [
     "title": "Keep animation smooth",
     "summary": "Reduce the heaviest settings before adding more layers.",
     "tags": "slow choppy jitter gpu cpu memory stutter lag performance resolution fps trails",
-    "body": "<ul><li>Start with 1920×1080 or 1280×720 and 30 or 60 FPS rather than 4K/120 FPS.</li><li>Reduce particle counts, procedural complexity, trails, feedback, glow and unnecessary layers.</li><li>Use a lower preview-quality setting for editing; set export resolution separately.</li><li>Close GPU-heavy applications and keep the recording window visible.</li></ul><p>Hardware, media decoding and scene complexity determine performance. The demo limits exports to 30 seconds; practical resolution and frame rate depend on your browser and hardware.</p>",
+    "body": "<p><b>Browser demo:</b> exports and downloads require the paid Windows app. Instructions about output below describe the paid app.</p><p><b>Browser demo:</b> exports and downloads require the paid Windows app. Instructions about output below describe the paid app.</p><ul><li>Start with 1920\u00d71080 or 1280\u00d7720 and 30 or 60 FPS rather than 4K/120 FPS.</li><li>Reduce particle counts, procedural complexity, trails, feedback, glow and unnecessary layers.</li><li>Use a lower preview-quality setting for editing; set export resolution separately.</li><li>Close GPU-heavy applications and keep the recording window visible.</li></ul><p>Hardware, media decoding and scene complexity determine performance. The demo limits exports to 30 seconds; practical resolution and frame rate depend on your browser and hardware.</p>",
     "related": [
       "preview-tools",
       "long-recordings",
@@ -322,9 +321,9 @@ window.AML_HELP_ARTICLES = [
     "id": "export-formats",
     "category": "Recording and export",
     "title": "Export formats and codecs",
-    "summary": "WebM includes audio; GIF and PNG ZIP are image-only.",
+    "summary": "Available in the paid Windows app.",
     "tags": "webm vp8 opus gif png zip mp4 h264 aac vp9 codec",
-    "body": "<ul><li><b>WebM · VP8/Opus:</b> animated video and recorded audio, packaged without re-encoding into other video codecs.</li><li><b>Animated GIF:</b> animated images without audio; often large and with limited colors.</li><li><b>PNG Sequence · ZIP:</b> a sequence of individual PNG frames in a ZIP archive, without audio.</li></ul><p>MP4/H.264/AAC and VP9 export are not included. WebM may not play in every publishing service or video editor; check the destination’s accepted formats before a long recording.</p><p>Imported-media playback still uses the installed Microsoft WebView2 runtime. Its playback support is separate from the restricted bundled export tools.</p>",
+    "body": "<p>Exports, recordings, snapshots and preset downloads are available in the paid Windows app. This browser demo lets you preview, edit and play music.</p>",
     "related": [
       "export-settings",
       "licenses",
@@ -335,9 +334,9 @@ window.AML_HELP_ARTICLES = [
     "id": "export-settings",
     "category": "Recording and export",
     "title": "Set resolution, FPS, length and bitrate",
-    "summary": "Choose export settings before starting a recording.",
+    "summary": "Available in the paid Windows app.",
     "tags": "format resolution custom portrait square landscape width height fps bitrate length quality 3 hours",
-    "body": "<p>The upper bar chooses Format / Codec, Resolution, FPS, Length, Video bitrate and Audio bitrate. Resolution includes landscape, portrait, square and Custom size.</p><p>Custom sizes support 64–7680 pixels per side. FPS options extend from 24 to 120. The browser demo offers 10, 30 or 30 seconds. Large dimensions and high FPS can exceed your machine’s practical capture speed.</p><p>These controls lock while a recording or conversion session is active. The session keeps the settings chosen when it started; changing visible settings later is not a conversion override for that session.</p><p>For WebM, bitrate is a capture target rather than an exact final file size. Audio bitrate applies to WebM audio, not GIF/PNG.</p>",
+    "body": "<p>Exports, recordings, snapshots and preset downloads are available in the paid Windows app. This browser demo lets you preview, edit and play music.</p>",
     "related": [
       "recording",
       "long-recordings",
@@ -350,7 +349,7 @@ window.AML_HELP_ARTICLES = [
     "title": "Record and export a video",
     "summary": "Capture plays in real time; finishing works on the recorded footage.",
     "tags": "start rec stop rec save now export realtime duration pause minimize foreground background wait finish",
-    "body": "<ol><li>Choose your visual setup, track and export settings.</li><li>Click <b>Start Rec</b> and keep the app visible. Capture runs in real time; a one-minute recording needs 30 seconds of active recording time.</li><li>Click <b>Stop Rec</b> when you have enough footage, or let the selected length stop capture.</li><li>Click <b>Save Now</b> or <b>EXPORT</b>, choose a destination and wait for completion.</li></ol><p>Stop Rec pauses recording and music; Start Rec can resume a paused, unfinalized session. Hiding/minimizing the app pauses animated capture; restore it and click Start Rec to resume.</p><p>Finishing seals the capture and packages/converts existing footage. That stage runs as fast as the task and hardware allow, can run minimized, and may take time for long GIF/PNG exports. Stop Rec cancels conversion; retained capture can be retried.</p><p>Do not start a replacement recording until you have saved or recovered the previous footage you need.</p>",
+    "body": "<p><b>Browser demo:</b> exports and downloads require the paid Windows app. Instructions about output below describe the paid app.</p><p><b>Browser demo:</b> exports and downloads require the paid Windows app. Instructions about output below describe the paid app.</p><ol><li>Choose your visual setup, track and export settings.</li><li>Click <b>Start Rec</b> and keep the app visible. Capture runs in real time; a one-minute recording needs 30 seconds of active recording time.</li><li>Click <b>Stop Rec</b> when you have enough footage, or let the selected length stop capture.</li><li>Click <b>Save Now</b> or <b>EXPORT</b>, choose a destination and wait for completion.</li></ol><p>Stop Rec pauses recording and music; Start Rec can resume a paused, unfinalized session. Hiding/minimizing the app pauses animated capture; restore it and click Start Rec to resume.</p><p>Finishing seals the capture and packages/converts existing footage. That stage runs as fast as the task and hardware allow, can run minimized, and may take time for long GIF/PNG exports. Stop Rec cancels conversion; retained capture can be retried.</p><p>Do not start a replacement recording until you have saved or recovered the previous footage you need.</p>",
     "related": [
       "recover-recording",
       "long-recordings",
@@ -363,7 +362,7 @@ window.AML_HELP_ARTICLES = [
     "title": "Recover or retry a recording",
     "summary": "Failed and interrupted captures are retained locally.",
     "tags": "recover retained interrupted failed cancelled destination disk retry recordings three dots path",
-    "body": "<p>Cancelled, failed and completed captures remain in this browser for recovery. Use <b>…</b> before starting another recording to reopen the latest capture, then Export to retry. Interrupted captures can be partial.</p><p>Each capture has its own local session. Starting a replacement makes that recording the latest recovery candidate. Download important work and verify the file; clearing this website’s browser storage removes local recovery.</p><p>Stop Rec cancels conversion and retains the capture. A completed download cannot be confirmed by a web page, so the latest recording remains recoverable after export.</p>",
+    "body": "<p><b>Browser demo:</b> exports and downloads require the paid Windows app. Instructions about output below describe the paid app.</p><p><b>Browser demo:</b> exports and downloads require the paid Windows app. Instructions about output below describe the paid app.</p><p>Cancelled, failed and completed captures remain in this browser for recovery. Use <b>\u2026</b> before starting another recording to reopen the latest capture, then Export to retry. Interrupted captures can be partial.</p><p>Each capture has its own local session. Starting a replacement makes that recording the latest recovery candidate. Download important work and verify the file; clearing this website\u2019s browser storage removes local recovery.</p><p>Stop Rec cancels conversion and retains the capture. A completed download cannot be confirmed by a web page, so the latest recording remains recoverable after export.</p>",
     "related": [
       "recording",
       "long-recordings",
@@ -376,7 +375,7 @@ window.AML_HELP_ARTICLES = [
     "title": "Demo duration and browser storage",
     "summary": "Exports are limited to 30 seconds; editing and playback are unrestricted.",
     "tags": "3 hour three hours endurance large file disk space bitrate storage limits ram",
-    "body": "<p>Choose 10, 30 or 30 seconds. The demo stops recording at its selected limit, and the exporter independently removes media beyond that limit. GIF and PNG conversion may take longer than the capture.</p><p>Projects, media and recovery recordings are stored locally in this browser using IndexedDB. Browser storage can be cleared or evicted; download important projects using Save. Private browsing may offer less space.</p><p>GIF and PNG conversion have a 512 MB working-data limit. If the scene exceeds it, the original recording stays recoverable; use a lower resolution, frame rate or shorter capture.</p>",
+    "body": "<p><b>Browser demo:</b> exports and downloads require the paid Windows app. Instructions about output below describe the paid app.</p><p><b>Browser demo:</b> exports and downloads require the paid Windows app. Instructions about output below describe the paid app.</p><p>Choose 10, 30 or 30 seconds. The demo stops recording at its selected limit, and the exporter independently removes media beyond that limit. GIF and PNG conversion may take longer than the capture.</p><p>Projects, media and recovery recordings are stored locally in this browser using IndexedDB. Browser storage can be cleared or evicted; download important projects using Save. Private browsing may offer less space.</p><p>GIF and PNG conversion have a 512 MB working-data limit. If the scene exceeds it, the original recording stays recoverable; use a lower resolution, frame rate or shorter capture.</p>",
     "related": [
       "recording",
       "performance",
@@ -401,9 +400,9 @@ window.AML_HELP_ARTICLES = [
     "id": "export-trouble",
     "category": "Troubleshooting",
     "title": "Export did not finish or will not play",
-    "summary": "Keep the capture and check the message, disk space and format.",
+    "summary": "Available in the paid Windows app.",
     "tags": "export error fail webview2 ffmpeg ffprobe missing tools unsupported playback no audio cancel",
-    "body": "<p>Read the exact error message, verify browser storage and download permissions, and keep the recording recoverable using … before starting a new capture.</p><p>WebM needs VP8/Opus playback support. GIF/PNG contain no audio. Try a lower resolution or frame rate if browser conversion runs out of memory.</p>",
+    "body": "<p>Exports, recordings, snapshots and preset downloads are available in the paid Windows app. This browser demo lets you preview, edit and play music.</p>",
     "related": [
       "recover-recording",
       "export-formats",
@@ -441,7 +440,7 @@ window.AML_HELP_ARTICLES = [
     "title": "Contact ShamonSoft support",
     "summary": "Choose a mail app or copy the support address.",
     "tags": "contact email support address outlook default client send privacy",
-    "body": "<p>Click <b>CONTACT SUPPORT</b> at the upper right, or Contact support at the bottom of Help. The address is <b>support@shamonsoft.com</b>.</p><p>Use COPY ADDRESS for webmail or choose Default email app / an available registered mail app. Selecting an app opens an email request; it does not change your Windows mail defaults or send a message automatically.</p><p>Include your AML version, Windows version, steps to reproduce, expected result, actual result and the exact error. For exports include format, resolution, FPS and duration. Choose screenshots and attachments yourself; the app does not automatically upload your projects or recordings.</p>",
+    "body": "<p><b>Browser demo:</b> exports and downloads require the paid Windows app. Instructions about output below describe the paid app.</p><p><b>Browser demo:</b> exports and downloads require the paid Windows app. Instructions about output below describe the paid app.</p><p>Click <b>CONTACT SUPPORT</b> at the upper right, or Contact support at the bottom of Help. The address is <b>support@shamonsoft.com</b>.</p><p>Use COPY ADDRESS for webmail or choose Default email app / an available registered mail app. Selecting an app opens an email request; it does not change your Windows mail defaults or send a message automatically.</p><p>Include your AML version, Windows version, steps to reproduce, expected result, actual result and the exact error. For exports include format, resolution, FPS and duration. Choose screenshots and attachments yourself; the app does not automatically upload your projects or recordings.</p>",
     "related": [
       "export-trouble",
       "licenses",
@@ -449,4 +448,3 @@ window.AML_HELP_ARTICLES = [
     ]
   }
 ];
-
