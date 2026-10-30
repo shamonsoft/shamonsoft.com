@@ -1,7 +1,7 @@
 {
   "schema": 1,
-  "websiteRevision": "2026-10-30-visible-disabled-export",
-  "publication": "Saved locally in Business Manager; publication pending",
+  "websiteRevision": "20261030-demo107",
+  "publication": "Local candidate; exact public deployment pending",
   "demos": [
     {
       "product": "Audio Motion Lab",
@@ -11,7 +11,11 @@
       "exports": false,
       "projectDownloads": true,
       "localSaves": true,
-      "exportControls": "visible-disabled"
+      "exportControls": "visible-disabled",
+      "restorePrompt": false,
+      "saveBeforeExitPrompt": false,
+      "startup": "fresh-demo",
+      "assetRevision": "20261030-demo107"
     },
     {
       "product": "Fireworks Premier",
@@ -21,7 +25,11 @@
       "exports": false,
       "projectDownloads": true,
       "localSaves": true,
-      "exportControls": "visible-disabled"
+      "exportControls": "visible-disabled",
+      "restorePrompt": false,
+      "saveBeforeExitPrompt": false,
+      "startup": "fresh-demo",
+      "assetRevision": "20261030-demo107"
     },
     {
       "product": "CursorFlux Pro",

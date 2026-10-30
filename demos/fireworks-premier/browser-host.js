@@ -50,5 +50,4 @@
   queue=queue.catch(()=>{}).then(run);
  }};
  document.addEventListener('DOMContentLoaded',()=>{if(document.querySelector('#retryBrowserExport'))document.querySelector('#retryBrowserExport').onclick=()=>window.__fwBrowserHost.postMessage({type:'retry-export'})});
- window.addEventListener('beforeunload',event=>{if(!window.__fwCloseAllowed&&(window.__fwBrowserDirty?.()||window.__fwBrowserBusy?.()||converting)){event.preventDefault();event.returnValue=''}});
 })();

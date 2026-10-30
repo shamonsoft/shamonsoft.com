@@ -210,19 +210,7 @@ async function loadProjectTransaction(json,options={}){
 }
 async function receiveProjectOpen(value){const success=await loadProjectTransaction(value.json);post('project-load-result',{id:value.id,success})}
 window.__studioCloseSession=async discard=>{const fingerprint=projectFingerprint();await flushRecovery(discard);post('close-ready',{unchanged:projectFingerprint()===fingerprint})};
-async function initializeRecovery(){
- try{
-  const record=await readRecovery();
-  if(record?.dirty){
-   if(confirm('Restore the autosaved show "'+(record.project?.name||'Untitled')+'"? Cancel starts fresh; the autosave remains until you edit or save another project.'))await loadProjectTransaction(record.project,{recovery:record});
-  }else if(!record){
-   const legacy=restore();
-   if(legacy&&(legacy.events?.length||legacy.name!=='Untitled Fireworks Show')&&confirm('An older autosaved show is available. Restore it? Older autosaves did not include audio files.'))await loadProjectTransaction(legacy,{recovery:{tracks:[],activeTrack:-1,savedFingerprint:'older-unsaved-recovery'}});
-  }
-  recoveryStatus('Recovery ready');
- }catch(error){recoveryStatus('Recovery unavailable — save your project',true)}
- finally{recoveryInitializing=false}
-}
+async function initializeRecovery(){recoveryStatus('Demo ready');recoveryInitializing=false}
 
 function snapshot(){return JSON.stringify({...state,currentTime:0,playing:false,audio:{...state.audio,beats:state.audio.beats||[]}})}function projectFingerprint(){const {selectedShellId,selectedEventId,selectedMarkerId,currentTime,playing,...project}=state;return JSON.stringify(project)+'|'+JSON.stringify({active:playlist[activeTrack]?.id||null,tracks:playlist.map(t=>[t.id,t.name,t.file?.size||0,t.file?.lastModified||0])})}function hasProjectChanges(){return savedProjectFingerprint!==''&&projectFingerprint()!==savedProjectFingerprint}window.__studioHasUnsavedProject=()=>{let changed=hasProjectChanges();setProjectDirty(changed);return changed};function setProjectDirty(value){value=!!value;if(projectDirty===value)return;projectDirty=value;post('project-dirty',value)}function refreshProjectDirty(){setProjectDirty(hasProjectChanges())}function markProjectClean(fingerprint=projectFingerprint()){savedProjectFingerprint=fingerprint;projectDirty=hasProjectChanges();post('project-dirty',projectDirty);queueRecovery()}function commit(label='Changed'){undoStack.push(snapshot());if(undoStack.length>60)undoStack.shift();redoStack=[];autosave(false);queueMicrotask(()=>autosave());status(label)}function undo(){if(!undoStack.length)return;redoStack.push(snapshot());loadState(JSON.parse(undoStack.pop()),false);refreshProjectDirty();status('UNDO')}function redo(){if(!redoStack.length)return;undoStack.push(snapshot());loadState(JSON.parse(redoStack.pop()),false);refreshProjectDirty();status('REDO')}
 function fileDataUrl(file){return new Promise((resolve,reject)=>{let reader=new FileReader();reader.onload=()=>resolve(String(reader.result));reader.onerror=reject;reader.readAsDataURL(file)})}
@@ -883,7 +871,7 @@ window.__fwBrowserHost?.addEventListener('message',e=>{
 });
 
 
-window.__fwBrowserClose=async()=>{if(exporting){toast('Stop or finish the export before closing.');return}if(!await mayReplaceProject())return;await flushRecovery();window.__fwCloseAllowed=true;parent.postMessage({type:'fw-demo-close'},location.origin)};
+window.__fwBrowserClose=async()=>{audioEl.pause();window.__fwCloseAllowed=true;parent.postMessage({type:'fw-demo-close'},location.origin)};
 window.__fwBrowserBusy=()=>exporting;window.__fwBrowserDirty=()=>hasProjectChanges();
 initializeRecovery();
 })();

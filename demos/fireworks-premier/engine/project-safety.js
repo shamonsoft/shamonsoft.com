@@ -173,16 +173,4 @@ async function loadProjectTransaction(json,options={}){
 }
 async function receiveProjectOpen(value){const success=await loadProjectTransaction(value.json);post('project-load-result',{id:value.id,success})}
 window.__studioCloseSession=async discard=>{const fingerprint=projectFingerprint();await flushRecovery(discard);post('close-ready',{unchanged:projectFingerprint()===fingerprint})};
-async function initializeRecovery(){
- try{
-  const record=await readRecovery();
-  if(record?.dirty){
-   if(confirm('Restore the autosaved show "'+(record.project?.name||'Untitled')+'"? Cancel starts fresh; the autosave remains until you edit or save another project.'))await loadProjectTransaction(record.project,{recovery:record});
-  }else if(!record){
-   const legacy=restore();
-   if(legacy&&(legacy.events?.length||legacy.name!=='Untitled Fireworks Show')&&confirm('An older autosaved show is available. Restore it? Older autosaves did not include audio files.'))await loadProjectTransaction(legacy,{recovery:{tracks:[],activeTrack:-1,savedFingerprint:'older-unsaved-recovery'}});
-  }
-  recoveryStatus('Recovery ready');
- }catch(error){recoveryStatus('Recovery unavailable — save your project',true)}
- finally{recoveryInitializing=false}
-}
+async function initializeRecovery(){recoveryStatus('Demo ready');recoveryInitializing=false}
