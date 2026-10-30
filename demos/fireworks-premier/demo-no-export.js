@@ -1,1 +1,5 @@
-(()=>{'use strict';const selector='[data-action="export"],[data-action="begin-export"],[data-action="still"],[data-sl="asset-export"],#retryBrowserExport';const lock=()=>{for(const e of document.querySelectorAll(selector)){e.hidden=true;e.disabled=true;e.style.setProperty('display','none','important')}};lock();new MutationObserver(lock).observe(document.body,{childList:true,subtree:true});document.addEventListener('click',e=>{if(e.target.closest?.(selector)){e.preventDefault();e.stopImmediatePropagation()}},true);})();
+// Keep the complete app visible. Disable only output actions in the demo.
+(()=>{'use strict';const selector="[data-action=\"export\"],[data-action=\"begin-export\"],[data-action=\"still\"],[data-sl=\"asset-export\"],#retryBrowserExport",note='Exporting is available in the paid Windows app.';
+const lock=()=>{for(const e of document.querySelectorAll(selector)){if(!e.disabled)e.disabled=true;if(!e.classList.contains('demo-export-disabled'))e.classList.add('demo-export-disabled');if(e.title!==note)e.title=note;e.setAttribute('aria-disabled','true')}};
+lock();new MutationObserver(lock).observe(document.body,{childList:true,subtree:true,attributes:true,attributeFilter:['disabled']});
+document.addEventListener('click',e=>{if(e.target.closest?.(selector)){e.preventDefault();e.stopImmediatePropagation()}},true);})();
