@@ -55,7 +55,7 @@
   else if(message.type==='aml-export-request'){const run=async()=>{try{window.__amlReply(message.id,{ok:true,result:await exportRequest(message.action,message.payload||{})})}catch(e){window.__amlReply(message.id,{ok:false,error:e.message||String(e)})}};if(message.action==='cancel')run();else exportQueue=exportQueue.catch(()=>{}).then(run)}
   else if(message.type==='aml-help'){const a=message.action;if(a==='support-clients')emit({type:'support-clients',clients:[]});else if(a==='support-copy-address')navigator.clipboard.writeText('support@shamonsoft.com').then(()=>emit({type:'support-result',message:'Support address copied'})).catch(()=>emit({type:'support-result',message:'Copy support@shamonsoft.com from the address field'}));else if(a==='support-open-mail')location.href='mailto:support@shamonsoft.com';else if(a==='export-licenses')window.open(new URL('THIRD-PARTY-NOTICES.txt',base),'_blank','noopener');else if(a==='export-sources')window.open(new URL('browser-adapter-source.zip',base),'_blank','noopener')}
  }};
- window.__amlBrowserHost=host;window.__amlAppVersion='6.7 Browser Demo';
+ window.__amlBrowserHost=host;window.__amlAppVersion='8.1 Browser Demo';
  window.addEventListener('message',e=>{if(e.source===parent&&e.origin===location.origin&&e.data?.type==='aml-demo-request-close')window.__amlProject?.requestClose()});
  window.AMLBrowserStorage={get,put,hash,readProject,resolveProject};
 })();
