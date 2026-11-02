@@ -44,7 +44,10 @@
     "Quiet Constellations"
   ]);
 
-  window.SHAMONSOFT_VIDEO_LAB_PRESETS = scenes.map(scene => ({
+  const authored=window.AML_AUTHORED_SCENES||[];
+  const authoredNames=new Set(authored.map(x=>x.name));
+  const lineup=[...authored.map(x=>({Name:x.name,GeometryStyle:x.name,Featured:true,...x.preset})),...scenes.filter(x=>!authoredNames.has(x.Name)),...scenes.filter(x=>authored.some(a=>a.name===x.Name&&a.revised)).map(x=>({...x,Name:x.Name+" (6.7)",GeometryStyle:x.GeometryStyle+" (6.7)"}))];
+  window.SHAMONSOFT_VIDEO_LAB_PRESETS = lineup.map(scene => ({
     ...defaults, ...scene,
     Trail: crispStyles.has(scene.GeometryStyle) ? 0 : (scene.Trail ?? defaults.Trail)
   }));

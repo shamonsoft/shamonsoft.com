@@ -318,9 +318,9 @@
       ctx.save(); ctx.globalCompositeOperation = "source-atop"; ctx.globalAlpha = settings.grain * .22;
       const dots = Math.round(300 + settings.grain * 1700);
       for (let i = 0; i < dots; i++) {
-        const shade = Math.random() > .5 ? 255 : 0;
+        const shade = window.__amlClock.random() > .5 ? 255 : 0;
         ctx.fillStyle = `rgb(${shade},${shade},${shade})`;
-        ctx.fillRect(Math.random() * width, Math.random() * height, 1, 1);
+        ctx.fillRect(window.__amlClock.random() * width, window.__amlClock.random() * height, 1, 1);
       }
       ctx.restore();
     }
@@ -427,7 +427,7 @@
   }
 
   function frame(timestamp) {
-    const now = Number.isFinite(timestamp) ? timestamp : performance.now();
+    const now = Number.isFinite(timestamp) ? timestamp : window.__amlClock.now();
     const dt = previousFrameTime ? Math.max(.001, Math.min(.05, (now - previousFrameTime) / 1000)) : 1 / 60;
     previousFrameTime = now;
     const procedural = document.getElementById("glcanvas");
@@ -451,6 +451,8 @@
       return;
     }
     const heldWidth = canvas.width, heldHeight = canvas.height;
+    if(frozen&&heldWidth&&heldHeight){const scale=window.__shamonsoftPerformance?.renderScale||1;const targetWidth=captureWidth||Math.max(1,Math.round((reference.width||preview.clientWidth)*scale)),targetHeight=captureHeight||Math.max(1,Math.round((reference.height||preview.clientHeight)*scale));if(heldWidth===targetWidth&&heldHeight===targetHeight){requestAnimationFrame(frame);return}}
+
     if (frozen && heldWidth && heldHeight) {
       freezeBuffer.width = heldWidth; freezeBuffer.height = heldHeight;
       freezeCtx.clearRect(0, 0, heldWidth, heldHeight);
@@ -528,20 +530,63 @@
     requestAnimationFrame(frame);
   }
 
-  async function snapshot() { throw new Error('Feature locked in demo'); }
+  async function snapshot(type = "image/png") {
+    const resolution = document.getElementById("export-resolution-select")?.value || "1920x1080";
+    const [presetWidth, presetHeight] = resolution.split("x").map(Number);
+    const width = resolution === "custom" ? Number(document.getElementById("shamonsoft-custom-width")?.value || 1920) : presetWidth;
+    const height = resolution === "custom" ? Number(document.getElementById("shamonsoft-custom-height")?.value || 1080) : presetHeight;
+    const previous = { width: captureWidth, height: captureHeight };
+    setCaptureSize(width, height);
+    await new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+    const extension = type === "image/jpeg" ? "jpg" : "png";
+    const quality = type === "image/jpeg" ? .94 : undefined;
+    const blob = await new Promise(resolve => canvas.toBlob(resolve, type, quality));
+    if (previous.width && previous.height) setCaptureSize(previous.width, previous.height); else setCaptureSize();
+    if (!blob) return;
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = `Shamonsoft-Snapshot-${new Date().toISOString().replace(/[:.]/g, "-")}.${extension}`;
+    link.click();
+    setTimeout(() => URL.revokeObjectURL(link.href), 30000);
+  }
 
   function setCaptureSize(width, height) {
     captureWidth = Number.isFinite(Number(width)) ? Math.max(64, Math.min(7680, Math.round(Number(width)))) : 0;
     captureHeight = Number.isFinite(Number(height)) ? Math.max(64, Math.min(7680, Math.round(Number(height)))) : 0;
-    if (window.__shamonsoftPerformance)
+    if (window.__shamonsoftPerformance) {
       window.__shamonsoftPerformance.captureActive = Boolean(captureWidth && captureHeight);
+      window.__shamonsoftPerformance.captureWidth = captureWidth;
+      window.__shamonsoftPerformance.captureHeight = captureHeight;
+    }
+    // Resize producers as well as the final canvas. Enlarging a preview-sized
+    // raster here cannot recover the detail of the selected export resolution.
+    window.__fallbackVisualizer?.resize?.();
+    window.videoLab?.resize?.();
     if (captureWidth && captureHeight) { resize(canvas); canvas.style.display = "block"; }
   }
+
+  function assertCaptureReady() {
+    if (!captureWidth || !captureHeight) throw new Error("No capture resolution selected.");
+    if (canvas.width !== captureWidth || canvas.height !== captureHeight) throw new Error("Export canvas has not reached the selected resolution.");
+    if (window.__amlKaleidoscope?.visible?.()) {
+      const state = window.__amlKaleidoscope.diagnostics();
+      if (!state.ready || state.lost || state.unavailable || state.width !== captureWidth || state.height !== captureHeight)
+        throw new Error("Fractal Kaleidoscope is not ready at the selected export resolution. Check its graphics status and retry.");
+    }
+    for (const source of [document.querySelector("#preview-3d canvas"), document.getElementById("glcanvas")]) {
+      if (source?.dataset.active === "true" && (source.width < captureWidth || source.height < captureHeight))
+        throw new Error("A visual layer is still rendering below export resolution. Retry after the preview updates.");
+    }
+    return true;
+  }
+
+  window.__amlCompositorClock={capture:()=>({elapsedTime,motionTime,smoothedEnergy,previousFrameTime}),restore:s=>{elapsedTime=s.elapsedTime;motionTime=s.motionTime;smoothedEnergy=s.smoothedEnergy;previousFrameTime=s.previousFrameTime}};
 
   function setFrozen(value) { frozen = Boolean(value); return frozen; }
   function toggleFrozen() { return setFrozen(!frozen); }
 
-  window.__shamonsoftCompositor = { canvas, settings, snapshot, setCaptureSize, captureSize: () => ({ width: captureWidth, height: captureHeight }), setFrozen, toggleFrozen, isFrozen: () => frozen,
+  window.__shamonsoftCompositor = { canvas, settings, snapshot, setCaptureSize, captureSize: () => ({ width: captureWidth, height: captureHeight }), assertCaptureReady, setFrozen, toggleFrozen, isFrozen: () => frozen,
     drawBackgroundMedia: (output, width, height) => drawBackgroundMedia(width, height, output) };
+  window.__amlClock.tag(frame,"compositor");
   requestAnimationFrame(frame);
 })();

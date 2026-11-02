@@ -2561,3 +2561,6 @@ html select {
   background-repeat: no-repeat !important;
   text-overflow: ellipsis;
 }
+
+/* Export/recovery controls remain reachable at narrow window sizes. */
+.record-buttons{flex-wrap:wrap;}

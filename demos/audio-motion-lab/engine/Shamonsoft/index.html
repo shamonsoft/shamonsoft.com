@@ -3,16 +3,15 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Audio Motion Lab — Browser Demo</title>
-<script src="../../jszip.min.js?v=20261030-demo108"></script>
-<script src="../../browser-export.js?v=20261030-demo108"></script>
-<script src="../../browser-host.js?v=20261030-demo108"></script>
-  <link rel="stylesheet" href="../Synesthia/src/styles.css?v=20261030-demo108" />
-  <link rel="stylesheet" href="./shamonsoft.css?v=20261030-demo108" />
-  <link rel="stylesheet" href="./shamonsoft-audio.css?v=20261030-demo108" />
-  <link rel="stylesheet" href="./shamonsoft-studio.css?v=20261030-demo108" />
-  <link rel="stylesheet" href="./shamonsoft-help.css?v=20261030-demo108" />
-  <link rel="stylesheet" href="../../browser-layout.css?v=20261030-demo108" />
+  <title>Audio Motion Lab 8.1 — Browser Demo</title>
+<script src="../../jszip.min.js?v=20261101-aml81"></script>
+<script src="../../browser-export.js?v=20261101-aml81"></script>
+<script src="../../browser-host.js?v=20261101-aml81"></script>
+  <link rel="stylesheet" href="../Synesthia/src/styles.css?v=20261101-aml81" />
+  <link rel="stylesheet" href="./shamonsoft.css?v=20261101-aml81" />
+  <link rel="stylesheet" href="./shamonsoft-audio.css?v=20261101-aml81" />
+  <link rel="stylesheet" href="./shamonsoft-studio.css?v=20261101-aml81" />
+  <link rel="stylesheet" href="./shamonsoft-help.css?v=20261101-aml81" />
   <script>
     window.__shamonsoftRuntimeErrors = [];
     window.addEventListener('error', event => window.__shamonsoftRuntimeErrors.push(String(event.error?.stack || event.message || 'Unknown error')));
@@ -20,6 +19,7 @@
     // Carry pre-ShamonSoft saved work forward without retaining the retired name
     // in current storage identifiers.
     (() => {
+      if(new URLSearchParams(location.search).has('aml-render-worker'))return;
       const retiredPrefix = ['lu', 'cent-vml-'].join('');
       const migrations = [
         ['project-v1', 'project-v1'],
@@ -34,11 +34,13 @@
       }
     })();
   </script>
-  <script src="./shamonsoft-layer-order.js?v=20261030-demo108"></script>
-  <script src="./shamonsoft-theme.js?v=20261030-demo108"></script>
-  <script src="./shamonsoft-runway-glass.js?v=20261030-demo108"></script>
-  <script src="../Synesthia/src/fallback-renderer.js?v=20261030-demo108"></script>
-<style id="demo-export-button-style">.demo-export-disabled{filter:grayscale(1)!important;opacity:.45!important;cursor:not-allowed!important}</style></head>
+  <script src="./shamonsoft-frame-clock.js?v=20261101-aml81"></script>
+  <script src="./shamonsoft-lossless-png.js?v=20261101-aml81"></script>
+  <script src="./shamonsoft-layer-order.js?v=20261101-aml81"></script>
+  <script src="./shamonsoft-theme.js?v=20261101-aml81"></script>
+  <script src="./shamonsoft-runway-glass.js?v=20261101-aml81"></script>
+  <script src="../Synesthia/src/fallback-renderer.js?v=20261101-aml81"></script>
+<link rel="stylesheet" href="../../browser-layout.css?v=20261101-aml81"/><style id="demo-export-button-style">.demo-export-disabled{filter:grayscale(1)!important;opacity:.45!important;cursor:not-allowed!important}</style></head>
 <body>
   <div class="app-shell">
     <header class="top-bar panel">
@@ -55,8 +57,17 @@
           <label class="field"><span>Format / Codec</span><select id="export-format-select"><option value="webm-vp8">WebM · VP8/Opus</option><option value="gif">Animated GIF</option><option value="png-sequence">PNG Sequence · ZIP</option></select></label>
           <label class="field"><span>Resolution</span><select id="export-resolution-select"><optgroup label="Landscape"><option value="1280x720">1280x720 HD</option><option value="1920x1080" selected>1920x1080 Full HD</option><option value="2560x1080">2560x1080 Ultrawide</option><option value="2560x1440">2560x1440 QHD</option><option value="3440x1440">3440x1440 Ultrawide</option><option value="3840x2160">3840x2160 4K</option></optgroup><optgroup label="Social / Portrait"><option value="1080x1920">1080x1920 Portrait</option><option value="1080x1350">1080x1350 Portrait Post</option><option value="1080x1080">1080x1080 Square</option></optgroup><optgroup label="Custom"><option value="custom">Custom size…</option></optgroup></select></label>
           <label class="field"><span>FPS</span><select id="export-fps-select"><option value="24">24</option><option value="25">25</option><option value="30">30</option><option value="50">50</option><option value="60" selected>60</option><option value="120">120</option></select></label>
-          <label class="field"><span>Length</span><select id="export-length-select"><option value="5">5 Seconds</option><option value="10">10 Seconds</option><option value="30" selected>30 Seconds · Demo limit</option></select></label>
-          <label class="field"><span>Video bitrate</span><select id="export-quality-select"><option value="3">Draft · 3 Mbps</option><option value="6">Medium · 6 Mbps</option><option value="12" selected>High · 12 Mbps</option><option value="24">Ultra · 24 Mbps</option><option value="40">Master · 40 Mbps</option></select></label>
+          <label class="field"><span>Length</span><select id="export-length-select">
+            <option value="60">1 Minute</option>
+            <option value="300" selected>5 Minutes</option>
+            <option value="600">10 Minutes</option>
+            <option value="900">15 Minutes</option>
+            <option value="1800">30 Minutes</option>
+            <option value="3600">1 Hour</option>
+            <option value="7200">2 Hours</option>
+            <option value="10800">3 Hours</option>
+          </select></label>
+          <label class="field"><span>Video bitrate</span><select id="export-quality-select"><option value="3">Draft · 3 Mbps</option><option value="6">Medium · 6 Mbps</option><option value="12">High · 12 Mbps</option><option value="auto" selected>Best · automatic</option><option value="24">Ultra · 24 Mbps</option><option value="40">Master · 40 Mbps</option></select></label>
           <div class="field theme-mode-field"><span>Mode</span><button id="shamonsoft-mode-button" class="tiny-btn text-btn" type="button" aria-label="Switch to Light mode" aria-pressed="false">Dark</button></div>
           <label class="field"><span>Audio</span><select id="export-audio-select"><option value="128">128 kbps</option><option value="192">192 kbps</option><option value="320" selected>320 kbps</option></select></label>
         </div>
@@ -112,7 +123,7 @@
             <div class="music-control-group audio-transport-row">
               <div class="audio-playing-section">
                 <div class="track-card compact now-playing-card">
-                  <div class="now-playing-art"><div class="now-playing-icon"></div></div>
+                  <div class="now-playing-art"><img id="sample-track-artwork" src="./assets/ShamonSoft_Sample_Logo.png" alt="ShamonSoft sample track artwork" hidden /><div class="now-playing-icon" aria-hidden="true"></div></div>
                   <div class="track-copy"><div id="current-track-name" class="track-name">No track loaded</div><div class="track-meta-row"><span id="current-track-meta" class="track-meta">Load music to begin</span><span id="current-track-badge" class="track-badge" hidden>Sample</span></div><div class="track-meter"><div id="track-meter-fill" class="track-meter-fill"></div></div></div>
                 </div>
               </div>
@@ -314,7 +325,7 @@
       { id: 'particles', name: 'Particles', on: false, controls: [['Hue','220'],['Intensity','50'],['Amount','50'],['Size','50'], { label: 'Shape', type: 'select', value: 'Orb', options: ['Orb', 'Circle', 'Cube', 'Square', 'Diamond', 'Triangle', 'Hex', 'Octagon', 'Star', 'Cross', 'Plus', 'X', 'Spark', 'Line', 'Shard', 'Ring'] }, ['Spread','68'], ['Speed','50'], ['Beat Expand','50'], ['Opacity','100']] },
       { id: 'floorGrid', name: 'Floor Grid', on: false, controls: [['Hue','220'],['Intensity','50'],['Glow','50'],['Height','50'],['Density','50'],['Speed','50'],['Wave','50'],['Depth','50'],['Motion','50']] },
       { id: 'sonicRunway', name: 'Tunnel', on: false, controls: [
-        { label: 'Shape', type: 'select', value: 'Octagon', options: ['Arch', 'Round', 'Oval', 'Rectangle', 'Rounded rectangle', 'Triangle', 'Diamond', 'Pentagon', 'Hexagon', 'Octagon', 'Star'] },
+        { label: 'Shape', type: 'select', value: 'Octagon', options: ['Arch', 'Round', 'Oval', 'Rectangle', 'Rounded rectangle', 'Triangle', 'Diamond', 'Pentagon', 'Hexagon', 'Octagon', 'Star', 'Capsule', 'Superellipse', 'Dodecagon'] },
         { label: 'Floor', type: 'select', value: 'Runway', options: ['None', 'Runway', 'Grid', 'Obsidian', 'Stone tiles', 'Brushed metal', 'Ribbed deck'] },
         ['Hue','220'],['Response','50'],['Glow','50'],['Size','50'],['Depth','50'],
         ['Thickness','50'],['Speed','50'],['Twist','0'],['Opacity','65'],['Brightness','65']
@@ -393,10 +404,8 @@
     const primaryModeCard = document.querySelector('.anim-card[data-effect-id="main"]');
     const primaryModeSelect = primaryModeCard?.querySelector('.main-effect-select') ?? primaryModeCard?.querySelector('.anim-select');
     const primaryModeGrid = primaryModeCard?.querySelector('.slider-grid');
-    const modeControlState = Object.fromEntries(
-      Object.entries(modeControlSchemas).map(([name, controls]) => [name, controls.map(([label, value]) => [label, value])]),
-    );
-    let activeModeControlName = primaryModeSelect?.value ?? 'Bars';
+    // One value per named control across all Visualizer modes.
+    const sharedModeControlState = new Map(modeControlSchemas[primaryModeSelect?.value ?? 'Bars']);
 
     function setCardCollapsed(card, collapsed) {
       card.classList.toggle('collapsed', collapsed);
@@ -427,30 +436,48 @@
       if (!primaryModeGrid) {
         return;
       }
-      const state = [];
+      // Read the live controls, including project restores and slider edits.
       primaryModeGrid.querySelectorAll('.slider-cell').forEach((cell) => {
         const label = cell.querySelector('.slider-label-row span')?.textContent?.trim();
         const slider = cell.querySelector('input[type="range"]');
         if (label && slider) {
-          state.push([label, slider.value]);
+          sharedModeControlState.set(label, slider.value);
         }
       });
-      if (state.length > 0) {
-        modeControlState[activeModeControlName] = state;
-      }
+
     }
 
     function renderPrimaryModeControls(modeName) {
       if (!primaryModeGrid) {
         return;
       }
-      primaryModeGrid.innerHTML = (modeControlState[modeName] ?? modeControlSchemas[modeName] ?? []).map(([label, value]) => sliderMarkup(label, value)).join('');
+      primaryModeGrid.innerHTML = (modeControlSchemas[modeName] ?? []).map(([label, initial]) => {
+        const value = sharedModeControlState.has(label) ? sharedModeControlState.get(label) : initial;
+        sharedModeControlState.set(label, value);
+        return sliderMarkup(label, value);
+      }).join('');
       primaryModeGrid.querySelectorAll('.real-slider').forEach((slider) => {
         updateSliderFill(slider);
         slider.addEventListener('input', () => updateSliderFill(slider));
       });
-      activeModeControlName = modeName;
+
     }
+
+    window.__amlVisualizerSliders = {
+      capture() { syncCurrentModeControlState(); return Object.fromEntries(sharedModeControlState); },
+      restore(values) {
+        sharedModeControlState.clear();
+        for (const [label, value] of Object.entries(values || {})) sharedModeControlState.set(label, value);
+        renderPrimaryModeControls(primaryModeSelect?.value ?? 'Bars');
+      },
+      validate(values) {
+        if (values == null) return;
+        const labels = new Set(Object.values(modeControlSchemas).flatMap(fields => fields.map(([label]) => label)));
+        if (typeof values !== 'object' || Array.isArray(values) || Object.entries(values).some(([label,value]) =>
+          !labels.has(label) || !['number','string'].includes(typeof value) || String(value).trim() === '' || !Number.isFinite(Number(value)) || Number(value) < 0 || Number(value) > (label === 'Hue' ? 360 : 100)))
+          throw new Error('Invalid shared Visualizer slider settings.');
+      }
+    };
 
     function hideCustomBackgroundMedia() {
       customBgImageLayer.hidden = true;
@@ -675,7 +702,7 @@
       format: exportFormatSelect.value,
       resolution: exportResolutionSelect.value,
       fps: Number(exportFpsSelect.value),
-      durationSeconds: Math.min(30, Math.max(1, Number(exportLengthSelect.value) || 30)),
+      durationSeconds: Number(exportLengthSelect.value),
       quality: exportQualitySelect.value,
       audioBitrate: Number(exportAudioSelect.value),
       customWidth: 1920,
@@ -708,16 +735,19 @@
     };
 
     function readExportStorage() {
+      if(window.__amlClock?.worker)return {};
       try {
-        return JSON.parse(localStorage.getItem(exportStorageKey) || '{}');
+        const stored=JSON.parse(localStorage.getItem(exportStorageKey)||'{}');if(!stored.frameQualityVersion&&stored.quality==='12')stored.quality='auto';return stored;
       } catch {
         return {};
       }
     }
 
     function writeExportStorage() {
+      if(window.__amlClock?.worker)return;
       try {
         localStorage.setItem(exportStorageKey, JSON.stringify({
+          frameQualityVersion: 1,
           format: exportState.format,
           resolution: exportState.resolution,
           fps: exportState.fps,
@@ -738,7 +768,7 @@
       exportState.format = exportFormatSelect.value;
       exportState.resolution = exportResolutionSelect.value;
       exportState.fps = Number(exportFpsSelect.value);
-      exportState.durationSeconds = Math.min(30, Math.max(1, Number(exportLengthSelect.value) || 30));
+      exportState.durationSeconds = Number(exportLengthSelect.value);
       exportState.quality = exportQualitySelect.value;
       exportState.audioBitrate = Number(exportAudioSelect.value);
       exportState.customWidth = Math.max(64, Math.min(7680, Number(customResolutionWidth.value || 1920)));
@@ -786,7 +816,7 @@
       if (stored.format) exportFormatSelect.value = stored.format;
       if (stored.resolution) exportResolutionSelect.value = stored.resolution;
       if (stored.fps) exportFpsSelect.value = String(stored.fps);
-      if (stored.durationSeconds) exportLengthSelect.value = String(Math.min(Number(stored.durationSeconds), 30));
+      if (stored.durationSeconds) exportLengthSelect.value = String(Math.min(Number(stored.durationSeconds), 10800));
       if (stored.quality) exportQualitySelect.value = stored.quality;
       if (stored.audioBitrate) exportAudioSelect.value = String(stored.audioBitrate);
       customResolutionWidth.value = String(Math.max(64, Math.min(7680, Number(stored.customWidth || 1920))));
@@ -796,7 +826,7 @@
       }
       if (exportResolutionSelect.selectedIndex < 0) exportResolutionSelect.value = '1920x1080';
       if (exportFpsSelect.selectedIndex < 0) exportFpsSelect.value = '60';
-      if (exportLengthSelect.selectedIndex < 0) exportLengthSelect.value = '60';
+      if (exportLengthSelect.selectedIndex < 0) exportLengthSelect.value = '300';
       if (exportQualitySelect.selectedIndex < 0) exportQualitySelect.value = '12';
       if (exportAudioSelect.selectedIndex < 0) exportAudioSelect.value = '320';
       exportState.fileName = stored.fileName || '';
@@ -845,7 +875,7 @@
         resolution: { width, height },
         fps: exportState.fps,
         durationSeconds: requestedDuration,
-        videoBitrateMbps: Number(exportState.quality),
+        videoBitrateMbps: exportState.quality==='auto' ? Math.max(12,Math.min(100,Math.ceil(width*height*exportState.fps*.22/1000000))) : Number(exportState.quality),
         audioBitrateKbps: exportState.audioBitrate,
         outputFileName: exportState.fileName || buildSuggestedExportName(),
         outputTarget: exportState.fileHint || exportState.fileName || '',
@@ -946,15 +976,16 @@
     function readAudioAnalysisFrame() {
       // document.timeline.currentTime is shared by all callbacks in this RAF.
       // Main, procedural, modulation and post effects can consume one sample.
-      const now = Number(document.timeline?.currentTime ?? performance.now());
+      const now = window.__amlClock.now();
       if (now === analysisTimestamp) return analysisFrame;
       const dt = analysisTimestamp < 0 ? 1 / 60 : Math.max(0.001, Math.min(0.05, (now - analysisTimestamp) / 1000));
       analysisTimestamp = now;
       analysisFrame.time = now / 1000;
       analysisFrame.dt = dt;
-      analysisFrame.active = Boolean(analyser && audio.src && !audio.paused && !audio.ended && !audio.seeking);
-      const source = audio.currentSrc || audio.src || '';
-      const playbackPosition = Number(audio.currentTime) || 0;
+      const inputAnalysis=window.__amlOfflineAudio?.analyser || analyser;
+      analysisFrame.active = window.__amlOfflineAudio ? Boolean(window.__amlOfflineAudio.active) : Boolean(analyser && audio.src && !audio.paused && !audio.ended && !audio.seeking);
+      const source = window.__amlOfflineAudio?.source || audio.currentSrc || audio.src || '';
+      const playbackPosition = window.__amlOfflineAudio?.position ?? (Number(audio.currentTime) || 0);
       if (source !== analysisTrack || Math.abs(playbackPosition - analysisPlaybackPosition) > 0.5) {
         analysisFrame.revision += 1;
         analysisFrame.bands.fill(0);
@@ -973,12 +1004,12 @@
         return analysisFrame;
       }
 
-      if (!frequencyData || frequencyData.length !== analyser.frequencyBinCount) frequencyData = new Uint8Array(analyser.frequencyBinCount);
-      if (!analysisTimeData || analysisTimeData.length !== analyser.fftSize) analysisTimeData = new Float32Array(analyser.fftSize);
-      analyser.getByteFrequencyData(frequencyData);
-      analyser.getFloatTimeDomainData(analysisTimeData);
+      if (!frequencyData || frequencyData.length !== inputAnalysis.frequencyBinCount) frequencyData = new Uint8Array(inputAnalysis.frequencyBinCount);
+      if (!analysisTimeData || analysisTimeData.length !== inputAnalysis.fftSize) analysisTimeData = new Float32Array(inputAnalysis.fftSize);
+      inputAnalysis.getByteFrequencyData(frequencyData);
+      inputAnalysis.getFloatTimeDomainData(analysisTimeData);
       analysisFrame.frequencies = frequencyData;
-      analysisFrame.sampleRate = analyser.context.sampleRate;
+      analysisFrame.sampleRate = inputAnalysis.context.sampleRate;
       const rangeKey = `${frequencyData.length}:${analysisFrame.sampleRate}`;
       if (rangeKey !== analysisRangeKey) {
         analysisRangeKey = rangeKey;
@@ -1136,7 +1167,7 @@
     function stopRecordingSession() { return window.__amlExport.stop(); }
 
     function getSelectedVideoLengthSeconds() {
-      return Math.min(30, window.__amlExport?.duration?.() ?? Number(exportLengthSelect?.value || 30));
+      return window.__amlExport?.duration?.() ?? Math.min(10800, Number(exportLengthSelect?.value || 300));
     }
 
     function updateVideoTimeline() {
@@ -1176,6 +1207,11 @@
 
     function updateTrackMeta() {
       const currentTrack = getCurrentTrack();
+      const sampleArtwork = Boolean(currentTrack && (musicState.sourceKind === 'sample' || currentTrack.isSample || currentTrack.isLibrary));
+      const artwork = document.getElementById('sample-track-artwork');
+      artwork.hidden = !sampleArtwork;
+      artwork.parentElement.classList.toggle('has-sample-logo', sampleArtwork);
+      artwork.parentElement.querySelector('.now-playing-icon').hidden = sampleArtwork;
 
       if (!currentTrack) {
         currentTrackName.textContent = 'No track loaded';
@@ -1859,48 +1895,15 @@
       return readBandLevels(barCount);
     }
 
+    let fallbackControlModel=null;
+    const fallbackControlObserver=new MutationObserver(records=>{if(records.some(r=>[...r.addedNodes,...r.removedNodes].some(n=>n.nodeType===1&&(n.matches?.('input,select,.slider-cell,.anim-card')||n.querySelector?.('input,select')))))fallbackControlModel=null});
+    fallbackControlObserver.observe(document.getElementById('left-rail'),{childList:true,subtree:true});
     function readFallbackControls() {
-      const routedValue = (target, fallback) => window.__shamonsoftAudioRouter?.value?.(target, fallback) ?? fallback;
-      const modeCard = document.querySelector('.anim-card[data-effect-id="main"]');
-      const modeName = modeCard?.querySelector('.main-effect-select')?.value
-        ?? modeCard?.querySelector('.anim-select')?.value
-        ?? 'Bars';
-      const materialName = modeCard?.querySelector('.main-material-select')?.value ?? 'Solid';
-      const modeValues = {};
-      modeCard?.querySelectorAll('.slider-cell').forEach((cell) => {
-        const label = cell.querySelector('.slider-label-row span')?.textContent?.trim().toLowerCase() ?? '';
-        const input = cell.querySelector('input[type="range"], select');
-        if (label && input) {
-          const baseValue = input.tagName === 'SELECT' ? input.value : (label === 'hue' ? spectrumHue(input.value) : Number(input.value));
-          const routeTarget = ({ scale: 'Main Scale', motion: 'Main Motion', rotate: 'Main Rotate', glow: 'Main Glow' })[label];
-          modeValues[label] = routeTarget ? routedValue(routeTarget, baseValue) : baseValue;
-        }
-      });
-
-      const effects = {};
-      const randomize = {};
-      const rgbModes = {};
-      const effectValues = {};
-      document.querySelectorAll('.anim-card').forEach((card) => {
-        const effectId = card.dataset.effectId;
-        if (!effectId) {
-          return;
-        }
-        effects[effectId] = Boolean(card.querySelector('.toggle input[type="checkbox"]')?.checked);
-        randomize[effectId] = Boolean(card.querySelector('.randomize-btn')?.classList.contains('active-toggle'));
-        rgbModes[effectId] = card.querySelector('.rgb-mode-select')?.value || 'flow';
-        if (effectId !== 'main') {
-          const values = {};
-          card.querySelectorAll('.slider-cell').forEach((cell) => {
-            const label = cell.querySelector('.slider-label-row span')?.textContent?.trim().toLowerCase().replace(/\s+/g, '') ?? '';
-            const input = cell.querySelector('input[type="range"], select');
-            if (label && input) {
-              values[label] = input.tagName === 'SELECT' ? input.value : (label === 'hue' ? spectrumHue(input.value) : Number(input.value));
-            }
-          });
-          effectValues[effectId] = values;
-        }
-      });
+      if(!fallbackControlModel)fallbackControlModel=[...document.querySelectorAll('.anim-card[data-effect-id]')].map(card=>({id:card.dataset.effectId,card,toggle:card.querySelector('.toggle input[type="checkbox"]'),random:card.querySelector('.randomize-btn'),rgb:card.querySelector('.rgb-mode-select'),mode:card.querySelector('.main-effect-select,.anim-select'),material:card.querySelector('.main-material-select'),cells:[...card.querySelectorAll('.slider-cell')].map(cell=>({label:cell.querySelector('.slider-label-row span')?.textContent?.trim().toLowerCase()||'',input:cell.querySelector('input[type="range"],select')})).filter(c=>c.label&&c.input)}));
+      const routedValue=(target,fallback)=>window.__shamonsoftAudioRouter?.value?.(target,fallback)??fallback;
+      const main=fallbackControlModel.find(m=>m.id==='main'),modeName=main?.mode?.value||'Bars',materialName=main?.material?.value||'Solid';
+      const modeValues={},effects={},randomize={},rgbModes={},effectValues={};
+      for(const model of fallbackControlModel){effects[model.id]=!!model.toggle?.checked;randomize[model.id]=!!model.random?.classList.contains('active-toggle');rgbModes[model.id]=model.rgb?.value||'flow';const values={};for(const{label,input}of model.cells){const key=model.id==='main'?label:label.replace(/\s+/g,'');let value=input.tagName==='SELECT'?input.value:label==='hue'?spectrumHue(input.value):Number(input.value);const target=model.id==='main'?({scale:'Main Scale',motion:'Main Motion',rotate:'Main Rotate',glow:'Main Glow'})[label]:null;if(target)value=routedValue(target,value);values[key]=value}if(model.id==='main')Object.assign(modeValues,values);else effectValues[model.id]=values}
 
       const controls = {
         modeName,
@@ -1932,7 +1935,7 @@
       window.startFallbackVisualizer({
         container: preview3d,
         getBandLevels: readFallbackBandLevels,
-        getIsActive: () => Boolean(analyser && !audio.paused && audio.src),
+        getIsActive: () => window.__amlOfflineAudio ? Boolean(window.__amlOfflineAudio.active) : Boolean(analyser && !audio.paused && audio.src),
         getControls: readFallbackControls,
       });
     }
@@ -1947,24 +1950,29 @@
     startPreviewRenderer();
 
   </script>
-  <script src="./video-lab-presets.js?v=20261030-demo108"></script>
-  <script src="./video-lab-renderer.js?v=20261030-demo108"></script>
-  <script src="./shamonsoft-workspace.js?v=20261030-demo108"></script>
-  <script src="./shamonsoft-audio-library.js?v=20261030-demo108"></script>
-  <script src="./shamonsoft-scene-catalog.js?v=20261030-demo108"></script>
-  <script src="./shamonsoft-overlays.js?v=20261030-demo108"></script>
-  <script src="./shamonsoft-compositor.js?v=20261030-demo108"></script>
-  <script src="./shamonsoft-audio-router.js?v=20261030-demo108"></script>
-  <script src="./shamonsoft-studio.js?v=20261030-demo108"></script>
-  <script src="./shamonsoft-presets.js?v=20261030-demo108"></script>
-  <script src="./shamonsoft-performance.js?v=20261030-demo108"></script>
-  <script src="./shamonsoft-panel-browser.js?v=20261030-demo108"></script>
-  <script src="./shamonsoft-slider-scales.js?v=20261030-demo108"></script>
-  <script src="./shamonsoft-tooltips.js?v=20261030-demo108"></script>
-  <script src="./shamonsoft-safety-history.js?v=20261030-demo108"></script>
-  <script src="./shamonsoft-projects.js?v=20261030-demo108"></script>
-  <script src="./shamonsoft-export.js?v=20261030-demo108"></script>
-  <script src="./shamonsoft-help-content.js?v=20261030-demo108"></script>
-  <script src="./shamonsoft-help.js?v=20261030-demo108"></script>
-<script src="../../demo-no-export.js?v=20261030-demo108"></script></body>
+  <script src="./shamonsoft-authored-scenes.js?v=20261101-aml81"></script>
+  <script src="./video-lab-presets.js?v=20261101-aml81"></script>
+  <script src="./video-lab-renderer.js?v=20261101-aml81"></script>
+  <script src="./shamonsoft-tunnel-options.js?v=20261101-aml81"></script>
+  <script src="./shamonsoft-workspace.js?v=20261101-aml81"></script>
+  <script src="./shamonsoft-audio-library.js?v=20261101-aml81"></script>
+  <script src="./shamonsoft-scene-catalog.js?v=20261101-aml81"></script>
+  <script src="./shamonsoft-overlays.js?v=20261101-aml81"></script>
+  <script src="./shamonsoft-fractal-kaleidoscope.js?v=20261101-aml81"></script>
+  <script src="./shamonsoft-compositor.js?v=20261101-aml81"></script>
+  <script src="./shamonsoft-audio-router.js?v=20261101-aml81"></script>
+  <script src="./shamonsoft-studio.js?v=20261101-aml81"></script>
+  <script src="./shamonsoft-presets.js?v=20261101-aml81"></script>
+  <script src="./shamonsoft-performance.js?v=20261101-aml81"></script>
+  <script src="./shamonsoft-panel-browser.js?v=20261101-aml81"></script>
+  <script src="./shamonsoft-slider-scales.js?v=20261101-aml81"></script>
+  <script src="./shamonsoft-tooltips.js?v=20261101-aml81"></script>
+  <script src="./shamonsoft-tunnel-looks.js?v=20261101-aml81"></script>
+  <script src="./shamonsoft-safety-history.js?v=20261101-aml81"></script>
+  <script src="./shamonsoft-projects.js?v=20261101-aml81"></script>
+  <script src="./shamonsoft-export.js?v=20261101-aml81"></script>
+  
+  <script src="./shamonsoft-help-content.js?v=20261101-aml81"></script>
+  <script src="./shamonsoft-help.js?v=20261101-aml81"></script>
+<script src="../../demo-no-export.js?v=20261101-aml81"></script></body>
 </html>

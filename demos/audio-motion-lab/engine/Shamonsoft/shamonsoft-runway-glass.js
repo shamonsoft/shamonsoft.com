@@ -190,8 +190,9 @@
         gl.bindBuffer(gl.ARRAY_BUFFER, this.buffer); gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(data), gl.STATIC_DRAW);
         this.count = data.length / 6; this.key = key;
       }
-      if (this.canvas.width !== p.width || this.canvas.height !== p.height) { this.canvas.width = p.width; this.canvas.height = p.height; }
-      gl.viewport(0, 0, p.width, p.height); gl.clearColor(0, 0, 0, 0); gl.clearDepth(1); gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+      const rasterWidth = p.rasterWidth || p.width, rasterHeight = p.rasterHeight || p.height;
+      if (this.canvas.width !== rasterWidth || this.canvas.height !== rasterHeight) { this.canvas.width = rasterWidth; this.canvas.height = rasterHeight; }
+      gl.viewport(0, 0, rasterWidth, rasterHeight); gl.clearColor(0, 0, 0, 0); gl.clearDepth(1); gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
       gl.useProgram(this.program); gl.bindBuffer(gl.ARRAY_BUFFER, this.buffer);
       gl.enableVertexAttribArray(this.position); gl.vertexAttribPointer(this.position, 3, gl.FLOAT, false, 24, 0);
       gl.enableVertexAttribArray(this.uv); gl.vertexAttribPointer(this.uv, 3, gl.FLOAT, false, 24, 12);
@@ -205,7 +206,7 @@
       gl.uniform4f(u.uPalette, p.hue / 360, p.brightness, p.flowPhase || 0, p.flow ? 1 : 0);
       const opacity = Number.isFinite(p.opacity) ? Math.max(0, Math.min(1, p.opacity)) : 1;
       gl.uniform4f(u.uSurface, opacity, .035 + p.thickness * .012, p.glow, p.wireframe ? 1 : 0);
-      gl.uniform1f(u.uPixels, Math.max(1, unit * .48));
+      gl.uniform1f(u.uPixels, Math.max(1, Math.min(rasterWidth, rasterHeight) * .48));
       gl.drawArrays(gl.TRIANGLES, 0, this.count);
       return true;
     }

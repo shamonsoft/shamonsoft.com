@@ -278,3 +278,7 @@ html[data-studio-theme="light"] body.shamonsoft-studio-ui.shamonsoft-studio-ui .
 #aml-project-status{font-size:11px;color:var(--muted);margin-top:5px;max-width:300px;overflow-wrap:anywhere}#aml-project-status.error{color:#dc6d68}
 .aml-project-decision{max-width:min(520px,90vw);background:var(--panel);color:var(--text);border:1px solid var(--border);border-radius:10px;padding:22px}.aml-project-decision::backdrop{background:#0008}.aml-project-decision>div{display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap}.aml-project-decision p{line-height:1.5}
 @media(max-width:1200px){.app-shell{overflow:auto}.workspace{grid-template-columns:260px minmax(480px,1fr) 210px;min-width:980px;min-height:650px}.top-bar{min-width:980px}.brand-title{font-size:20px}}
+
+/* Keep the expanded fractal controls inside their established three-column grid. */
+[data-effect-id="fractalKaleidoscope"] .slider-cell { min-width: 0; }
+[data-effect-id="fractalKaleidoscope"] .slider-cell input[type="range"] { width: 100%; min-width: 0; box-sizing: border-box; }

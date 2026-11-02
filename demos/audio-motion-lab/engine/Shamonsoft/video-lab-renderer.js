@@ -16,13 +16,16 @@
     return;
   }
 
-  const sceneNames = [
+  const classicNames = [
     "Aurora Silk", "Nebula Bloom", "Crystal Lattice", "Liquid Chrome", "Velvet Smoke",
     "Starlight Cathedral", "Ocean Caustics", "Roseglass Tunnel", "Magnetic Ribbons", "Celestial Orrery",
     "Biolume Forest", "Prism Rain", "Topographic Tide", "Solar Filaments", "Moonlit Dunes",
     "Cloud Chamber", "Ink in Water", "Sacred Geometry", "Electric Garden", "Frosted Glass",
     "Ember Veil", "Quantum Lace", "Cosmic Koi", "Infinite Windows", "Quiet Constellations"
   ];
+
+  const authored=window.AML_AUTHORED_SCENES||[];
+  const sceneNames=[...authored.map(s=>s.name),...classicNames.filter(n=>!authored.some(s=>s.name===n)),...authored.filter(s=>s.revised).map(s=>s.name+" (6.7)")];
 
   const hasDerivatives = Boolean(gl.getExtension("OES_standard_derivatives"));
 
@@ -585,6 +588,11 @@
     `]
   ]);
 
+  for(const scene of authored){
+    if(scene.revised)sceneSources.set(scene.name+" (6.7)",sceneSources.get(scene.name));
+    sceneSources.set(scene.name,scene.source);
+  }
+
   const shaderMain = `
     void main() {
       vec2 uv = v_uv;
@@ -611,6 +619,11 @@
       float warpB = fbm(p * (0.82 + u_layerComplexity * 0.16) + vec2(9.4, -t * 0.015));
       vec2 warped = p + vec2(warpA - 0.5, warpB - 0.5) * u_turbulence * (0.055 + mids * 0.026);
 
+      #ifdef AML_AUTHORED_COLOR
+      vec3 color=authoredColor(warped,t);
+      color*=.65+clamp(u_contrast,0.0,1.5)*.42;
+      color+=color*color*(u_bloom*.12+u_glow*.10);
+      #else
       vec4 value = scene(warped, t);
       float field = max(0.0, value.x);
       float accent = max(0.0, value.y);
@@ -662,6 +675,7 @@
       float twinkle = 0.65 + 0.35 * sin(t * 0.38 + sparkleSeed * TAU);
       color += highlightColor * sparkle * twinkle * (0.020 + treble * 0.10 + u_glow * 0.020);
 
+      #endif
       float vignette = 1.0 - smoothstep(0.42, 1.52, length(p)) * clamp(u_vignette, 0.0, 1.0) * 0.78;
       color *= vignette;
       color += (hash(uv * u_resolution + vec2(floor(t * 12.0))) - 0.5) * u_grain * 0.12;
@@ -691,6 +705,7 @@
   let program = null;
   let uniforms = {};
   let activeSceneName = "";
+  const programCache=new Map();let sharedVertex=null;
   let renderFailed = false;
 
   function showError(message) {
@@ -713,7 +728,8 @@
     const safeName = sceneSources.has(sceneName) ? sceneName : sceneNames[0];
     if (program && activeSceneName === safeName) return;
 
-    const vertexShader = compileShader(gl.VERTEX_SHADER, vertexSource);
+    if(programCache.has(safeName)){const cached=programCache.get(safeName);programCache.delete(safeName);programCache.set(safeName,cached);program=cached.program;uniforms=cached.uniforms;activeSceneName=safeName;gl.useProgram(program);gl.bindBuffer(gl.ARRAY_BUFFER,buffer);const position=gl.getAttribLocation(program,"a_position");gl.enableVertexAttribArray(position);gl.vertexAttribPointer(position,2,gl.FLOAT,false,0,0);return}
+    const vertexShader = sharedVertex ||= compileShader(gl.VERTEX_SHADER, vertexSource);
     const fragmentShader = compileShader(gl.FRAGMENT_SHADER, shaderPrelude + sceneSources.get(safeName) + shaderMain);
     const nextProgram = gl.createProgram();
     gl.attachShader(nextProgram, vertexShader);
@@ -722,14 +738,11 @@
     if (!gl.getProgramParameter(nextProgram, gl.LINK_STATUS)) {
       const message = gl.getProgramInfoLog(nextProgram) || "Shader link failed";
       gl.deleteProgram(nextProgram);
-      gl.deleteShader(vertexShader);
       gl.deleteShader(fragmentShader);
       throw new Error(message);
     }
 
-    gl.deleteShader(vertexShader);
     gl.deleteShader(fragmentShader);
-    if (program) gl.deleteProgram(program);
     program = nextProgram;
     activeSceneName = safeName;
     uniforms = {};
@@ -740,6 +753,7 @@
     gl.enableVertexAttribArray(positionLocation);
     gl.vertexAttribPointer(positionLocation, 2, gl.FLOAT, false, 0, 0);
     uniformNames.forEach(name => { uniforms[name] = gl.getUniformLocation(program, name); });
+    programCache.set(safeName,{program,uniforms});while(programCache.size>4){const oldest=programCache.keys().next().value;gl.deleteProgram(programCache.get(oldest).program);programCache.delete(oldest)}
   }
 
   const defaultSettings = {
@@ -763,7 +777,7 @@
     motionTime: 0,
     travelTime: 0,
     smooth: { energy: 0, bass: 0, mid: 0, treble: 0 },
-    lastFrameAt: performance.now()
+    lastFrameAt: window.__amlClock.now()
   };
 
   function resize() {
@@ -771,8 +785,9 @@
     const cssWidth = Math.max(1, canvas.clientWidth);
     const cssHeight = Math.max(1, canvas.clientHeight);
     const scale = Math.min(2.25, Math.max(dpr, 640 / cssWidth, 360 / cssHeight));
-    const width = Math.max(1, Math.floor(cssWidth * scale));
-    const height = Math.max(1, Math.floor(cssHeight * scale));
+    const capture = window.__shamonsoftPerformance;
+    const width = capture?.captureActive && capture.captureWidth ? capture.captureWidth : Math.max(1, Math.floor(cssWidth * scale));
+    const height = capture?.captureActive && capture.captureHeight ? capture.captureHeight : Math.max(1, Math.floor(cssHeight * scale));
     if (canvas.width !== width || canvas.height !== height) {
       canvas.width = width;
       canvas.height = height;
@@ -868,7 +883,7 @@
   function render(now) {
     if (window.__shamonsoftCompositor?.isFrozen?.()) {
       state.lastFrameAt = now;
-    } else if (canvas.dataset.active === "true" || window.__shamonsoftPerformance?.captureActive) {
+    } else if (canvas.dataset.active === "true") {
       drawFrame(now);
     } else {
       state.lastFrameAt = now;
@@ -877,9 +892,13 @@
   }
 
   window.videoLab = {
+    resize,
+    dispose:()=>{for(const item of programCache.values())gl.deleteProgram(item.program);programCache.clear();if(sharedVertex)gl.deleteShader(sharedVertex);gl.deleteBuffer(buffer);gl.getExtension("WEBGL_lose_context")?.loseContext()},
+    captureClock:()=>structuredClone(state),
+    restoreClock:s=>Object.assign(state,structuredClone(s)),
     sceneNames: [...sceneNames],
     applyState(payload = {}) {
-      const now = performance.now();
+      const now = window.__amlClock.now();
       const nextTimeline = number(payload.timelineSeconds, 0);
       state.settings = payload.settings || state.settings;
       const timelineDelta = Math.abs(nextTimeline - state.timelineSeconds);
@@ -894,7 +913,7 @@
       state.isPlaying = Boolean(payload.isPlaying);
     },
     renderStill(payload = {}) {
-      const now = performance.now();
+      const now = window.__amlClock.now();
       state.settings = payload.settings || state.settings;
       state.timelineSeconds = number(payload.timelineSeconds, 0);
       resetMotionClock(state.timelineSeconds);
@@ -913,7 +932,7 @@
   };
 
   try {
-    bindScene(sceneNames[0]);
+    if(!window.__amlClock.worker)bindScene(sceneNames[0]);
   } catch (error) {
     renderFailed = true;
     showError(`Procedural renderer could not start:\n\n${error?.message || String(error)}`);
@@ -922,5 +941,6 @@
 
   window.addEventListener("resize", resize);
   resize();
+  window.__amlClock.tag(render,"procedural");
   requestAnimationFrame(render);
 })();

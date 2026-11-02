@@ -10,7 +10,7 @@
     { source: "Beat", target: "Main Motion", amount: 18 },
   ];
   let beatEnvelope = 0;
-  let lastTime = performance.now();
+  let lastTime = window.__amlClock.now();
   let lastBeatAt = 0;
   let beatCounter = 0;
   let bpm = 0;
@@ -279,5 +279,7 @@
     signals: () => visualSignals,
     metrics: () => ({ bpm, beatCounter, envelopes: { ...envelopes }, modulatedValues: Object.fromEntries(modulatedValues) }),
   };
+  window.__amlClock.tag(tick,"audio");
+  window.__amlRouterClock={capture:()=>({envelopes:{...envelopes},signals:{...visualSignals},lastTime,lastBeatAt,lastSignalAt,beatCounter,beatEnvelope,bpm,fluxMean,fluxPrimed,lastAnalysisRevision,fluxBands:Array.from(fluxBands),beatIntervals:[...beatIntervals]}),restore:s=>{Object.assign(envelopes,s.envelopes);Object.assign(visualSignals,s.signals);lastTime=s.lastTime;lastBeatAt=s.lastBeatAt;lastSignalAt=s.lastSignalAt;beatCounter=s.beatCounter;beatEnvelope=s.beatEnvelope;bpm=s.bpm;fluxMean=s.fluxMean;fluxPrimed=s.fluxPrimed;lastAnalysisRevision=s.lastAnalysisRevision;fluxBands.set(s.fluxBands);beatIntervals.splice(0,beatIntervals.length,...s.beatIntervals)}};
   requestAnimationFrame(tick);
 })();

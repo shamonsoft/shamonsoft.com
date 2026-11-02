@@ -49,6 +49,7 @@
       overlays: window.__shamonsoftOverlay?.serialize?.() || null,
       layerOrder: window.__shamonsoftLayerOrder?.serialize?.(),
       layerOrderVersion: 3,
+      visualizerSliders: window.__amlVisualizerSliders?.capture?.(),
       controls,
     };
   }
@@ -92,6 +93,12 @@
   function applySettings(project) {
     if (!project || project.schema !== "shamonsoft-project-v1" || !project.controls) {
       throw new Error("This is not a compatible ShamonSoft project file.");
+    }
+    window.__amlTunnelOptions?.prepareRestore?.(project);
+    window.__amlKaleidoscope?.prepareRestore?.(project);
+    if (!Object.keys(project.controls).some(key => key.startsWith("id:aml-kaleidoscope-"))) {
+      const enabled = document.getElementById("aml-kaleidoscope-enabled");
+      if (enabled) { enabled.checked = false; dispatch(enabled); }
     }
     window.__shamonsoftLayerOrder?.restore?.(project.layerOrder, project.layerOrderVersion);
     // Old controls used inverse transparency. Convert keys and values once,
@@ -147,6 +154,7 @@
       const enabled = document.querySelector("[data-effect-id='sonicRunway'] .toggle input");
       if (enabled) { enabled.checked = false; dispatch(enabled); }
     }
+    window.__amlVisualizerSliders?.restore?.(project.visualizerSliders);
     const restorePriority = key => {
       if (key.startsWith("effect:main:")) return 2;
       return 1;
@@ -246,6 +254,7 @@
     const next=structuredClone(project); if(next.controls["id:export-length-select"]) next.controls["id:export-length-select"].value=String(Math.min(30,Number(next.controls["id:export-length-select"].value)||30)); const entries=Object.entries(next.controls);
     if(entries.length>10000)throw new Error("The settings file has too many controls.");
     for(const [key,value] of entries){if(!value||typeof value!=="object"||Array.isArray(value)||key.length>500)throw new Error("Invalid project control: "+key);if(value.value!=null&&!["string","number","boolean"].includes(typeof value.value))throw new Error("Invalid control value.");if(typeof value.value==="number"&&!Number.isFinite(value.value))throw new Error("Invalid numeric control.");if(value.checked!=null&&typeof value.checked!=="boolean")throw new Error("Invalid toggle value.")}
+    window.__amlVisualizerSliders?.validate?.(next.visualizerSliders);
     if(next.layerOrder!=null&&(!Array.isArray(next.layerOrder)||next.layerOrder.some(x=>typeof x!=="string")))throw new Error("Invalid layer order.");
     if(next.overlays!=null){if(typeof next.overlays!=="object"||Array.isArray(next.overlays))throw new Error("Invalid overlay settings.");for(const [key,value] of Object.entries(next.overlays)){if(["__proto__","constructor","prototype"].includes(key)||value!=null&&!["string","number","boolean"].includes(typeof value)||typeof value==="number"&&!Number.isFinite(value))throw new Error("Invalid overlay value.")}if(next.overlays.logoDataUrl&&!/^data:image\//i.test(next.overlays.logoDataUrl))throw new Error("The overlay image is missing or invalid.")}
     return next;

@@ -37,11 +37,12 @@
     </div>
     <div class="anim-body">
       <select class="anim-select procedural-preset-select" aria-label="Procedural scene">
-        ${presets.map(preset => `<option value="${preset.Name}">${preset.Name}</option>`).join("")}
+        <optgroup label="New &amp; refined">${presets.filter(p=>p.Featured).map(p=>`<option value="${p.Name}">${p.Name}</option>`).join('')}</optgroup>
+        <optgroup label="Classic scenes">${presets.filter(p=>!p.Featured).map(p=>`<option value="${p.Name}">${p.Name}</option>`).join('')}</optgroup>
       </select>
       <div class="shamonsoft-procedural-grid">
         ${definitions.map(([key,label,min,max,step]) => `<div class="shamonsoft-procedural-control"><label>${label}</label><input class="${key === "BaseHue" ? "spectrum-slider" : ""}" type="range" data-scene-setting="${key}" min="${min}" max="${max}" step="${step}"></div>`).join("")}
-        <div class="shamonsoft-procedural-control"><label for="shamonsoft-procedural-opacity">Opacity</label><input id="shamonsoft-procedural-opacity" type="range" min="0" max="100" step="1" value="25" title="0% clear, 100% fully solid" /></div>
+        <div class="shamonsoft-procedural-control"><label for="shamonsoft-procedural-opacity">Opacity</label><input id="shamonsoft-procedural-opacity" type="range" min="0" max="100" step="1" value="75" title="0% clear, 100% fully solid" /></div>
       </div>
     </div>`;
   const leftRail = document.getElementById("left-rail");
@@ -66,8 +67,10 @@
   let current = null;
   function loadPreset(preset) {
     if (!preset) return;
+    const initializeSliders = current === null;
     current = structuredClone(preset);
-    for (const [key, input] of controls) {
+    // Only a new workspace initializes sliders. Changing scenes keeps them shared.
+    if (initializeSliders) for (const [key, input] of controls) {
       input.value = String(current[key]);
       input.dispatchEvent(new Event("input", { bubbles: true }));
     }
@@ -165,5 +168,7 @@
     opacity: () => Math.max(0, Math.min(100, Number(opacity.value) || 0)) / 100,
     current: () => current ? { ...current, ...Object.fromEntries([...controls].map(([key,input]) => [key, Number(input.value)])) } : null,
   };
+  window.__amlClock.tag(frame,"catalog");
+  window.__amlCatalogClock={capture:()=>({catalogTime,previousCatalogFrame}),restore:s=>{catalogTime=s.catalogTime;previousCatalogFrame=s.previousCatalogFrame}};
   requestAnimationFrame(frame);
 })();

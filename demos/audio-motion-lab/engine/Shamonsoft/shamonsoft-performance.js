@@ -101,15 +101,8 @@
         slowSamples = Math.max(0, slowSamples - 1);
         fastSamples = 0;
       }
-      if (slowSamples >= 1) {
-        state.loadFactor = Math.max(0.45, state.loadFactor - 0.12);
-        slowSamples = 0;
-      } else if (fastSamples >= 3) {
-        state.loadFactor = Math.min(1, state.loadFactor + 0.06);
-        fastSamples = 0;
-      }
-      // Preserve the selected preview resolution. Adapt invisible workload
-      // (particle/trail density) instead of blurring every animation.
+      // Full fidelity: workload is optimized, never reduced by omitting particles.
+      state.loadFactor=1;
       state.adaptiveScale = 1;
       state.renderScale = state.scale;
       fps.textContent = `${state.fps} FPS`;
@@ -117,5 +110,6 @@
     }
     requestAnimationFrame(tick);
   }
+  badge.title="Preview FPS; full-quality exports render every requested frame independently of preview speed.";
   window.__shamonsoftPerformance = state; requestAnimationFrame(tick);
 })();

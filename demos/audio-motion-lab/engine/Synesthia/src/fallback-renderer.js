@@ -367,6 +367,11 @@
   }
 
   function drawParticleShape(ctx, shape, x, y, size, hue, tilt, bodyOpacity = 1) {
+    const transform = ctx.getTransform();
+    if (size * Math.hypot(transform.a, transform.b) > 96) {
+      renderParticleShape(ctx, shape, x, y, size, hue, tilt, bodyOpacity);
+      return;
+    }
     const sprite = cachedParticleSprite(shape, hue, false, bodyOpacity);
     const scale = size / sprite._baseSize;
     const drawSize = sprite.width * scale;
@@ -400,6 +405,11 @@
   }
 
   function drawParticleTrailShape(ctx, shape, x, y, size, hue, tilt, alpha, bodyOpacity = 1) {
+    const transform = ctx.getTransform();
+    if (size * Math.hypot(transform.a, transform.b) > 96) {
+      renderParticleTrailShape(ctx, shape, x, y, size, hue, tilt, alpha, bodyOpacity);
+      return;
+    }
     const sprite = cachedParticleSprite(shape, hue, true, bodyOpacity);
     const scale = size / sprite._baseSize;
     const drawSize = sprite.width * scale;
@@ -782,22 +792,27 @@
       this.resizeObserver.observe(this.container);
       this.resize();
       this.tick = this.tick.bind(this);
+      window.__amlClock.tag(this.tick,"main");
       this.frameHandle = requestAnimationFrame(this.tick);
     }
 
     resize() {
-      const quality = window.__shamonsoftPerformance?.captureActive
-        ? 1
-        : Math.max(0.5, Math.min(1.25, window.__shamonsoftPerformance?.renderScale || 1));
+      const perf = window.__shamonsoftPerformance;
+      const capture = Boolean(perf?.captureActive && perf.captureWidth && perf.captureHeight);
+      const quality = capture ? 1 : Math.max(0.5, Math.min(1.25, perf?.renderScale || 1));
       const dpr = Math.max(0.5, Math.min(window.devicePixelRatio || 1, 1.5) * quality);
-      const width = Math.max(1, this.container.clientWidth);
-      const height = Math.max(1, this.container.clientHeight);
-      this.canvas.width = Math.round(width * dpr);
-      this.canvas.height = Math.round(height * dpr);
-      this.context.setTransform(dpr, 0, 0, dpr, 0, 0);
-      this.visualLayer.width = this.canvas.width;
-      this.visualLayer.height = this.canvas.height;
-      this.visualContext.setTransform(dpr, 0, 0, dpr, 0, 0);
+      const width = Math.max(1, capture && this.exportLogicalWidth ? this.exportLogicalWidth : this.container.clientWidth);
+      // Preserve the composition's logical scale, while honoring the export aspect
+      // and allocating a real output-sized backing store instead of enlarging pixels.
+      const height = capture ? width * perf.captureHeight / perf.captureWidth : Math.max(1, this.container.clientHeight);
+      const rasterWidth = capture ? perf.captureWidth : Math.round(width * dpr);
+      const rasterHeight = capture ? perf.captureHeight : Math.round(height * dpr);
+      this.canvas.width = rasterWidth;
+      this.canvas.height = rasterHeight;
+      this.context.setTransform(rasterWidth / width, 0, 0, rasterHeight / height, 0, 0);
+      this.visualLayer.width = rasterWidth;
+      this.visualLayer.height = rasterHeight;
+      this.visualContext.setTransform(rasterWidth / width, 0, 0, rasterHeight / height, 0, 0);
       this.width = width;
       this.height = height;
       this.renderScale = quality;
@@ -1194,13 +1209,15 @@
         const sat = chrome ? 10 : 100;
         const rimHue = hue - 26;
         const pad = 8;
-        const pixelScale = 2;
+        const pixelScale = Math.max(2, this.canvas.width / Math.max(1, this.width));
         const surface = this.barGlassSurface;
         const sw = Math.ceil((w + pad * 2) * pixelScale);
         const sh = Math.ceil((h + pad * 2) * pixelScale);
-        if (surface.width !== sw || surface.height !== sh) {
-          surface.width = sw;
-          surface.height = sh;
+        // Keep scratch capacity instead of reallocating a GPU surface for every
+        // differently sized bar. Crop draws to the current bar's used rectangle.
+        if (surface.width < sw || surface.height < sh) {
+          surface.width = Math.max(surface.width, Math.ceil(sw / 64) * 64);
+          surface.height = Math.max(surface.height, Math.ceil(sh / 64) * 64);
         }
         const g = surface.getContext("2d");
         g.setTransform(1, 0, 0, 1, 0, 0);
@@ -1287,15 +1304,15 @@
 
         ctx.save();
         ctx.shadowBlur = 0;
-        ctx.drawImage(surface, x - pad, topY - pad, sw / pixelScale, sh / pixelScale);
+        ctx.drawImage(surface, 0, 0, sw, sh, x - pad, topY - pad, sw / pixelScale, sh / pixelScale);
         ctx.restore();
 
         // Mirror the finished shell AND body, then multiply by a floor fade.
         // Masking happens on a private surface, never on the scene canvas.
         const reflection = this.barGlassReflection;
-        if (reflection.width !== sw || reflection.height !== sh) {
-          reflection.width = sw;
-          reflection.height = sh;
+        if (reflection.width < sw || reflection.height < sh) {
+          reflection.width = Math.max(reflection.width, Math.ceil(sw / 64) * 64);
+          reflection.height = Math.max(reflection.height, Math.ceil(sh / 64) * 64);
         }
         const f = reflection.getContext("2d");
         f.setTransform(1, 0, 0, 1, 0, 0);
@@ -1303,7 +1320,7 @@
         f.save();
         f.translate(0, sh);
         f.scale(1, -1);
-        f.drawImage(surface, 0, 0);
+        f.drawImage(surface, 0, 0, sw, sh, 0, 0, sw, sh);
         f.restore();
         f.globalCompositeOperation = "destination-in";
         const fade = f.createLinearGradient(0, pad * pixelScale, 0, (pad + h * 0.86) * pixelScale);
@@ -1316,7 +1333,7 @@
         f.globalCompositeOperation = "source-over";
         ctx.save();
         ctx.shadowBlur = 0;
-        ctx.drawImage(reflection, x - pad, topY + h + 4 - pad, sw / pixelScale, sh / pixelScale);
+        ctx.drawImage(reflection, 0, 0, sw, sh, x - pad, topY + h + 4 - pad, sw / pixelScale, sh / pixelScale);
         ctx.restore();
       }
     }
@@ -1818,17 +1835,24 @@
       const response = percent("response") * 1.8;
       const glow = percent("glow"), twist = clamp((Number(value("twist", 0)) || 0) / 100, -1, 1);
       const opacity = interiorOpacity(value("opacity", 65));
-      const shape = value("shape", "Octagon"), walls = "Glass", floor = value("floor", "Runway");
+      const shape = value("shape", "Octagon"), walls = value("surface", "Glass") === "Light frame" ? "Wireframe" : "Glass", floor = value("floor", "Runway");
       const floorGeometry = ({ Triangle: [.48, .55], Diamond: [.55, .45], Pentagon: [.55, .58],
-        Hexagon: [.65, .65], Octagon: [.7, .68], Star: [.35, .4], Round: [.65, .82], Oval: [.65, 1.05] })[shape] || [.8, .9];
+        Hexagon: [.65, .65], Octagon: [.7, .68], Star: [.35, .4], Round: [.65, .82], Oval: [.65, 1.05], Capsule:[.60,.85], Superellipse:[.70,.9], Dodecagon:[.72,.70] })[shape] || [.8, .9];
       const baseHue = Number.isFinite(Number(value("hue", 220))) ? Number(value("hue", 220)) : 220;
-      const moving = this.getIsActive();
-      const distance = this.advanceMotionPhase("runway-continuous:travel", .03 * speed, moving);
+      const moving = this.getIsActive() || value("idletravel", "Music only") === "Always";
+      const direction = value("direction", "Forward");
+      const previousDistance = this.motionPhases.get("runway-continuous:travel") || 0;
+      let distance = this.advanceMotionPhase("runway-continuous:travel", .03 * speed, moving && direction !== "Hover");
+      if (direction === "Reverse") {
+        distance = previousDistance - (distance - previousDistance);
+        this.motionPhases.set("runway-continuous:travel", distance);
+      }
       const flow = Boolean(controls.randomize?.sonicRunway && controls.rgbModes?.sonicRunway === "flow");
       const hue = flow ? baseHue : animatedRgbHue(controls, "sonicRunway", baseHue, 0, this.animationFrame * .16);
       // Elapsed-time color motion continues without audio, like existing RGB
       // animation, and Freeze stops it through the shared render-loop guard.
-      const flowPhase = this.advanceMotionPhase("runway-rgb:flow", .004 * (.6 + speed * .4), flow) % 1;
+      const flowRate = baselineRange(percent("rgbspeed") * 100, 1, 0, 3);
+      const flowPhase = this.advanceMotionPhase("runway-rgb:flow", .004 * (.6 + speed * .4) * flowRate, flow) % 1;
       this.motionPhases.set("runway-rgb:flow", flowPhase);
       const wireframe = walls === "Wireframe", textured = !wireframe;
       let atlas = null;
@@ -1841,19 +1865,27 @@
           const angle = -Math.PI / 2 + corner * Math.PI / 2 + n / 4 * Math.PI / 2;
           cross.push({ x: centers[corner].x + Math.cos(angle) * .24, y: centers[corner].y + Math.sin(angle) * .24 });
         }
+      } else if (shape === "Capsule" || shape === "Superellipse") {
+        for(let i=0;i<32;i++){
+          const angle=i/32*TAU,c=Math.cos(angle),s=Math.sin(angle);
+          cross.push(shape==="Capsule"?{x:c*.65+Math.sign(c)*.55,y:s*.85}:{x:Math.sign(c)*Math.sqrt(Math.abs(c))*1.2,y:Math.sign(s)*Math.sqrt(Math.abs(s))*.98});
+        }
       } else if (shape === "Arch") {
         for (let i = 0; i <= 20; i++) {
           const angle = Math.PI - i / 20 * Math.PI;
           cross.push({ x: Math.cos(angle) * 1.15, y: .8 - Math.sin(angle) * 1.85 });
         }
       } else {
-        const sides = ({ Triangle: 3, Diamond: 4, Pentagon: 5, Hexagon: 6, Octagon: 8, Star: 10 })[shape] || 24;
+        const sides = ({ Triangle: 3, Diamond: 4, Pentagon: 5, Hexagon: 6, Octagon: 8, Star: 10, Dodecagon:12 })[shape] || 24;
         for (let i = 0; i < sides; i++) {
           const angle = i / sides * TAU + (shape === "Hexagon" ? Math.PI / 6 : sides < 10 || shape === "Star" ? -Math.PI / 2 : 0);
           const r = shape === "Star" && i % 2 ? .7 : 1;
           cross.push({ x: Math.cos(angle) * (shape === "Oval" ? 1.5 : 1.15) * r, y: Math.sin(angle) * r });
         }
       }
+      const extraProfile = window.__amlTunnelOptions?.profile?.(shape);
+      if (extraProfile) cross.splice(0, cross.length, ...extraProfile);
+      window.__amlTunnelOptions?.transform?.(cross, floorGeometry, percent("profilewidth")*100, percent("profileheight")*100, Number(value("profileangle",0)) || 0, percent("floorlevel")*100);
       // Fit the floor to the actual wall intersections at its height; a
       // narrower guessed width left it looking like a floating platform.
       const floorEdges = [];
@@ -1865,16 +1897,27 @@
           floorEdges.push(a.x + (b.x - a.x) * (y - a.y) / (b.y - a.y));
         }
       }
-      if (floorEdges.length >= 2) floorGeometry[1] = Math.max(.08, Math.min(-Math.min(...floorEdges), Math.max(...floorEdges)));
-      const far = 5 + depth * 12, spacing = 1;
+      if (floorEdges.length >= 2) {
+        if (Number(value("profileangle", 0))) {
+          // A rotated outline can be asymmetric at floor height. Recenter it
+          // at those intersections so the level floor still meets both walls.
+          const left = Math.min(...floorEdges), right = Math.max(...floorEdges), center = (left + right) * .5;
+          for (const point of cross) point.x -= center;
+          floorGeometry[1] = Math.max(.08, (right - left) * .5);
+        } else floorGeometry[1] = Math.max(.08, Math.min(-Math.min(...floorEdges), Math.max(...floorEdges)));
+      }
+      const far = 5 + depth * 12, spacing = baselineRange(percent("panelspacing") * 100, 1, .35, 3);
       const brightness = percent("brightness", 65);
-      const targetAudio = (this.audioFeatures?.bass || 0) * response;
+      const band = value("audioband", "Bass"), features = this.audioFeatures || {};
+      const audioSignal = band === "Mid" ? features.mid : band === "Treble" ? features.high : band === "Full mix" ? (features.overall ?? ((features.bass || 0)+(features.mid || 0)+(features.high || 0))/3) : features.bass;
+      const targetAudio = (band === "Bass" ? (features.bass || 0) : clamp(Number(audioSignal) || 0, 0, 1)) * response;
       this.runwayAudio ??= targetAudio;
       this.runwayAudio += (targetAudio - this.runwayAudio) * (1 - Math.exp(-this.deltaSeconds / .18));
+      const breathingSize = size * (1 + this.runwayAudio * percent("breathing", 0) * .18);
       if (!this.runwayGpuFailed && window.__shamonsoftRunwayGlass) {
         try {
           this.runwayGpu ||= new window.__shamonsoftRunwayGlass();
-          const rendered = this.runwayGpu.draw({ cross, width: this.width, height: this.height, far, size,
+          const rendered = this.runwayGpu.draw({ cross, width: this.width, height: this.height, rasterWidth: this.canvas.width, rasterHeight: this.canvas.height, far, size: breathingSize,
             distance, twist, floor, floorGeometry, hue, opacity, thickness, glow, brightness,
             flow, flowPhase, wireframe, audio: this.runwayAudio, spacing });
           if (rendered) { ctx.drawImage(this.runwayGpu.canvas, 0, 0, this.width, this.height); return; }
@@ -1914,7 +1957,7 @@
       }
       const sections = locations.map(location => {
         const t = location.z / far;
-        const radius = unit * .48 * size * (1 + this.runwayAudio * .025) / location.z;
+        const radius = unit * .48 * breathingSize * (1 + this.runwayAudio * .025) / location.z;
         const cx = this.width * .5, cy = this.height * .46;
         const turn = t * Math.PI * twist, cos = Math.cos(turn), sin = Math.sin(turn);
         const project = point => ({ x: cx + (point.x * cos - point.y * sin) * radius,
@@ -2287,7 +2330,7 @@
     }
 
     tick(timestamp) {
-      const now = Number.isFinite(timestamp) ? timestamp : performance.now();
+      const now = Number.isFinite(timestamp) ? timestamp : window.__amlClock.now();
       this.deltaSeconds = this.lastFrameTime === null ? 1 / 60 : clamp((now - this.lastFrameTime) / 1000, 0.001, 0.05);
       this.lastFrameTime = now;
       this.frameStep = this.deltaSeconds * 60;
@@ -2299,7 +2342,7 @@
       const customOrder = Boolean(window.__shamonsoftLayerOrder?.isCustom?.());
       const procedural = document.getElementById("glcanvas");
       const overlayState = window.__shamonsoftOverlay?.state;
-      const externalContent = customOrder && (procedural?.dataset.active === "true"
+      const externalContent = customOrder && (window.__amlKaleidoscope?.enabled?.() || procedural?.dataset.active === "true"
         || Boolean(overlayState?.enabled && (overlayState.text || overlayState.subtitle
           || (overlayState.logoEnabled && overlayState.logoDataUrl) || overlayState.guides)));
       const renderedEffectIds = ["main", "background", "floorGrid", "sonicRunway", "particles", "lightBeams", "shockwave"];
@@ -2307,7 +2350,7 @@
         || renderedEffectIds.some(effectId => Boolean(controls.effects?.[effectId]));
       this.canvas.dataset.active = String(hasVisualContent);
       this.canvas.dataset.layerOrdered = String(customOrder);
-      if (!hasVisualContent && !window.__shamonsoftPerformance?.captureActive) {
+      if (!hasVisualContent) {
         if (!this.idleCleared) {
           this.context.clearRect(0, 0, this.width, this.height);
           this.visualContext.clearRect(0, 0, this.width, this.height);
@@ -2397,6 +2440,7 @@
             else if (id === "particles" && controls.effects?.particles) this.drawParticles(levels, controls);
             else if (id === "lightBeams" && controls.effects?.lightBeams) this.drawLightBeams(levels, controls);
             else if (id === "shockwave" && controls.effects?.shockwave) this.drawShockwaves(levels, controls);
+            else if (id === "fractalKaleidoscope") window.__amlKaleidoscope?.draw?.(ctx, this.width, this.height, this.audioFeatures, this.deltaSeconds);
             else if (id === "proceduralScene" && procedural?.dataset.active === "true") {
               ctx.globalAlpha = window.__shamonsoftSceneCatalog?.opacity?.() ?? .25;
               ctx.drawImage(procedural, 0, 0, this.width, this.height);

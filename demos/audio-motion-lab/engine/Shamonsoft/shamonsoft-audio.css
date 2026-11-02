@@ -67,3 +67,7 @@ html .audio-studio-panel #progress-slider:disabled { cursor: default; opacity: .
   html .audio-studio-panel .audio-export-row { grid-template-columns: minmax(0, 1fr); }
   html .audio-studio-panel .audio-seek-section { border: 0; padding: 0; }
 }
+
+/* Approved original artwork for bundled tracks; imported files keep their existing icon. */
+html .audio-studio-panel .now-playing-art.has-sample-logo { background: transparent; }
+html .audio-studio-panel .now-playing-art #sample-track-artwork { width: 34px; height: 34px; object-fit: contain; }

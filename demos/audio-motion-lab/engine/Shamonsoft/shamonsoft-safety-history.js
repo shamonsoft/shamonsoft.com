@@ -4,11 +4,11 @@
 
   const outputEffectIds = new Set([
     "background", "main", "floorGrid", "sonicRunway", "particles", "lightBeams", "shockwave",
-    "shamonsoftOverlays", "proceduralScene",
+    "shamonsoftOverlays", "proceduralScene", "fractalKaleidoscope",
   ]);
   const rgbEffectIds = new Set([
     "background", "main", "floorGrid", "sonicRunway", "particles", "lightBeams", "shockwave",
-    "shamonsoftOverlays", "proceduralScene",
+    "shamonsoftOverlays", "proceduralScene", "fractalKaleidoscope",
   ]);
 
   const utility = document.createElement("section");
@@ -155,7 +155,7 @@
 
   function reorderCards() {
     const order = [
-      "main", "particles", "floorGrid", "sonicRunway", "proceduralScene", "lightBeams", "shockwave",
+      "main", "particles", "floorGrid", "sonicRunway", "proceduralScene", "fractalKaleidoscope", "lightBeams", "shockwave",
       "background", "shamonsoftOverlays", "shamonsoftPost", "audioRouter",
     ];
     order.forEach(id => {
@@ -266,6 +266,7 @@
 
     rememberBeforeChange();
     clearSolo(false);
+    window.__amlVisualizerSliders?.restore?.();
     window.__shamonsoftLayerOrder?.reset?.();
     const orderedDefaults = [...factoryDefaults].sort((left, right) => Number(right.key.endsWith(":visualizer")) - Number(left.key.endsWith(":visualizer")));
     for (const state of orderedDefaults) {

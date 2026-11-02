@@ -308,7 +308,7 @@
     ctx.restore();
   }
 
-  function draw(ctx, width, height, energy = 0, time = performance.now() / 1000) {
+  function draw(ctx, width, height, energy = 0, time = window.__amlClock.now() / 1000) {
     if (!state.enabled) return;
     if (state.order === "text-logo") {
       drawText(ctx, width, height, energy, time);
@@ -341,5 +341,5 @@
     card.querySelector("#shamonsoft-overlay-filename").textContent = state.logoName || "Embedded project image";
   }
 
-  window.__shamonsoftOverlay = { state, draw, serialize, restore };
+  window.__shamonsoftOverlay = { state, draw, serialize, restore, ready:async()=>{if(state.logoDataUrl)await logoImage.decode()} };
 })();

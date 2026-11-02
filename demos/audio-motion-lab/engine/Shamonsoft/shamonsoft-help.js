@@ -4,7 +4,7 @@ const Q=selector=>document.querySelector(selector);
 const esc=text=>String(text).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;').replaceAll("'","&#39;");
 const HELP_ARTICLES=window.AML_HELP_ARTICLES;
 const post=(action,payload=null)=>{
- if(window.__amlBrowserHost)window.__amlBrowserHost.postMessage({type:'aml-help',action,payload});
+ if(window.chrome?.webview)window.chrome.webview.postMessage({type:'aml-help',action,payload});
  else if(action.startsWith('support-'))Q('#supportStatus').textContent='Use the packaged Windows app, or copy support@shamonsoft.com into your mail app.';
  else alert('Licenses and component sources are included in the packaged Windows app.');
 };
@@ -51,7 +51,7 @@ Q('#copySupportAddress').onclick=()=>post('support-copy-address');Q('#supportAdd
 for(const dialog of [helpDialog,supportDialog]){dialog.addEventListener('keydown',e=>e.stopPropagation());dialog.addEventListener('change',e=>e.stopPropagation());}
 document.addEventListener('keydown',e=>{if(e.key==='F1'){e.preventDefault();e.stopPropagation();openHelp()}},true);
 document.body.addEventListener('click',e=>{const action=e.target.closest('[data-action]')?.dataset.action;if(action==='help-center')openHelp();if(action==='contact-support')openSupport()});
-window.__amlBrowserHost?.addEventListener('message',e=>{
+window.chrome?.webview?.addEventListener('message',e=>{
  if(e.data?.type==='support-clients'){const host=Q('#supportMailClients');host.innerHTML='<button data-support-mail="default">Default email app</button>';for(const client of e.data.clients||[]){const button=document.createElement('button');button.dataset.supportMail=client.id;button.textContent='Open in '+client.name;host.append(button)}}
  if(e.data?.type==='support-result')Q('#supportStatus').textContent=e.data.message;
 });

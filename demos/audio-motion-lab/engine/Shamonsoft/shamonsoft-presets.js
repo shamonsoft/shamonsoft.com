@@ -9,7 +9,7 @@
 
   const VISUAL_EFFECTS = new Set([
     "background", "main", "floorGrid", "sonicRunway", "particles", "lightBeams", "shockwave",
-    "proceduralScene", "shamonsoftOverlays", "shamonsoftPost",
+    "proceduralScene", "fractalKaleidoscope", "shamonsoftOverlays", "shamonsoftPost",
     "audioRouter",
   ]);
   const VISUAL_CONTROL_IDS = new Set([
@@ -57,7 +57,7 @@
 
   function isVisualControl(key) {
     if (key.startsWith("global:")) return true;
-    if (key.startsWith("id:")) return VISUAL_CONTROL_IDS.has(key.slice(3));
+    if (key.startsWith("id:")) return key.startsWith("id:aml-kaleidoscope-") || VISUAL_CONTROL_IDS.has(key.slice(3));
     if (!key.startsWith("effect:")) return false;
     return VISUAL_EFFECTS.has(key.split(":")[1]);
   }
@@ -263,7 +263,25 @@
     notify("Preset deleted");
   }
 
-  function exportPresets() { notify('Feature locked in demo'); }
+  function exportPresets() {
+    if (presets.length === 0) {
+      notify("There are no presets to export.");
+      return;
+    }
+    const backup = {
+      schema: "shamonsoft-val-presets-v1",
+      product: "Audio Motion Lab",
+      exportedAt: new Date().toISOString(),
+      presets,
+    };
+    const blob = new Blob([JSON.stringify(backup, null, 2)], { type: "application/json" });
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = `Shamonsoft-Presets-${new Date().toISOString().slice(0, 10)}.json`;
+    link.click();
+    setTimeout(() => URL.revokeObjectURL(link.href), 1000);
+    notify(`Exported ${presets.length} preset${presets.length === 1 ? "" : "s"}.`);
+  }
 
   async function importPresets(file) {
     if (!file) return;

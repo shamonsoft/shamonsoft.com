@@ -1,11 +1,11 @@
 {
   "schema": 1,
-  "websiteRevision": "20261030-demo108",
-  "publication": "Local candidate; exact public deployment pending",
+  "websiteRevision": "20261101-aml81",
+  "publication": "Authorized AML8.1 update; deployment in progress",
   "demos": [
     {
       "product": "Audio Motion Lab",
-      "desktopReference": "6.7",
+      "desktopReference": "8.1",
       "path": "demos/audio-motion-lab/",
       "samples": 5,
       "exports": false,
@@ -15,7 +15,8 @@
       "restorePrompt": false,
       "saveBeforeExitPrompt": false,
       "startup": "fresh-demo",
-      "assetRevision": "20261030-demo108"
+      "assetRevision": "20261101-aml81",
+      "feature": "Fractal Kaleidoscope; shared slider settings"
     },
     {
       "product": "Fireworks Premier",

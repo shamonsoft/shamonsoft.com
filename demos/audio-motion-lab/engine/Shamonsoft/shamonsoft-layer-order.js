@@ -2,7 +2,7 @@
   // Back-to-front drawing order, independent of the fixed settings-card order.
   const legacyRenderOrder = ['background', 'floorGrid', 'sonicRunway', 'main', 'particles', 'lightBeams', 'shockwave', 'proceduralScene', 'shamonsoftOverlays'];
   const previousDefaults = ['background', 'floorGrid', 'sonicRunway', 'particles', 'lightBeams', 'shockwave', 'proceduralScene', 'shamonsoftOverlays', 'main'];
-  const defaults = ['background', 'proceduralScene', 'floorGrid', 'sonicRunway', 'particles', 'lightBeams', 'shockwave', 'shamonsoftOverlays', 'main'];
+  const defaults = ['background', 'proceduralScene', 'fractalKaleidoscope', 'floorGrid', 'sonicRunway', 'particles', 'lightBeams', 'shockwave', 'shamonsoftOverlays', 'main'];
   let order = [...defaults];
   const rows = new Map();
 
@@ -19,7 +19,7 @@
   }
   function restore(saved, version) {
     // Upgrade factory orders only; explicitly saved current/custom orders stay intact.
-    if (version !== 3 && Array.isArray(saved) && saved.length === defaults.length
+    if (version !== 3 && Array.isArray(saved) && saved.length === previousDefaults.length
       && (saved.every((id, index) => id === previousDefaults[index])
         || (version !== 2 && saved.every((id, index) => id === legacyRenderOrder[index])))) saved = defaults;
     const seen = new Set();
@@ -27,6 +27,11 @@
       if (!defaults.includes(id) || seen.has(id)) return false;
       seen.add(id); return true;
     });
+    if (!seen.has('fractalKaleidoscope')) {
+      const index = order.indexOf('proceduralScene');
+      order.splice(index < 0 ? Math.min(1, order.length) : index + 1, 0, 'fractalKaleidoscope');
+      seen.add('fractalKaleidoscope');
+    }
     order.push(...defaults.filter(id => !seen.has(id)));
     refresh();
   }
